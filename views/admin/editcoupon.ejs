@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Edit category - Dashboard HTML Template</title>
+    <link rel="stylesheet" href="/https://fonts.googleapis.com/css?family=Roboto:400,700" />
+    <link rel="stylesheet" href="/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="/jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/templatemo-style.css">
+
+</head>
+
+<body>
+    <div>
+        <ul style="height: 60px;background-color: #394f61;" class="nav justify-content-center navbar-expand-lg">
+            <li class="nav-item">
+              <a class="nav-link active" href="/admin/addcoupons">Add coupon</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/listCoupons">List coupons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/adminHome">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+    </div>
+    <div class="container tm-mt-big tm-mb-big">
+        <div class="row">
+
+            <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+
+                <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                    <div class="col">
+                        <div class="col-8 d-inline-block">
+                            <h1 class="tm-block-title d-inline-block">Edit Coupon</h1>
+
+                        </div>
+                    </div>
+                    <div class="row tm-edit-product-row">
+                        <div class="col-xl-6 col-lg-6 col-md-12">
+                            <form action="/admin/editcoupon" method="post" class="tm-edit-product-form" >
+                                <div class="form-group mb-3">
+                                    <label for="name">
+                                  
+                                        <div class="form-group mb-3">
+                                            <label for="description">Coupon Name</label>
+                                            <!-- <input class="form-control validate"  name="CategoryDescription"
+                                            required><%= editcoupon.couponName || 'Default Value' %></input> -->
+                                            <input class="form-control validate" name="couponName" value="<%= editcoupon.couponName %>" required></input>
+        
+                                        </div><div class="form-group mb-3">
+                                            <label for="description">Coupon Amount</label>
+                                            <!-- <input class="form-control validate"  name="CategoryDescription"
+                                            required><%= editcoupon.couponAmount || 'Default Value' %></input> -->
+                                            <input class="form-control validate" name="couponAmount" value="<%= editcoupon.couponAmount || 'Default Value' %>" required></input>
+        
+                                        </div><div class="form-group mb-3">
+                                            <label for="description">Coupon ExpireDate</label>
+                                            <!-- <input class="form-control validate"  name="CategoryDescription"
+                                            required><%= editcoupon.couponExpireDate || 'Default Value' %></input> -->
+                                            <input class="form-control validate" name="couponExpireDate" value="<%= editcoupon.couponExpireDate || 'Default Value' %>" required></input>
+        
+                                        </div><div class="form-group mb-3">
+                                            <label for="description">Code</label>
+                                            <!-- <input class="form-control validate"  name="CategoryDescription"
+                                            required><%= editcoupon.code || 'Default Value' %></input> -->
+                                            <input class="form-control validate" name="code" value="<%= editcoupon.code || 'Default Value' %>" required></input>
+        
+                                        </div><div class="form-group mb-3">
+                                            <label for="description">Coupon Description</label>
+                                            <!-- <input class="form-control validate"  name="CategoryDescription"
+                                            required><%= editcoupon.couponDescription || 'Default Value' %></input> -->
+                                            <input class="form-control validate" name="couponDescription" value="<%= editcoupon.couponDescription || 'Default Value' %>" required></input>
+        
+                                        </div><div class="form-group mb-3">
+                                    <label for="description">Minimum Amount</label>
+                                    <!-- <input class="form-control validate"  name="CategoryDescription"
+                                    required><%= editcoupon.minimumAmount || 'Default Value' %></input> -->
+                                    <input class="form-control validate" name="minimumAmount" value="<%= editcoupon.minimumAmount || 'Default Value' %>" required></input>
+                                        <input type="hidden" value="<%=editcoupon._id%>" name="id">
+                                </div>
+
+
+                                <a
+                                style="color: #ff0000;font-size: 20px; text-decoration: none; margin-left: 140px;font-weight: bold;">
+                                <% if (typeof message !=='undefined' ) { %>
+                                  <%= message %>
+                                  <% } %>
+                                </a>
+                                <!-- </div> -->
+                                <div class="col-12">
+                                    <button type="submit"  class="btn btn-dark btn-block text-uppercase">Submit New Category</button>
+                                </div>
+                        </div>
+                    </form>
+            <div class="col-6 m-3">
+                <button class="btn btn-dark btn-block text-uppercase"><a href="/admin/adminHome">Home</a></button>
+              </div>
+
+</body>
+
+</html>

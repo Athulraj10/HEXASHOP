@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+    rel="stylesheet">
+    <script src="https://kit.fontawesome.com/5f6d1ef682.js" crossorigin="anonymous"></script>
+    <title>Add New Address</title>
+        
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+        
+        <link rel="stylesheet" type="text/css" href="/assets/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="/assets/css/templatemo-hexashop.css">
+        
+        <link rel="stylesheet" href="/assets/css/owl-carousel.css">
+        
+        <link rel="stylesheet" href="/assets/css/lightbox.css">        
+    </head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div class="mt-5">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">
+                            <img src="/assets/images/logo.png">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="/home" class="active">Home</a></li>
+                            <li class="scroll-to-section"><a href="#men">Men's</a></li>
+                            <li class="scroll-to-section"><a href="#women">Women's</a></li>
+                            <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                            <li class="scroll-to-section"><a href="/allProducts">All products</a></li>
+
+                            <li style="margin-left:10px;"><a href="cart.html"><i class="fa-sharp fa-solid fa-heart"style="font-size: larger;"></i></a> </li>      
+                            <li style="margin-left:10px;"><a href="/profile"><i class="fa-solid fa-user "style="font-size: larger;"></i></a> </li>        
+                             <li style="margin-left:10px;"><a href="/cart"><i class="fa-solid fa-cart-shopping" style="font-size: larger;"><span id="cartCount" style="color: red;font-size: larger;" class="cart-count">&nbsp;0</span></i></a> </li>       
+                        </ul>
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+        <style>
+        /* add address */
+        
+.text-font{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: .156rem;
+    font-size: 1.125rem;
+    }
+    .text-price{
+    padding: 0 .625rem;
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: .813rem;
+    letter-spacing: 1.6px;
+    }
+    .text-descriptions{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    margin: .313rem 0 .938rem;
+    padding: 0 .625rem;
+    }
+    .button-color{
+    color: #4e4e4e ;
+    border-color: #4e4e4e ;
+    }
+    .button-order{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    background-color: hsl(90, 40%, 50%);
+    color: white;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+
+ <body style="background-color: #b5afaf;">
+    <div class="container my-5 py-5">
+
+        <!--Section: Design Block-->
+        <section>
+      
+          <div class="row">
+            
+              
+            <div class="col-md-8 mb-4">
+                <div class="card mb-4">
+                  <div class="card-header py-3">
+                    <h2 id="error-message"><% if (typeof message !== 'undefined') { %>
+                      <div class="alert alert-danger" role="alert">
+                        <%= message %>
+                      </div>
+                    <% } %>
+                </h2>
+                    <h5 class="mb-0 text-font text-uppercase">Add New Delivery address</h5>
+                  </div>
+                  <div class="card-body">
+                      <form action="/profile/manageaddressPostAddAddress" method="post">
+                          
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" name="name" id="form11Example1" class="form-control" placeholder="Name" required/>
+                            <!-- <label class="form-label" for="form11Example1">Name</label> -->
+                          </div>
+                        </div>
+                      </div>
+        
+                      <!-- Text input -->
+                      <div class="form-outline mb-4" contenteditable="">
+                        Address Field
+                        <textarea type="text" name="address" id="form11Example4" class="form-control" placeholder="Address" required ></textarea>
+                        <!-- <label class="form-label" for="form11Example4">Address</label> -->
+                      </div>
+        
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" name="city" id="form11Example5" class="form-control" placeholder="city" required />
+                        <!-- <label class="form-label" for="form11Example5">Email</label> -->
+                      </div>
+        
+                      <!-- Number input -->
+                      <div class="form-outline mb-4">
+                        <input type="number" name="phone" id="form11Example6" class="form-control" minlength="10" maxlength="12" placeholder="Phone" required/>
+                        <!-- <label class="form-label"  for="form11Example6">Phone</label> -->
+                      </div>
+                        <!-- Text input -->
+                        <div class="form-outline mb-4">
+                          <input type="text" name="landmark" id="form11Example4" class="form-control" placeholder="landmark" required/>
+                          <!-- <label class="form-label" for="form11Example4"  >City</label> -->
+                        </div>
+                        <div class="form-outline mb-4">
+                          <input type="number" name="pincode" id="form11Example4" class="form-control" placeholder="Pincode" minlength="6" maxlength="6" required/>
+                        </div>
+
+                        <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-bottom px-0">
+                            <label for="cashpayment">Home</label>
+                            <input type="radio" name="payment" id="cashpayment" value="home" required>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-bottom px-0">
+                            <label for="netpayment">Office</label>
+                            <input type="radio" name="payment" id="netpayment" value="office" required>
+                        </li>
+                    </ul>
+                </div>
+                        
+                      
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-success button-order col-md-10">Place order</button>
+                </div>
+              </form>
+              </div>
+        
+        
+         
+       
+      
+      
+      
+      
+          </div>
+      
+        </section>
+        <!--Section: Design Block-->
+      
+      </div>
+      </body>
+      <script>
+        // Hide the error message after 5 seconds
+        setTimeout(function() {
+          var errorMessage = document.getElementById('error-message');
+          if (errorMessage) {
+            errorMessage.style.display = 'none';
+          }
+        }, 5000);
+      </script>
+      </html>
+        <form action="/profile/manageaddressAddAddress" method="post">

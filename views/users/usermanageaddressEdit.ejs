@@ -1,0 +1,161 @@
+<%-include('../layouts/header')%>
+<style>
+    .text-font{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-weight: 700;
+letter-spacing: .156rem;
+font-size: 1.125rem;
+}
+.text-price{
+padding: 0 .625rem;
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 700;
+line-height: .813rem;
+letter-spacing: 1.6px;
+}
+.text-descriptions{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 400;
+line-height: 1.125rem;
+margin: .313rem 0 .938rem;
+padding: 0 .625rem;
+}
+.button-color{
+color: #4e4e4e ;
+border-color: #4e4e4e ;
+}
+.button-order{
+font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+font-style: normal;
+font-size: .75rem;
+font-weight: 700;
+background-color: hsl(90, 40%, 50%);
+color: white;
+}
+</style>
+<div class="container my-5 py-5">
+
+    <!--Section: Design Block-->
+    <section>
+  
+      <div class="row">
+        <div class="col-md-8">
+       
+          <div class="card mb-4 accordion" id="accordionExample">
+            <div class="card body accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <div class="accordion-button m-2 p-2 collapsed text-uppercase text-center text-font h4" type="button"
+                  data-mdb-toggle="collapse" data-mdb-target="#collapseOne" aria-expanded="false"
+                  aria-controls="collapseOne">
+                  Edit your address
+                </div>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-mdb-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="form-outline d-flex">
+                    <input type="text" id="form1" class="form-control" />
+                    <label class="form-label" for="form1">Enter code</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="card mb-4">
+            <div class="card-body">
+              <p class="text-uppercase fw-bold mb-3 text-font">Email address</p>
+              <div class="row">
+                <div class="col-md-4">
+                  <p>Athulraj165@gmail.com</p>
+                </div>
+                <div class="col-md-7">
+                  <button type="button" class="btn btn-outline-dark float-end button-color "
+                    data-mdb-ripple-color="dark">
+                    Change
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+  
+        <div class="col-md-8 mb-4">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0 text-font text-uppercase">Delivery address</h5>
+            </div>
+            <div class="card-body">
+              <form action="/profile/manageAddressEdit" method="post">
+  
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form11Example1" value="<%=address.name%>" name="name" class="form-control" />
+                      <input type="hidden" id="form11Example1" value="<%=address._id%>" name="id" class="form-control" />
+                      <!-- <label class="form-label" for="form11Example1">Name</label> -->
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <input type="text" id="form11Example4" value="<%=address.address%>"  name="address"  class="form-control" />
+                  <!-- <label class="form-label" for="form11Example4">Address</label> -->
+                </div>
+  
+                
+                <!-- address input -->
+                <div class="form-outline mb-4">
+                <input type="text" id="form11Example6" value="<%=address.city%>"  name="city"  class="form-control" />
+                <!-- <label class="form-label" for="form11Example6">Phone</label> -->
+                </div>
+  
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                  <input type="text" id="form11Example6" value="<%=address.landmark%>"  name="landmark"  class="form-control" />
+                  <!-- <label class="form-label" for="form11Example6">Phone</label> -->
+                </div>
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                  <input type="number" id="form11Example6" value="<%=address.pincode%>"  name="pincode"  class="form-control" />
+                  <!-- <label class="form-label" for="form11Example6">Phone</label> -->
+                </div>
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                  <input type="number" id="form11Example6" value="<%=address.phoneNo%>"  name="phoneNo"  class="form-control" />
+                  <!-- <label class="form-label" for="form11Example6">Phone</label> -->
+                </div>
+  
+                <!-- Checkbox -->
+                <div class="form-check d-flex justify-content-center mb-2">
+                  <label class="form-check-label" for="form11Example8">
+                    Submit Edited Address
+                  </label>
+                </div>
+            </div>
+            
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn button-order col-md-10">Submit Now</button>
+        </div>
+        
+    </div>
+</form>
+  
+  
+  
+  
+  
+  
+      </div>
+  
+    </section>
+    <!--Section: Design Block-->
+  
+  </div>

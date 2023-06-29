@@ -1,0 +1,741 @@
+<%-include('../layouts/header',{allcategory})%>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap');
+
+    /* Resetting */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    nav {
+      min-height: 70px;
+    }
+
+    nav .navbar-brand .logo {
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+
+    nav .navbar-brand .logo .h2 {
+      margin: 0;
+    }
+
+    nav .navbar-brand .h4 {
+      margin-bottom: 0px;
+      font-weight: 900;
+    }
+
+    nav .navbar-brand .fs-6 {
+      font-size: 0.88rem !important;
+    }
+
+    nav ul li {
+      padding: 0 20px;
+    }
+
+    .navbar-light .navbar-nav .nav-link {
+      color: #333;
+    }
+
+    .navbar-light .navbar-nav .nav-link:hover {
+      color: #4e2296;
+    }
+
+    .navbar-light .navbar-nav .nav-link.active {
+      color: #451296;
+    }
+
+    nav ul li a .cart {
+      padding: 4px 6px;
+      border-radius: 6px;
+      position: relative;
+      display: inline;
+    }
+
+    nav ul li a .cart::after {
+      position: absolute;
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #ff5252;
+      top: -1px;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    #sidebar {
+      padding: 15px 0px 15px 0px;
+      border-radius: 10px;
+    }
+
+    #sidebar .h4 {
+      font-weight: 500;
+      padding-left: 15px;
+    }
+
+    #sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding-left: 0rem;
+    }
+
+    #sidebar ul li {
+      padding: 10px 0;
+      display: block;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      border-left: 5px solid transparent;
+    }
+
+    #sidebar ul li.active {
+      border-left: 5px solid #ff5252;
+      background-color: #44007c;
+    }
+
+    #sidebar ul li a {
+      display: block;
+    }
+
+    #sidebar ul li a .fas,
+    #sidebar ul li a .far {
+      color: #ddd;
+    }
+
+    #sidebar ul li a .link {
+      color: #fff;
+      font-weight: 500;
+    }
+
+    #sidebar ul li a .link-desc {
+      font-size: 0.8rem;
+      color: #ddd;
+    }
+
+    #main-content {
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    #main-content .h5,
+    #main-content .text-uppercase {
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+
+    #main-content .h5+div {
+      font-size: 0.9rem;
+    }
+
+    #main-content .box {
+      padding: 10px;
+      border-radius: 6px;
+      width: 170px;
+      height: 90px;
+    }
+
+    #main-content .box img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    #main-content .box .tag {
+      font-size: 0.9rem;
+      color: #000;
+      font-weight: 500;
+    }
+
+    #main-content .box .number {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .order {
+      padding: 10px 30px;
+      min-height: 150px;
+    }
+
+    .order .order-summary {
+      height: 100%;
+    }
+
+    .order .blue-label {
+      background-color: #aeaeeb;
+      color: #0046dd;
+      font-size: 0.9rem;
+      padding: 0px 3px;
+    }
+
+    .order .green-label {
+      background-color: #a8e9d0;
+      color: #008357;
+      font-size: 0.9rem;
+      padding: 0px 3px;
+    }
+
+    .order .fs-8 {
+      font-size: 0.85rem;
+    }
+
+    .order .rating img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .order .rating .fas,
+    .order .rating .far {
+      font-size: 0.9rem;
+    }
+
+    .order .rating .fas {
+      color: #daa520;
+    }
+
+    .order .status {
+      font-weight: 600;
+    }
+
+    .order .btn.btn-primary {
+      background-color: #fff;
+      color: #4e2296;
+      border: 1px solid #4e2296;
+    }
+
+    .order .btn.btn-primary:hover {
+      background-color: #4e2296;
+      color: #fff;
+    }
+
+    .order .progressbar-track {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .order .progressbar-track .progressbar {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-left: 0rem;
+    }
+
+    .order .progressbar-track .progressbar li {
+      font-size: 1.5rem;
+      border: 1px solid #333;
+      padding: 5px 10px;
+      border-radius: 50%;
+      background-color: #dddddd;
+      z-index: 100;
+      position: relative;
+    }
+
+    .order .progressbar-track .progressbar li.green {
+      border: 1px solid #007965;
+      background-color: #d5e6e2;
+    }
+
+    .order .progressbar-track .progressbar li::after {
+      position: absolute;
+      font-size: 0.9rem;
+      top: 50px;
+      left: 0px;
+    }
+
+    #tracker {
+      position: absolute;
+      border-top: 1px solid #bbb;
+      width: 100%;
+      top: 25px;
+    }
+
+    #step-1::after {
+      content: 'Placed';
+    }
+
+    #step-2::after {
+      content: 'Accepted';
+      left: -10px;
+    }
+
+    #step-3::after {
+      content: 'Packed';
+    }
+
+    #step-4::after {
+      content: 'Shipped';
+    }
+
+    #step-5::after {
+      content: 'Delivered';
+      left: -10px;
+    }
+
+
+
+    /* Backgrounds */
+    .bg-purple {
+      background-color: #55009b;
+    }
+
+    .bg-light {
+      background-color: #f0ecec !important;
+    }
+
+    .green {
+      color: #007965 !important;
+    }
+
+    /* Media Queries */
+    @media(max-width: 1199.5px) {
+      nav ul li {
+        padding: 0 10px;
+      }
+    }
+
+    @media(max-width: 500px) {
+      .order .progressbar-track .progressbar li {
+        font-size: 1rem;
+      }
+
+      .order .progressbar-track .progressbar li::after {
+        font-size: 0.8rem;
+        top: 35px;
+      }
+
+      #tracker {
+        top: 20px;
+      }
+    }
+
+    @media(max-width: 440px) {
+      #main-content {
+        padding: 20px;
+      }
+
+      .order {
+        padding: 20px;
+      }
+
+      #step-4::after {
+        left: -5px;
+      }
+    }
+
+    @media(max-width: 395px) {
+      .order .progressbar-track .progressbar li {
+        font-size: 0.8rem;
+      }
+
+      .order .progressbar-track .progressbar li::after {
+        font-size: 0.7rem;
+        top: 35px;
+      }
+
+      #tracker {
+        top: 15px;
+      }
+
+      .order .btn.btn-primary {
+        font-size: 0.85rem;
+      }
+    }
+
+    @media(max-width: 355px) {
+      #main-content {
+        padding: 15px;
+      }
+
+      .order {
+        padding: 10px;
+      }
+    }
+    .loader {
+ position: relative;
+ width: 2.5em;
+ height: 2.5em;
+ transform: rotate(165deg);
+}
+
+.loader:before, .loader:after {
+ content: "";
+ position: absolute;
+ top: 50%;
+ left: 50%;
+ display: block;
+ width: 0.5em;
+ height: 0.5em;
+ border-radius: 0.25em;
+ transform: translate(-50%, -50%);
+}
+
+.loader:before {
+ animation: before8 2s infinite;
+}
+
+.loader:after {
+ animation: after6 2s infinite;
+}
+
+@keyframes before8 {
+ 0% {
+  width: 0.5em;
+  box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+ }
+
+ 35% {
+  width: 2.5em;
+  box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+ }
+
+ 70% {
+  width: 0.5em;
+  box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+ }
+
+ 100% {
+  box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+ }
+}
+
+@keyframes after6 {
+ 0% {
+  height: 0.5em;
+  box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+ }
+
+ 35% {
+  height: 2.5em;
+  box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+ }
+
+ 70% {
+  height: 0.5em;
+  box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+ }
+
+ 100% {
+  box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+ }
+}
+
+.loader {
+ position: absolute;
+ top: calc(50% - 1.25em);
+ left: calc(50% - 1.25em);
+}
+  </style>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container"></div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-lg-3 my-lg-0 my-md-1">
+        <div id="sidebar" class="bg-purple">
+          <div class="h4 text-white">Account</div>
+          <ul>
+            <li class="active">
+              <a href="#" class="text-decoration-none d-flex align-items-start">
+                <div class="fas fa-box-open pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">My Orders</div>
+                  <div class="link-desc">View & Manage orders and returns</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="profile/manageaddress" class="text-decoration-none d-flex align-items-start">
+                <div class="far fa-address-book pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">Address Book</div>
+                  <div class="link-desc">View & Manage Addresses</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/profile/changeProfile" class="text-decoration-none d-flex align-items-start">
+                <div class="far fa-user pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">My Profile</div>
+                  <div class="link-desc">Change your profile details & password</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/profile/coupons" class="text-decoration-none d-flex align-items-start">
+                <div class="pt-2 fas fa-tag me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">Coupons</div>
+                  <div class="link-desc">Cheak and validate coupons</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/manageaccount/wallet" class="text-decoration-none d-flex align-items-start">
+                <div class="fas fa-wallet pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">Wallet</div>
+                  <div class="link-desc">Cheak Wallet Balance and topup</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="/logout" class="text-decoration-none d-flex align-items-start">
+                <div class="fas fa-sign-out-alt pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">Logout</div>
+                  <div class="link-desc">click to logout from all</div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="text-decoration-none d-flex align-items-start">
+                <div class="fas fa-headset pt-2 me-3"></div>
+                <div class="d-flex flex-column">
+                  <div class="link">Help & Support</div>
+                  <div class="link-desc">Contact Us for help and support</div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-9 my-lg-0 my-1">
+        <div id="main-content" class="bg-white border">
+          <div class="d-flex flex-column">
+            <div class="h5">Hello <%= userDetails.name %>,</div>
+            <div>Logged in as: <%= userDetails.email %>
+            </div>
+          </div>
+          <div class="d-flex my-4 flex-wrap">
+            <div class="box me-4 my-1 bg-light">
+              <img src="https://www.freepnglogos.com/uploads/box-png/cardboard-box-brown-vector-graphic-pixabay-2.png"
+                alt="">
+              <div class="d-flex align-items-center mt-2">
+                <div class="tag">Orders placed</div>
+                <div class="ms-auto number">
+                  <%= orderedProducts.length %>
+                </div>
+              </div>
+            </div>
+            <div class="box me-4 my-1 bg-light">
+              <img
+                src="https://www.freepnglogos.com/uploads/shopping-cart-png/shopping-cart-campus-recreation-university-nebraska-lincoln-30.png"
+                alt="">
+                <% const productLength = cart && cart.product && cart.product.length ? cart.product.length : 0; %>
+                <div class="d-flex align-items-center mt-2">
+                  <div class="tag">Items in Cart</div>
+                  <div class="ms-auto number">
+                    <%= productLength %>
+                  </div>
+                </div>                  
+            </div>
+            <div class="box me-4 my-1 bg-light">
+              <img src="https://www.freepnglogos.com/uploads/love-png/love-png-heart-symbol-wikipedia-11.png" alt="">
+              <div class="d-flex align-items-center mt-2">
+                <div class="tag">Wishlist</div>
+                <div class="ms-auto number">0</div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="text-uppercase">My recent orders</div>
+          <% if (orderedProducts.length > 0) { %>
+            <% orderedProducts.forEach(function(order) { %>
+              <div class="order my-3 bg-light">
+                <div class="row">
+                  <div class="col-lg-4 p-3">
+                    <div class="d-flex flex-column justify-content-between order-summary">
+                      <div class="d-flex align-items-center p-2">
+                        <div class="text-uppercase">Order id: <%= order._id.toString().slice(12, 22) %>
+                        </div>
+                        <div class="blue-label ms-auto text-uppercase">
+                          <%= order.paymentMethod %>
+                        </div>
+                      </div>
+                      <% order.products.forEach(function(product) { %>
+                        <div class="fs-8 p-2">
+                          <% if (product.product_id && product.product_id.productImage) { %>
+                            <img src="/upload/<%= product.product_id.productImage[0] %>" alt="productImage" style="border-radius: 8px;" height="200px" width="100%" >
+                          <% } %>
+                        </div>
+                        <div class="fs-8 p-2" style="text-transform: capitalize; text-align: center;">
+                           <%= product.product_id && product.product_id.productName %>
+                        </div>
+                        <!-- Other product details -->
+                        <hr>
+                      <% }); %>
+                      <div class="rating d-flex align-items-center p-2">
+                        <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png" alt="">
+                        <span class="px-2">Rating:</span>
+                        <span class="fas fa-star"></span>
+                        <span class="fas fa-star"></span>
+                        <span class="fas fa-star"></span>
+                        <span class="fas fa-star"></span>
+                        <span class="far fa-star"></span>
+                      </div>
+                      <% if (order.status == "Pending") { %>
+                        <a href="/orderCancel?id=<%=order._id%>">
+                          <button type="button" class="btn mt-2 btn-warning text-capital">Cancel Order</button>
+                        </a>
+                      <% } else if (order.status == "Delivered") { %>
+                        <% var currentDate = new Date(); %>
+                        <% var deliveryDate = new Date(order.delivered.deliveredDate); %>
+          
+                        <% deliveryDate.setDate(deliveryDate.getDate() + 3); %>
+                        <% var returnEndDate = deliveryDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }); %>
+          
+                        <% var timeDiff = deliveryDate.getTime() - currentDate.getTime(); %>
+                        <% var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); %>
+          
+                        <% if (diffDays > 2) { %>
+                          <a href="/orderReturn?id=<%= order._id %>">
+                            <div class="text-muted">Return Will Expire<br><span class="text-danger font-weight-bold"><%= returnEndDate %></span></div>
+                            <button type="button" class="btn mt-2 btn-outline-warning text-capital">Return Order</button>
+                          </a>
+                        <% } else { %>
+                          <button type="button" class="btn mt-2 btn-danger text-capital" disabled>Return Validity Ended<br><%= returnEndDate %></button>
+                        <% } %>
+          
+                      <% } else if (order.status == "Return Requested") { %>
+                        <a href="/orderReturnCancel?id=<%=order._id%>">
+                          <button type="button" class="btn mt-2 btn-outline-danger text-capital">Cancel Return Request</button>
+                        </a>
+                      <% } else if (order.status == "Return Approved By admin") { %>
+                        <a href="/manageaccount/wallet">
+                          <button type="button" class="btn mt-2 btn-outline-danger text-capital">Check Refund Status</button>
+                        </a>
+                      <% } else if (order.status == "Cancelled") { %>
+                        <button type="button" disabled class="btn mt-2 btn-outline-danger text-capital">Cancelled</button>
+                      <% } %>
+                    </div>
+                  </div>
+                  <div class="col-lg-8">
+                    <div class="d-sm-flex align-items-sm-start justify-content-sm-between">
+                      <div class="status">
+                        Status:
+                        <% if (order.status == "Pending") { %>
+                          <span class="text-primary">
+                            <%= order.status %>
+                          </span>
+                        <% } else if (order.status == "Delivered") { %>
+                          <span class="text-success">
+                            <%= order.status %>
+                          </span>
+                        <% } else if (order.status == "Cancelled By User") { %>
+                          <span class="text-danger">
+                            <%= order.status %>
+                          </span>
+                        <% } else if (order.status == "Return Requested") { %>
+                          <span class="text-danger">
+                            <%= order.status %> Pending
+                          </span>
+                        <% } else if (order.status == "Return Approved By admin") { %>
+                          <span class="text-danger">
+                            <%= order.status %>
+                          </span>
+                        <% } else if (order.status == "Cancelled By Admin") { %>
+                          <span class="text-danger">
+                            <%= order.status %>
+                          </span>
+                        <% } else if (order.status == "Cancelled") { %>
+                          <span class="text-danger">
+                            <%= order.status %>
+                          </span>
+                        <% } else { %>
+                          <span class="text-danger">
+                            <%= order.status %>
+                          </span>
+                        <% } %>
+                      </div>
+                      <div class="fs-8 text-muted p-1">
+                        <%= order.orderDate.toDateString() %> | <%= order.orderDate.toLocaleTimeString() %>
+                      </div>
+                      <div class="btn btn-primary text-uppercase">order info</div>
+                    </div>
+                    <div class="progressbar-track">
+                      <ul class="progressbar">
+                        <li id="step-1" class="text-muted green">
+                          <span class="fas fa-gift"></span>
+                        </li>
+                        <li id="step-2" class="text-muted green">
+                          <span class="fas fa-check"></span>
+                        </li>
+                        <li id="step-3" class="text-muted green">
+                          <span class="fas fa-box"></span>
+                        </li>
+                        <li id="step-4" class="text-muted green">
+                          <span class="fas fa-truck"></span>
+                        </li>
+                        <li id="step-5" class="text-muted green">
+                          <span class="fas fa-box-open"></span>
+                        </li>
+                      </ul>
+                      <div id="tracker"></div>
+                    </div>
+                    
+                    <div>
+                      <div class="mt-5 mb-4 text-capital"
+                        style="text-align: left; font-size: larger;color: #163768;font-weight: 500;line-height: 35px;">
+                        <p style="margin: 1.3%;">Delivery Address</p>
+                        <%= order.address.name %><br>
+                        <%= order.address.address %><br>
+                        <%= order.address.pincode %><br>
+                        <%= order.address.phoneNo %>
+                      </div>
+                      <hr style="box-sizing: border-box;">
+                    </div>
+                  </div>
+                </div>
+                <div class="fs-8 p-2">
+                  <% if (order.status == "Cancelled By User") { %>
+                    <h5 class="text-danger">Order Cancelled</h5>
+                    <h6>
+                      <%= order.cancelled.dateOfCancel.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                    </h6>
+                  <% } else if (order.status == "Delivered") { %>
+                    <h5 class="text-primary">Order Delivered</h5>
+                    <h6>
+                      <%= order.delivered.deliveredDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                    </h6>
+                  <% } else if (order.status == "Pending") { %>
+                    <h5 class="text-primary">Expected Delivery</h5>
+                    <h6>
+                      <%= order.expectedDeliveryDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                    </h6>
+                  <% } else { %>
+                    <h6><%= order.status %></h6>
+                  <% } %>
+                </div>
+                <hr style="box-sizing: border-box;">
+              </div>
+              <% }); %>
+          
+                  <% } else { %>
+                    <p>No orders</p>
+                  <div class="loader"></div>
+                    <% } %>
+                      
+                      <script src="https://kit.fontawesome.com/5f6d1ef682.js" crossorigin="anonymous"></script>
+                      </body>
+                      <script>
+                        setTimeout(() => {
+                          const box = document.getElementById("box");
+                          box.style.display = "none";
+                        }, 4000);
+                      </script>
+
+                      </html>

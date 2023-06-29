@@ -1,0 +1,189 @@
+<%-include('../layouts/adminheader.ejs')%>
+    <!-- partial:partials/_navbar.html -->
+
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-12 grid-margin stretch-card">
+                    <div class="card corona-gradient-card">
+                        <div class="card-body py-0 px-0 px-sm-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="row ">
+                <div class="col-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Order Delivery Status</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% allOrder.forEach(function(i) { %>
+                                            <tr>
+                                              <td style="text-transform: capitalize;">
+                                                <a href="#user"><%= i.userId.name %></a>
+                                              </td>
+                                              <td>
+                                                <%= i.userId.email %>
+                                              </td>
+                                              <td>
+                                                <%= i.address.address %>
+                                              </td>
+                                              <td>
+                                                <% if (i.status === 'Pending') { %>
+                                                  <span id="status" class="badge badge-outline-primary">
+                                                    <%= i.status %>
+                                                  </span>
+                                                <% } else if (i.status === 'Return Requested') { %>
+                                                  <span class="badge badge-outline-success">
+                                                    <%= i.status %>
+                                                  </span>
+                                                <% } else if (i.status === 'Delivered') { %>
+                                                  <span class="badge badge-outline-success">
+                                                    <%= i.status %>
+                                                  </span>
+                                                <% } else { %>
+                                                  <span class="badge badge-outline-danger">
+                                                    <%= i.status %>
+                                                  </span>
+                                                <% } %>
+                                              </td>
+                                          
+                                              <td>
+                                                <% if (i.status === 'Pending') { %>
+                                                  <a href="#" data-order-id="<%= i._id %>" class="update-delivery-link">
+                                                    <button type="button" class="btn badge-outline-primary" id="update-button<%= i._id %>">Update Delivered</button>
+                                                  </a>
+                                                <% } else if (i.status === 'Delivered') { %>
+                                                  <span class="badge badge-outline-success">Delivered</span>
+                                                <% } else if (i.status === 'Refund Completed' && i.return.approved === 'Approved by Admin' && i.return.admin === true && i.return.status === true) { %>
+                                                  <span class="badge badge-outline-success">Refund Completed</span>
+                                                <% } else if (i.status === 'Return Requested') { %>
+                                                  <a href="approveReturn?id=<%= i._id %>">
+                                                    <span class="badge badge-outline-danger">Approve Return</span>
+                                                  </a>
+                                                <% } else if (i.status === 'Return Approved By admin' && i.return.approved === 'Approved by Admin' && i.return.admin === true) { %>
+                                                  <a href="approveRefund?id=<%= i._id %>">
+                                                    <span class="badge badge-outline-primary">Approve Refund</span>
+                                                  </a>
+                                                <% } else if (i.status === 'Refund Completed' && i.return.approved === 'Approved by Admin' && i.return.admin === true) { %>
+                                                  <span class="badge badge-outline-primary">Refund Completed</span>
+                                                <% } else { %>
+                                                  <span class="badge badge-outline-success">Order Cancelled</span>
+                                                <% } %>
+                                              </td>
+                                            </tr>
+                                          <% }) %>
+                                          
+                                    </tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright ©</span>
+                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
+                        href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Admin
+                        Page</a> athulraj@gmail.com</span>
+            </div>
+        </footer>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+    
+    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        function updateDeliveryStatus(orderId) {
+            // Send an AJAX request
+            $.ajax({
+                url: 'admin/approveDelivery', // Replace with your server endpoint for updating the delivery status
+                method: 'POST',
+                data: { orderId: orderId },
+                success: function (response) {
+                    // Handle the response
+                    if (response.success) {
+                        // Update the button's HTML or display a success message
+                        console.log('Delivery status updated successfully');
+                        updateButton(orderId);
+                    } else {
+                        // Handle the error or display an error message
+                        console.error('Failed to update delivery status');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error or display an error message
+                    console.error('An error occurred while updating delivery status:', error);
+                }
+            });
+        }
+
+        function updateButton(orderId) {
+            // Find the button element based on the order ID
+            var buttonElement = $('#update-button' + orderId);
+            var status = $('#status');
+
+            // Update the button's HTML and class
+            status.html('Delivered')
+            status.removeClass("badge badge-outline-primary")
+            status.addClass('badge badge-outline-success')
+
+            buttonElement.html('Delivered');
+            buttonElement.removeClass('badge-outline-primary');
+            buttonElement.addClass('badge-outline-success');
+
+
+        }
+
+        $('.update-delivery-link').click(function (e) {
+            e.preventDefault();
+            var orderId = $(this).data('order-id');
+            updateDeliveryStatus(orderId);
+        });
+    });
+</script>
+
+
+
+    </body>
+
+    </html>

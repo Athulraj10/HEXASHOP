@@ -1,0 +1,971 @@
+<%-include("../layouts/header.ejs")%>
+    <header>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .message {
+                opacity: 0;
+                transition: opacity 1.2s ease-in-out;
+            }
+
+            .message {
+                opacity: 1;
+                transition: opacity 1.2s ease-in-out;
+            }
+
+            .hide {
+                opacity: 0;
+            }
+
+            .message.show {
+                opacity: 1;
+            }
+
+            .message {
+                opacity: 1;
+                transition: opacity 1.2s ease-in-out;
+            }
+
+            .hide {
+                opacity: 0;
+                height: 5px;
+            }
+
+            .input-group-append {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                padding-right: 10px;
+            }
+
+            .input-group-append {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                display: flex;
+                align-items: center;
+                padding-right: 10px;
+            }
+
+            .close-button {
+                background: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            .close-button svg {
+                width: 16px;
+                height: 16px;
+                color: #999;
+            }
+.bs {
+  padding: 15px 30px;
+  font-size: 18px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  transition: 0.5s;
+  background: #1e1e1e;
+  color: greenyellow;
+}
+
+.bs:hover {
+  animation: a 0.5s 1 linear;
+  color: #2874f0;
+}
+
+@keyframes a {
+  0% {
+    transform: scale(0.7, 1.3);
+  }
+
+  25% {
+    transform: scale(1.3, 0.7);
+  }
+
+  50% {
+    transform: scale(0.7, 1.3);
+  }
+
+  75% {
+    transform: scale(1.3, 0.7);
+  }
+
+  100% {
+    transform: scale(1, 1);
+  }
+}
+.loader {
+  transform: translateZ(1px);
+}
+
+.loader:after {
+  content: '$';
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 32px;
+  font-weight: bold;
+  background: #FFD700;
+  color: #DAA520;
+  border: 4px double;
+  box-sizing: border-box;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, .1);
+  animation: coin-flip 4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes coin-flip {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+
+  100% {
+    transform: rotateY(3600deg);
+  }
+}
+
+.item1, .item2, .item3 {
+  position: absolute;
+  background-color: transparent;
+  left: calc(50% - (var(--size) / 2));
+  top: calc(50% - (var(--size) / 2));
+  height: var(--size);
+  width: var(--size);
+  border-radius: 50%;
+}
+
+.ldr .item1 {
+  --size: 90px;
+  animation: size1_1 2.5s infinite alternate;
+  z-index: 1;
+}
+
+.ldr .item2 {
+  --size: 60px;
+  animation: size1_2 2.5s infinite alternate;
+  z-index: 2;
+}
+
+.ldr .item3 {
+  --size: 30px;
+  animation: size1_3 2.5s infinite alternate;
+  z-index: 3;
+}
+
+@keyframes size1_1 {
+  0%,
+  10% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+  }
+}
+
+@keyframes size1_2 {
+  0%,
+  40% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+  }
+}
+
+@keyframes size1_3 {
+  0%,
+  70% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 8px 8px 14px #c5c5c5, -8px -8px 14px #ffffff;
+  }
+}
+.edit-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none !important;
+}
+
+.edit-svgIcon {
+  width: 17px;
+  transition-duration: 0.3s;
+}
+
+.edit-svgIcon path {
+  fill: white;
+}
+
+.edit-button:hover {
+  width: 120px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+}
+
+.edit-button:hover .edit-svgIcon {
+  width: 20px;
+  transition-duration: 0.3s;
+  transform: translateY(60%);
+  -webkit-transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+  -ms-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.edit-button::before {
+  display: none;
+  content: "Edit";
+  color: white;
+  transition-duration: 0.3s;
+  font-size: 2px;
+}
+
+.edit-button:hover::before {
+  display: block;
+  padding-right: 10px;
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(0px);
+  transition-duration: 0.3s;
+}
+
+.scanner span {
+  color: transparent;
+  font-size: 1.4rem;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner span::before {
+  content: "RazorPay";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 30px;
+  border-right: 4px solid #000000;
+  overflow: hidden;
+  color: #000000;
+  animation: load91371 10s linear 5;
+}
+
+@keyframes load91371 {
+  0%, 10%, 100% {
+    width: 0;
+  }
+
+  10%,20%,30%,40%,50%,60%,70%,80%,90%,100% {
+    border-right-color: transparent;
+  }
+
+  11%,21%,31%,41%,51%,61%,71%,81%,91% {
+    border-right-color: #00000028;
+  }
+
+  60%, 80% {
+    width: 100%;
+  }
+}
+
+.kbtn {
+  font-weight: bold;
+  color: white;
+  border-radius: 2rem;
+  width: 100px;
+  height: 42.66px;
+  border: none;
+  background-color: #3653F8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kbtn .span-mother {
+  display: flex;
+  overflow: hidden;
+}
+
+.kbtn:hover .span-mother {
+  position: absolute;
+}
+
+.kbtn:hover .span-mother span {
+  transform: translateY(1.2em);
+}
+
+.kbtn .span-mother span:nth-child(1) {
+  transition: .2s;
+}
+
+.kbtn .span-mother span:nth-child(2) {
+  transition: .3s;
+}
+
+.kbtn .span-mother span:nth-child(3) {
+  transition: .4s;
+}
+
+.kbtn .span-mother span:nth-child(4) {
+  transition: .5s;
+}
+
+.kbtn .span-mother span:nth-child(5) {
+  transition: .6s;
+}
+
+.kbtn .span-mother span:nth-child(6) {
+  transition: .7s;
+}
+
+.kbtn .span-mother2 {
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+}
+
+.kbtn .span-mother2 span {
+  transform: translateY(-1.2em);
+}
+
+.kbtn:hover .span-mother2 span {
+  transform: translateY(0);
+}
+
+.kbtn .span-mother2 span {
+  transition: .2s;
+}
+
+.kbtn .span-mother2 span:nth-child(2) {
+  transition: .3s;
+}
+
+.kbtn .span-mother2 span:nth-child(3) {
+  transition: .4s;
+}
+
+.kbtn .span-mother2 span:nth-child(4) {
+  transition: .5s;
+}
+
+.kbtn .span-mother2 span:nth-child(5) {
+  transition: .6s;
+}
+
+.kbtn .span-mother2 span:nth-child(6) {
+  transition: .7s;
+}
+
+      
+        </style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!-- Jumbotron -->
+        <div class="p-3 text-center bg-white border-bottom">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <!-- Left elements -->
+                    <div class="">
+                        <a href="https://mdbootstrap.com/" target="_blank" class="">
+                            <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="35" />
+                        </a>
+                    </div>
+                    <!-- Left elements -->
+
+                    <!-- right elements -->
+                    <div class="">
+                        <a href="https://github.com/mdbootstrap/bootstrap-material-design"
+                            class="me-1 border rounded py-1 px-3 nav-link" target="_blank"> <i
+                                class="fas fa-user-alt me-2"></i>Sign in </a>
+                    </div>
+                    <!-- right elements -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 mb-4">
+                    <form class="pay-form">
+                        <!-- Checkout -->
+                        <div class="card shadow-3 border">
+                            <div class="p-4">
+                                <h5 class="card-title mb-3">Checkout</h5>
+                                <hr class="my-4" />
+                                <h5 class="card-title mb-3">Shipping info</h5>
+                               
+                                <div class="row mb-3">
+
+                                    <% address.forEach(function(address) { %>
+                                        <div class="col-lg-4 mb-3">
+                                            <div style="background-color: rgba(0, 0, 0, 0.848); color: rgb(255, 255, 255);"
+                                                class="form-check h-100 border rounded-3">
+                                                <div class="p-2">
+                                                    <input class="form-check-input" value="<%= address._id %>"
+                                                        type="radio" name="addressForDelivery" id="flexRadioDefault1"
+                                                        checked />
+                                                        
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                        <%= address.name %> </br>
+                                                    <a href="/addressEditCart?id=<%=address._id%>" class="edit-button" style="float: right;left: 20px;">
+                                                            <svg class="edit-svgIcon" viewBox="0 0 512 512">
+                                                                              <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                                                                            </svg>
+                                                          </a>
+                                                            <%= address.city %> <br>
+                                                                <%= address.landmark %> <br>
+                                                                    <H6 class="text-muted">
+                                                                        <%= address.pincode %> <br>3-4 days via Fedex
+                                                                    </H6>
+                                                                    
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                        Express delivery
+                                       
+                                    </div>
+                                <div class="row ldr">
+                                    <hr>
+                                </div>
+                                <div class="row mb-3">
+                                    <div
+                                        style="background-color: #2874f0;height: 20px; width: 100%;margin: 0;padding: 0%;">
+                                    </div>
+                                    <div class="col-lg-4 mb-3 mt-3">
+                                        <div style="background-color: #f5faff;"
+                                            class="form-check h-100 border rounded-3">
+                                            <div class="p-2">
+                                                <input class="form-check-input" type="radio" value="cashOnDelivery"
+                                                    name="payment" checked />
+                                                <label for="" style="font-size: medium;font-weight: 500;">
+                                                    Cash on Delivery
+                                                    </br>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 mb-3 mt-3">
+                                        <div style="background-color: #f5faff"
+                                            class="form-check h-100 border rounded-3">
+                                            <div class="p-2">
+                                                <input class="form-check-input" type="radio" id="netpayment"
+                                                    value="Net Banking" name="payment" />
+                                                <label for="" style="font-size: medium;font-weight: 500;">Net Banking
+                                                    </br>
+                                                </label>
+                                                <div class="paypal">
+                                                    <div class="scanner">
+                                                      <span>Razorpay...</span>
+                                                    </div>
+                                                  </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% if (typeof userWalletAmount !== 'undefined' && userWalletAmount !== 0) { %>
+                                        <div class="col-lg-4 mb-3 mt-3">
+                                          <div style="background-color: #f5faff" class="form-check h-100 border rounded-3">
+                                            <div class="p-2">
+                                                <input class="form-check-input walletApplyButton" type="radio" value="Wallet" name="payment" data-totalCartAmount="<%=totalCart%>" />
+
+                                              <label for="" class="text-dark">
+                                                Wallet
+                                                <br>
+                                                <h5 class="text-success userWalletAmountDisplay">
+                                            <span class="loader"></span>
+                                                  <%= userWalletAmount %>
+                                                </h5>
+                                                <span class="walletMessage"></span>
+                                              </label>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      <% } %>
+                                </div>                                      
+
+                                <div class="mb-3">
+                                    <p class="mb-0">Message to seller</p>
+                                    <div class="form-outline">
+                                        <textarea class="form-control" id="textAreaExample1" rows="2"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="float-end">
+                                    <a href="/home" class="btn btn-light border">Cancel</a>
+                                    <button type="submit" class="text bs btn btn-outline-dark m-1 p-2 shadow-0 border">Continue</button>
+                                    <!-- <button  class="">Continue</button> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Checkout -->
+                </div>
+                <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+                    <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                        <h6 class="mb-3">Summary</h6>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Total price:</p>
+                            <p class="mb-2">$ <%= totalCart %>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Discount:</p>
+                            <p class="mb-2 text-danger">
+                                <span id="discountLabel">
+                                    <% if (typeof discount !=='undefined' ) { %>
+                                        <strong>- $<%= discount %></strong>
+                                        <% } else { %>
+                                            <strong>Not Applied</strong>
+                                            <% } %>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Category Discount:</p>
+                            <p class="mb-2 text-danger">
+                                <span id="categoryDiscount">
+                                    <% if (typeof categorydiscount !=='undefined' ) { %>
+                                        <strong>-$ <%= categorydiscount %></strong>
+                                        <% } else { %>
+                                            <strong>Not Applied</strong>
+                                            <% } %>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-2">Shipping cost:</p>
+                            <p class="mb-2">Free</p>
+                        </div>
+                        <hr />
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Total price:</p>
+                        <p class="mb-2 text-danger fw-bold" id="totalValue">$<%= totaldiscountcategory || couponApplyDiscount %></p>
+                        </div>
+
+
+                        <div class="input-group mt-3 mb-4 input-group-append">
+                            <input type="text" class="form-control border" id="code" data-cartId="<%= totalCart %>"
+                                name="couponCode" placeholder="Coupon Code" />
+                            <div class="input-group-append">
+
+                                <span class="close-button" onclick="clearInput()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-x" viewBox="0 0 16 16">
+                                        <path
+                                            d="M3.146 3.146a.5.5 0 0 1 .708 0L8 7.293l4.146-4.147a.5.5 0 1 1 .708.708L8.707 8l4.147 4.146a.5.5 0 0 1-.708.708L8 8.707l-4.146 4.147a.5.5 0 0 1-.708-.708L7.293 8 3.146 3.854a.5.5 0 0 1 0-.708z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <p style="width: 100%;" class="message couponMessage"></p>
+                            <span class="btn m-0 btn-light text-primary border btn-apply coupon">Apply</span>
+                        </div>
+                        <hr />
+                        
+                        <h6 class="text-dark my-4">Items in cart</h6>
+                        <% cart.forEach((item, index) => { %>
+                            <% item.product.forEach((product) => { %>
+                              <div class="d-flex flex-wrap mt-4">
+                                <% const productData = product.product_id; %>
+                                <% const categoryData = productData.category_id; %> <!-- Retrieve category data -->
+                                <div class="me-3 position-relative">
+                                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
+                                    <%= index + 1 %>
+                                  </span>
+                                  <img src="/upload/<%= productData.productImage[0] %>" style="height: 96px; width: 96px;" class="img-sm rounded border" />
+                                </div>
+                                <div>
+                                  <h6 href="#" class="nav-link" style="margin: 0%;padding: 0%; text-transform: capitalize;">
+                                    <%= productData.productName %> <br />
+                                    <%= productData.productColor %><br/>
+                                    <%= productData.productSize %>
+                                  </h6>
+                                  <div class="price m-0 text-muted">Product Price: $<%= productData.price %></div>
+                                  <div class="category-offer price text-muted">
+                                    <% if (categoryData && categoryData.CategoryOffer) { %>
+                                      Category Offer: <%= categoryData.CategoryOffer %>
+                                    <% } else { %>
+                                      No Category Offer
+                                    <% } %>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+                            <% }); %>
+                          <% }); %>
+                          
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start text-muted bg-primary mt-3">
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start pt-4 pb-4">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-12 col-lg-3 col-sm-12 mb-2">
+                        <!-- Content -->
+                        <a href="https://mdbootstrap.com/" target="_blank" class="text-white h2">
+                            MDB
+                        </a>
+                        <p class="mt-1 text-white">
+                            © 2023 Copyright: MDBootstrap.com
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-6 col-sm-4 col-lg-2">
+                        <!-- Links -->
+                        <h6 class="text-uppercase text-white fw-bold mb-2">
+                            Store
+                        </h6>
+                        <ul class="list-unstyled mb-4">
+                            <li><a class="text-white-50" href="#">About us</a></li>
+                            <li><a class="text-white-50" href="#">Find store</a></li>
+                            <li><a class="text-white-50" href="#">Categories</a></li>
+                            <li><a class="text-white-50" href="#">Blogs</a></li>
+                        </ul>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-6 col-sm-4 col-lg-2">
+                        <!-- Links -->
+                        <h6 class="text-uppercase text-white fw-bold mb-2">
+                            Information
+                        </h6>
+                        <ul class="list-unstyled mb-4">
+                            <li><a class="text-white-50" href="#">Help center</a></li>
+                            <li><a class="text-white-50" href="#">Money refund</a></li>
+                            <li><a class="text-white-50" href="#">Shipping info</a></li>
+                            <li><a class="text-white-50" href="#">Refunds</a></li>
+                        </ul>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-6 col-sm-4 col-lg-2">
+                        <!-- Links -->
+                        <h6 class="text-uppercase text-white fw-bold mb-2">
+                            Support
+                        </h6>
+                        <ul class="list-unstyled mb-4">
+                            <li><a class="text-white-50" href="#">Help center</a></li>
+                            <li><a class="text-white-50" href="#">Documents</a></li>
+                            <li><a class="text-white-50" href="#">Account restore</a></li>
+                            <li><a class="text-white-50" href="#">My orders</a></li>
+                        </ul>
+                    </div>
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <div class="col-12 col-sm-12 col-lg-3">
+                        <!-- Links -->
+                        <h6 class="text-uppercase text-white fw-bold mb-2">Newsletter</h6>
+                        <p class="text-white">Stay in touch with latest updates about our products and offers</p>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control border" placeholder="Email" aria-label="Email"
+                                aria-describedby="button-addon2" />
+                            <button class="btn btn-light border shadow-0" type="button" id="button-addon2"
+                                data-mdb-ripple-color="dark">
+                                Join
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <div class="">
+            <div class="container">
+                <div class="d-flex justify-content-between py-4 border-top">
+                    <!--- payment --->
+                    <div>
+                        <i class="fab fa-lg fa-cc-visa text-white"></i>
+                        <i class="fab fa-lg fa-cc-amex text-white"></i>
+                        <i class="fab fa-lg fa-cc-mastercard text-white"></i>
+                        <i class="fab fa-lg fa-cc-paypal text-white"></i>
+                    </div>
+                    <!--- payment --->
+
+                    <!--- language selector --->
+                    <div class="dropdown dropup">
+                        <a class="dropdown-toggle text-white" href="#" id="Dropdown" role="button"
+                            data-mdb-toggle="dropdown" aria-expanded="false"> <i
+                                class="flag-united-kingdom flag m-0 me-1"></i>English </a>
+
+                        <ul class="dropdown-menu dropdown-menu-endp" aria-labelledby="Dropdown">
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-united-kingdom flag"></i>English <i
+                                        class="fa fa-check text-success ms-2"></i></a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-poland flag"></i>Polski</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-china flag"></i>中文</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-japan flag"></i>日本語</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-germany flag"></i>Deutsch</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-france flag"></i>Français</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-spain flag"></i>Español</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-russia flag"></i>Русский</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#"><i class="flag-portugal flag"></i>Português</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--- language selector --->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        let applyButton = document.querySelector(".btn-apply");
+        let messageElement = document.querySelector('.couponMessage');
+        let codeinput = document.getElementById('code');
+        let discountLabel = document.getElementById('discountLabel');
+        let totalValue = document.getElementById('totalValue');
+
+        function clearInput() {
+            codeinput.value = '';
+            messageElement.classList.add("hide");
+        }
+
+        applyButton.addEventListener('click', function () {
+            validateCode().then(() => {
+                window.location.href = '/address';
+            });
+        });
+
+
+
+        function validateCode() {
+            let enteredCode = codeinput.value.trim();
+            fetch('/cheakCouponAvailable', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: enteredCode })
+            }).then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        let discountAmount = data.couponAmounts;
+                        discountLabel.textContent = discountAmount;
+                        totalValue.textContent = data.couponApplyDiscount;
+                        messageElement.textContent = `Coupon code is available. You will get ${discountAmount} Off`;
+                    }
+                    else if (!data.coupon) {
+                        messageElement.textContent = "Invalid Coupon";
+                    } else {
+                        console.log('not available');
+                        messageElement.textContent = 'Coupon code is invalid or Amount is less than';
+                    }
+                    messageElement.classList.add("show");
+                    setTimeout(() => {
+                        messageElement.classList.add('hide')
+                    }, 5000);
+                }).catch(error => {
+                    console.error(error);
+                });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+
+    $(document).ready(function () {
+            $('.pay-form').submit(function (e) {
+                e.preventDefault();
+
+                var paymentMethod = $('input[name="payment"]:checked').val();
+                if (paymentMethod === 'Net Banking') {
+                    console.log('razorpay')
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: "/createOrder",
+                        type: "POST",
+                        data: formData,
+                        success: function (res) {
+                            if (res.success) {
+                                var options = {
+                                    "key": "" + res.key_id + "", // Enter the Key ID generated from the Dashboard
+                                    "amount": "" + res.amount + "", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                                    "currency": "INR",
+                                    "name": "Orders",
+                                    "description": "Test Transaction",
+                                    "image": "/images/zel_logo.jpg",
+                                    "order_id": "" + res.order_id + "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                                    "handler": function (response) {
+                                        // Submit the form to a separate route for further processing
+                                        var form = $('.pay-form');
+                                        var url = form.attr('action');
+                                        var method = form.attr('method');
+                                        $('<input>').attr({
+                                            type: 'hidden',
+                                            name: 'paymentMethod',
+                                            value: paymentMethod
+                                        }).appendTo(form);
+                                        form.attr('action', '/confirmOrder');
+                                        form.attr('method', 'POST');
+                                        form.unbind('submit').submit();
+                                        form.attr('action', url);
+                                        form.attr('method', method);
+                                    },
+                                    "prefill": {
+                                        "name": "" + res.name + "",
+                                        "email": "" + res.email + "",
+                                        "contact": "" + res.mobile + ""
+                                    },
+                                    "notes": {
+                                        "address": "Razorpay Corporate Office"
+                                    },
+                                    "theme": {
+                                        "color": "green"
+                                    }
+                                };
+                                var rzp1 = new Razorpay(options);
+                                rzp1.on('payment.failed', function (response) {
+                                    alert("Payment Failed");
+                                });
+
+                                rzp1.open();
+                            } else {
+                                alert(res.msg);
+                            }
+                        }
+                    });
+                } else if (paymentMethod === 'Wallet') {
+                    var formData = $(this).serialize();
+
+                    // Send AJAX request to check wallet balance
+                    $.ajax({
+                    url: "/checkWalletBalance",
+                    type: "POST",
+                    data:{
+                        totalAmount:'<%=totalCart%>'
+                    },
+                    success: function (res) {
+                        if (res.status === true) {
+                        // Sufficient balance in the wallet
+                        var form = $('.pay-form');
+                        var url = form.attr('action');
+                        var method = form.attr('method');
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: 'paymentMethod',
+                            value: paymentMethod
+                        }).appendTo(form);
+                        form.attr('action', '/confirmOrder');
+                        form.attr('method', 'POST');
+                        form.unbind('submit').submit();
+                        form.attr('action', url);
+                        form.attr('method', method);
+                        } else {
+                            walletAlert()
+                        }
+                    },
+                    error: function () {
+                        // Error handling if the AJAX request fails
+                        alert("An error occurred. Please try again later.");
+                    }
+                    });
+                } else {
+                    // Redirect to a separate route for non-Net Banking payments
+                    var form = $(this);
+                    var url = form.attr('action');
+                    var method = form.attr('method');
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'paymentMethod',
+                        value: paymentMethod
+                    }).appendTo(form);
+                    form.attr('action', '/confirmOrder');
+                    form.attr('method', 'POST');
+                    form.unbind('submit').submit();
+                    form.attr('action', url);
+                    form.attr('method', method);
+                }
+            });
+        });
+
+
+        function walletAlert() {
+  var wallet = JSON.parse(decodeURIComponent('<%- balance %>'));
+  
+  Swal.fire({
+    icon: 'error',
+    title: 'Sorry...',
+    text: `You don't have enough wallet balance (Balance: ${wallet})`,
+  });
+}
+
+    </script>
+    
+    <!-- Footer -->

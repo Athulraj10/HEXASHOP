@@ -1,0 +1,363 @@
+<%- include('../layouts/header.ejs',{allcategory})%>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- <style>
+  .loader {
+  font-size: 4rem;
+  font-family: sans-serif;
+  font-variant: small-caps;
+  font-weight: 900;
+  background: conic-gradient(
+    #dff2ae 0 25%,
+    #ff904f 25% 50%,
+    #feefe7 50% 75%,
+    #ffde2b 75%
+  );
+  background-size: 200% 200%;
+  animation: animateBackground 4.5s ease-in-out infinite;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+@keyframes animateBackground {
+  25% {
+    background-position: 0 100%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+
+  75% {
+    background-position: 100% 0%;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.containers {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.item {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+}
+
+.item-1 {
+  background-color: rgb(250, 87, 103);
+  top: 0;
+  left: 0;
+  z-index: 1;
+  animation: item-1_move 1.8s cubic-bezier(.6,.01,.4,1) infinite;
+}
+
+.item-2 {
+  background-color: rgb(121, 68, 228);
+  top: 0;
+  right: 0;
+  animation: item-2_move 1.8s cubic-bezier(.6,.01,.4,1) infinite;
+}
+
+.item-3 {
+  background-color: rgb(27, 145, 247);
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  animation: item-3_move 1.8s cubic-bezier(.6,.01,.4,1) infinite;
+}
+
+.item-4 {
+  background-color: rgb(250, 194, 76);
+  bottom: 0;
+  left: 0;
+  animation: item-4_move 1.8s cubic-bezier(.6,.01,.4,1) infinite;
+}
+
+@keyframes item-1_move {
+  0%, 100% {
+    transform: translate(0, 0)
+  }
+
+  25% {
+    transform: translate(0, 50px)
+  }
+
+  50% {
+    transform: translate(50px, 50px)
+  }
+
+  75% {
+    transform: translate(50px, 0)
+  }
+}
+
+@keyframes item-2_move {
+  0%, 100% {
+    transform: translate(0, 0)
+  }
+
+  25% {
+    transform: translate(-50px, 0)
+  }
+
+  50% {
+    transform: translate(-50px, 50px)
+  }
+
+  75% {
+    transform: translate(0, 50px)
+  }
+}
+
+@keyframes item-3_move {
+  0%, 100% {
+    transform: translate(0, 0)
+  }
+
+  25% {
+    transform: translate(0, -50px)
+  }
+
+  50% {
+    transform: translate(-50px, -50px)
+  }
+
+  75% {
+    transform: translate(-50px, 0)
+  }
+}
+
+@keyframes item-4_move {
+  0%, 100% {
+    transform: translate(0, 0)
+  }
+
+  25% {
+    transform: translate(50px, 0)
+  }
+
+  50% {
+    transform: translate(50px, -50px)
+  }
+
+  75% {
+    transform: translate(0, -50px)
+  }
+}
+
+</style> -->
+
+<style>
+  .button {
+  width: 30px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 1.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: .3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.button:hover {
+  width: 100px;
+  border-radius: 50px;
+  transition-duration: .3s;
+  background-color: rgb(255, 69, 69);
+  align-items: left;
+}
+
+.button:hover .svgIcon {
+  width: 50px;
+  transition-duration: .3s;
+  transform: translateY(60%);
+}
+
+.button::before {
+  position: absolute;
+  top: -20px;
+  content: "Delete";
+  color: white;
+  transition-duration: .3s;
+  font-size: 2px;
+}
+
+.button:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  transform: translateY(30px);
+  transition-duration: .3s;
+}
+</style>
+<body >
+  <section >
+    <% if (userWishlist && userWishlist.product && userWishlist.product.length > 0) { %>
+      <% userWishlist.product.forEach((item) => { %>
+          <%let isFirstIteration=true%>
+        <% if (isFirstIteration) { %>
+          <div class="pt-5">
+            <% isFirstIteration = false; %>
+            <!-- Your code for the first iteration goes here -->
+            <div class="row justify-content-center mb-3">
+              <div class="col-md-12 col-xl-10">
+                <div class="card shadow-0 border rounded-3">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                        <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                          <img style="height: 200px;width:200px;" src="/upload/<%=item.product_id.productImage[0] %>" alt="Product Image"
+                            class="w-100" />
+                          <a href="#!">
+                            <div class="hover-overlay">
+                              <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-6 col-xl-6">
+                        <h5><%=item.product_id.productName%></h5>
+                        <div class="d-flex flex-row">
+                          <div class="text-danger mb-1 me-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                        </div>
+                        <div class="mt-1 mb-0 text-muted small">
+                          <span style="text-transform: capitalize;">Color : <%=item.product_id.productColor%>
+                          <h6 class="text-primary" style="line-height: 25px;">
+                              <% const description = item.product_id.productDescription;
+                                 const wordLimit = 50;
+                                 const truncatedDescription = description.split(' ').slice(0, wordLimit).join(' ');
+                                 if (description.split(' ').length < wordLimit) { %>
+                                   <%= truncatedDescription %>...
+                                 <% }} else { %>
+                                   <%= description %>
+                                 <% } %>
+                            </span>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <h4 class="mb-1 me-1">$ <%= item.product_id.price%></h4>
+                        <h5 class="m-1 me-1 text-danger"><s><%= parseInt(item.product_id.price) + 999 %></s></h5>
+                        <span style="float: right; left:  20px;" class="btn btn-dark button btn-sm ms-auto" onclick="deleteItem('<%= item.product_id._id %>')">
+                        <svg viewBox="0 0 448 512" class="svgIcon"><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path></svg>
+                          </span>
+                      </div>
+                      <h6 class="text-success">Free shipping</h6>
+                      <div style="width: 150px" class="d-flex flex-column mt-4">
+                        <button class="btn btn-primary btn-sm" type="button">
+                          <a style="color:#eee" href="singleProduct?id=<%= item.product_id._id %>">Detailed Page</a>
+                        </button>
+  
+                        <button class="btn btn-primary btn-sm mt-2" type="button">
+                          <a id="addtocartbutton" style="color:#eee" href="#" onclick="addToCart(event,'<%= item.product_id._id %>')">
+                            Add to Cart
+                          </a>
+                        </button>
+  
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+  <% } else { %>
+    <div class="pt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-12 col-xl-10">
+      <div class="card shadow-0 border rounded-3">
+        <div class="card-body d-flex align-items-center justify-content-center">
+          <div class="loader">
+          No products
+          </div>
+        </div>
+        </div>
+        </div>
+        <div class="containers">
+      <div class="item item-1"></div>
+      <div class="item item-2"></div>
+      <div class="item item-3"></div>
+      <div class="item item-4"></div>
+        </div>
+        
+      
+</div>
+</div>
+
+  <% } %>
+</section>
+<script>
+  function addToCart(event, productId) {
+  let cartButton = event.currentTarget; // Use event.currentTarget instead of document.getElementById
+  event.preventDefault();
+  fetch('/addtocart', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ productId }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      cartButton.innerText = 'Added'; // Update the text of the <a> tag directly
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+
+
+        function deleteItem(productId){
+            fetch('/deleteProductWishlist',{
+                method:'DELETE',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({productId}),
+            }).then(response=>response.json())
+            .then(data=>{
+                console.log(data)
+                location.reload()
+            }).catch(error=>{
+                console.error(error)
+            })
+        }
+        </script>
+</body>

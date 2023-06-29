@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Edit category - Dashboard HTML Template</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/templatemo-style.css">
+
+</head>
+
+<body>
+    <div class="container tm-mt-big tm-mb-big">
+        <div class="row">
+
+            <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+
+                <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                    <div class="col">
+                        <div class="col-8 d-inline-block">
+                            <h1 class="tm-block-title d-inline-block">Edit Category</h1>
+
+                        </div>
+                    </div>
+                    <div class="row tm-edit-product-row">
+                        <div class="col-xl-6 col-lg-6 col-md-12">
+                            <form action="/admin/editCategory" method="post" class="tm-edit-product-form" >
+                                <div class="form-group mb-3">
+                                    <label for="name">Edit Category title
+                                    </label>
+                                        <input id="productName" name="categoryName" value="<%= category.categoryName %>" type="text" class="form-control validate" required />
+                                        <input name="id" value="<%= category._id %>" type="hidden" class="form-control validate" required />
+                                      
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="description">Description</label>
+                                    <!-- <textarea class="form-control validate" rows="3"  name="CategoryDescription"
+                                    required><%= category.CategoryDescription || 'Default Value' %></textarea> -->
+                                    <textarea class="form-control validate" rows="3" name="categoryDescription" required><%= category.CategoryDescription || 'Default Value' %></textarea>
+
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="description">Category Amount</label>
+                                    <input class="form-control validate" rows="3" value="<%= category.CategoryOffer %>" name="categoryOfferAmount" required></input>
+
+                                </div>
+                                <a
+                                style="color: #ff0000;font-size: 20px; text-decoration: none; margin-left: 140px;font-weight: bold;">
+                                <% if (typeof message !=='undefined' ) { %>
+                                  <%= message %>
+                                  <% } %>
+                                </a>
+                                <!-- </div> -->
+                                <div class="col-12">
+                                    <button type="submit"  class="btn btn-dark btn-block text-uppercase">Submit New Category</button>
+                                </div>
+                        </div>
+                    </form>
+            <div class="col-3 m-3">
+                <button class="btn btn-dark btn-block text-uppercase"><a href="/admin/adminHome">Home</a></button>
+              </div>
+
+</body>
+
+</html>

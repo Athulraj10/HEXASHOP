@@ -1,0 +1,379 @@
+<%-include("../layouts/singleHeader.ejs")%>
+<style>
+  .heartbutton {
+  background-color: #fff;
+  position: relative;
+  list-style: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  cursor: pointer;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s;
+  border: none;
+}
+
+.heartbutton:active {
+  scale: 1.2;
+}
+
+.heartbutton:hover {
+  width: 180px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0);
+}
+
+.heartbutton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.heartbutton:hover::before {
+  opacity: 1;
+}
+
+.heartbutton::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 60px;
+  background: linear-gradient(45deg, var(--i), var(--j));
+  filter: blur(15px);
+  transition: 0.5s;
+  z-index: -1;
+  opacity: 0;
+}
+
+.heartbutton:hover::after {
+  opacity: 0.5;
+}
+
+.heartbutton svg {
+  color: #777;
+  width: auto;
+  height: 30px;
+  transition: 0.5s;
+  transition-delay: 0.25s;
+}
+
+.heartbutton:hover svg {
+  transform: scale(0);
+  color: #fff;
+  transition-delay: 0s;
+}
+
+.heartbutton span {
+  position: absolute;
+}
+
+.heartbutton .title {
+  color: #fff;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transform: scale(0);
+  transition: 0.5s;
+  transition-delay: 0s;
+  font-weight: 600;
+}
+
+.heartbutton:hover .title {
+  transform: scale(1);
+  transition-delay: 0.25s;
+}
+
+#cartButton {
+  height: 50px;
+  width: 200px;
+  margin-left:10px ;
+  background-color: #132233;
+  border: 2px solid rgb(182, 128, 128);
+  color: #eee;
+  transition: .6s;
+  font-size: 15px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#cartButton span {
+  transform: translateX(10px);
+  transition: .5s;
+}
+
+#cartButton svg {
+  transform: translateX(-300px);
+  transition: .6s;
+  z-index: 3;
+  height: 20px;
+}
+
+#cartButton:hover {
+  width: 195px;
+  background-color: rgba(51, 34, 51, 0.815);
+  box-shadow: 20px 20px 96px #bebebe,-20px -20px 96px #ffffff;
+}
+
+#cartButton:hover svg {
+  transform: translateX(-5px);
+}
+
+#cartButton:hover span {
+  transform: translateY(70px);
+  font-size: .1rem;
+}
+</style>
+<div class="container mt-5 mb-5" style="margin: 50px;">
+      <div class="card">
+        <!-- Inside your navbar element -->
+        <div class="row g-0">
+          
+          <div class="col-md-6 border-end">
+          <div class="d-flex flex-column justify-content-center">
+            <div class="main_image">
+                        <img src="upload/<%= productDetails.productImage[0] %>" id="main_product_image" width="350">
+                    </div>
+                    <div class="thumbnail_images">
+                        <ul id="thumbnail">
+                          <% productDetails.productImage.forEach(function(image) { %>
+                            <li><img onclick="changeImage(this)" src="upload/<%= image %>" width="70"></li>
+                            <% }); %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                <div class="p-3 right-side">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 style="text-transform:capitalize" class="m-2"><%= productDetails.productName %></h3>
+                        <a href="#" onclick="addToWishlist(event, '<%= productDetails._id %>')" class="wishlist-button">
+                          <button class="heartbutton" onclick="addToWishlist(event, '<%= productDetails._id %>')" style="--i:#a955ff;--j:#ea51ff;">
+                             
+                            <span class="icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"></path>
+                              </svg>
+                            </span>
+                            <span class="title">i love it</span>
+                        </button>
+                        </a>
+                    </div>
+                    <div class="m-2 pr-3 content">
+                        <p style="font-size: medium;"><%= productDetails.productDescription %></p>
+                    </div>
+                    <h3 class="m-2" >$<%= productDetails.price %></h3>
+                    <div class=" m-2 ratings d-flex flex-row align-items-center">
+                        <div class="d-flex flex-row">
+                          <% for (let i = 0; i < 4; i++) { %>
+                                <i class='bx bxs-star'></i>
+                                <% } %>
+                            <i class='bx bx-star'></i>
+                        </div>
+                        <span>441 reviews</span>
+                    </div>
+                    <div class="m-0">
+                        <span class="fw-bold">Color</span>
+                        <div class="colors">
+                          <ul id="marker">
+                            <li id="marker-1"></li>
+                            <li id="marker-2"></li>
+                            <li id="marker-3"></li>
+                            <li id="marker-4"></li>
+                            <li id="marker-5"></li>
+                          </ul>
+                        </div>
+                      </div>
+                      <%if(productDetails.productQuantity<15&&productDetails.productQuantity>1){ %>
+                        <h6 class="mt-4">Available Stock <span style="color: red;"><%=productDetails.productQuantity%></span></h6>
+                      <%}%>
+                      <%if(productDetails.productQuantity<1){ %>
+                        <h6 class="mt-3"><span style="color: red;">Stock Out</span></h6>
+                      <%}%>
+
+                      <div class="mt-3 mb-3" style="text-transform: capitalize;font-size: larger;">
+                        <label class="fw-bold" style="font-weight: bold">Size:</label>
+                        <span class="btn btn-outline-success"><%= productDetails.productSize %></span>
+                        <input type="hidden" name="size" value="<%= productDetails.productSize %>">
+                      </div>
+                      
+                    
+                    
+                    <h5 class="m-2">You will GET <b class="text-success">$<%= productDetails.category_id ? productDetails.category_id.CategoryOffer : 'None' %></b>&nbsp;Off in this Category</h5>
+                    <%if(productDetails.productQuantity<1){%>
+                      <div class="buttons d-flex flex-row mt-3 gap-1">
+                          <button type="submit" disabled class="btn btn-outline-dark">Buy Now</button>
+                        
+                        <!-- Inside the button element -->
+                        <button id="cartButton" disabled class="cart-button btn btn-outline-dark">Add to Cart</button>
+                        <!-- <span id="cartCount" class="cart-count">0</span> -->
+                      </div>
+
+                      <%}else{%>
+                      <div class="buttons d-flex flex-row mt-3 gap-3">
+                        <a href="/buynow?Id=<%= productDetails._id %>">
+                          <button type="submit" class="btn btn-outline-dark">Buy Now</button>
+                        </a>
+                        <!-- Inside the button element -->
+                        <button id="cartButton" onclick="addtocart(event,'<%=productDetails._id%>')" class="cart-button btn btn-outline-dark"><span>Add to cart</span>
+                            <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-width="0" id="SVGRepo_bgCarrier"></g><g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g><g id="SVGRepo_iconCarrier"> <defs>  </defs> <g id="cart"> <circle r="1.91" cy="20.59" cx="10.07" class="cls-1"></circle> <circle r="1.91" cy="20.59" cx="18.66" class="cls-1"></circle> <path d="M.52,1.5H3.18a2.87,2.87,0,0,1,2.74,2L9.11,13.91H8.64A2.39,2.39,0,0,0,6.25,16.3h0a2.39,2.39,0,0,0,2.39,2.38h10" class="cls-1"></path> <polyline points="7.21 5.32 22.48 5.32 22.48 7.23 20.57 13.91 9.11 13.91" class="cls-1"></polyline> </g> </g></svg>
+                        </button>
+                        <!-- <span id="cartCount" class="cart-count">0</span> -->
+                      </div>
+                      <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section" id="products">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-heading">
+          <h2>Our Latest Products</h2>
+          <span>Check out all of our products.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <% allProducts.forEach(function(product) { %>
+        <div class="col-lg-4">
+          <div class="item">
+            <div class="thumb">
+              <div class="hover-content">
+                <ul>
+                  <li><a href="/singleProduct?id=<%= product._id %>"><i class="fa fa-eye"></i></a></li>
+                  <li>
+                    <a href="#" onclick="addToWishlist(event, '<%= product._id %>')" class="wishlist-button">
+                      <i class="fas fa-heart"></i>
+                    </a>
+                    
+                  </li>                
+                  <li><a href="#" onclick="addtocart(event,'<%=product._id%>')"><i class="fa fa-shopping-cart"></i></a></li>
+                </ul>
+              </div>
+              <a href="/singleProduct?id=<%= product._id %>">
+                <img src="/upload/<%= product.productImage[0] %>" style="border-radius: 10px;"
+                  alt="<%= product.productImage %>" height="300px">
+              </a>
+            </div>
+          <div class="down-content">
+            <h4 style="text-align: center;">
+              <%= product.productName %>
+            </h4>
+            <span style="padding-left: 20px;">$<%= product.price %></span>
+            <ul  class="stars">
+              <% for (let i=0; i < 5; i++) { %>
+                <li><i class="fa fa-star"></i></li>
+                <% } %>
+              </ul>
+              <br>
+              <p style="padding: 0 20px 20px 20px;">
+                <%= product.productDescription %>
+              </p>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    <div class="col-lg-12">
+      <div class="pagination">
+        <ul>
+          <li>
+            <a href="#">1</a>
+          </li>
+          <li class="active">
+            <a href="#">2</a>
+          </li>
+          <li>
+            <a href="#">3</a>
+          </li>
+          <li>
+            <a href="#">4</a>
+          </li>
+          <li>
+            <a href="#">></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+
+
+<script>
+
+var cartCount = 0;
+  var cartButtons = document.getElementById('cartButton');
+  var cartCountElement = document.getElementById('cartCount');
+  cartButtons.addEventListener('click', function() {
+    cartCount=+1;
+    cartCountElement.textContent = cartCount;
+  });
+
+
+  function addToWishlist(event,productId){
+      event.preventDefault();
+      const button = event.target;
+      const heartIcon = button.querySelector('.heartbutton');
+      fetch('/wishlistpost',{
+        method:"POST",
+        headers:{
+          'Content-Type':'application/json',
+        },
+        body:JSON.stringify({productId})
+      }).then((response)=>response.json())
+      .then((data)=>{
+        console.log(data)
+        heartIcon.style ='hover';
+      }).catch((error)=>{
+        console.error(error);
+      })
+    }
+
+
+    function addtocart(event,productId){
+      event.preventDefault()
+      const button=event.target;
+      const cartIcon=button.querySelector('.fa-shopping-cart')
+      fetch('/addtocart',{
+        method:"POST",
+        headers:{
+          'Content-Type':'application/json',
+        },
+        body:JSON.stringify({productId})
+      }).then((data)=>{
+        console.log(data)
+        cartIcon.style.color='red'
+      }).catch((error)=>{
+        console.error(error)
+      })
+    }
+</script>
+
+<script>
+  function changeImage(element) {
+
+var main_prodcut_image = document.getElementById('main_product_image');
+main_prodcut_image.src = element.src;
+
+
+}
+</script>
+<script src="https://kit.fontawesome.com/5f6d1ef682.js" crossorigin="anonymous"></script>
+</html>

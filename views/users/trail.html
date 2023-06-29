@@ -1,0 +1,5 @@
+Cart.findOneAndUpdate(
+  { userid: userId },
+  { $pull: { product: { _id: ObjectId(productId) } } },
+  { new: true }
+)
