@@ -301,7 +301,7 @@ const addProduct = async (req, res) => {
     for (let file of req.files) {
       const outputFileName = `cropped-${file.filename}`; // Use a different file name for output
       await sharp(file.path)
-        .resize(500, 600, { fit: 'cover' })
+        .resize(600, 800, { fit: 'cover' })
         .toFile(`./public/upload/${outputFileName}`);
       croppedImages.push(outputFileName);
     }
