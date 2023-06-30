@@ -356,9 +356,6 @@ const searchProduct = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  
-  
-
 const cartGetMethod = async (req, res) => {
     try {
         const userId = req.session.userId;
@@ -1159,6 +1156,11 @@ const conformOrder = async (req, res) => {
                 }
             }
         }
+        if(savedOrder){
+            await cartModel.findOneAndUpdate(
+            { userid: userId },
+            { $pull: { product: { product_id: { $in: productIdOnly } } } }
+          );}
         const data = {
             matchingAddress,
             order: savedOrder,
