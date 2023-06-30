@@ -17,10 +17,6 @@ const pdf=require('html-pdf')
 const fs=require('fs')
 const path=require('path');
 
-
-
-
-
 const loadLogin = async (req, res) => {
   try {
     res.render("adminLogin")
@@ -29,7 +25,6 @@ const loadLogin = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -81,8 +76,6 @@ const userBlock = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
-
-
 const adminHome = async (req, res) => {
   const adminId = req.session.admin_id;
   const adminFinded = await UserModel.findById(adminId)
@@ -264,7 +257,6 @@ const adminHome = async (req, res) => {
   return;
 
 }
-
 const loadAddProduct = async (req, res) => {
   try {
     const categorys = await category.find({})
@@ -274,7 +266,6 @@ const loadAddProduct = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const productlist = async (req, res) => {
   try {
     const productsc = await product.find({})
@@ -335,8 +326,6 @@ const loadEditProduct = async (req, res) => {
     console.log(error.message)
   }
 }
-
-
 const approveReturn = async (req, res) => {
   try {
     const id = req.query.id;
@@ -362,9 +351,6 @@ const approveReturn = async (req, res) => {
     res.status(500).send("An error occurred while approving the order return.");
   }
 };
-
-
-
 const approveRefund = async (req, res) => {
   try {
     const orderId = req.query.id;
@@ -453,9 +439,6 @@ const approveRefund = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
-
-
 const approveDelivery = async (req, res) => {
   try {
     const id = req.body.orderId;
@@ -476,7 +459,6 @@ const approveDelivery = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
 const editProduct = async (req, res) => {
   const id = req.body.id;
 
@@ -540,7 +522,6 @@ const add_category = async (req, res) => {
     console.log(error.message);
   }
 }
-
 const addcoupons = async (req, res) => {
   try {
     const category = await categoryModel.find({})
@@ -549,7 +530,6 @@ const addcoupons = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const addCouponsPostMethod = async (req, res) => {
   try {
     const { name, amount, expire_date, code, description, minimumAmount, category_id } = req.body
@@ -569,7 +549,6 @@ const addCouponsPostMethod = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const listCoupons = async (req, res) => {
   try {
     const coupons = await couponModel.find()
@@ -606,7 +585,6 @@ const editCouponsPostMethod = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const deleteCoupon = async (req, res) => {
   try {
     const id = req.query.id
@@ -649,12 +627,6 @@ const duplicateCategory = async (req, res) => {
     console.log(error.message);
   }
 };
-
-
-
-
-
-
 const editCategory = async (req, res) => {
   try {
     const parsedCategoryId = req.body.id
@@ -684,7 +656,6 @@ const deleteCategory = async (req, res) => {
     console.log(error.message)
   }
 }
-
 const userStatus=async(req,res)=>{
   try {
   const AllUsers = await UserModel.find({})
@@ -706,9 +677,6 @@ const userStatus=async(req,res)=>{
     console.log(error.message)
   }
 }
-
-
-
 const totalSaleExcel=async(req,res)=>{
   try {
     const currentDate = new Date();
@@ -813,7 +781,6 @@ try {
   console.log(error.message)
 }
 }
-
 const productListExcel=async(req,res)=>{
   try {
     const productModellist = await productModel.find();
@@ -851,7 +818,6 @@ const productListExcel=async(req,res)=>{
     console.log(error.message)
   }
 }
-
 const allOrderStatus = async (req, res) => {
   try {
     const allOrder = await order.find();
@@ -892,8 +858,6 @@ const allOrderStatus = async (req, res) => {
     // Handle the error appropriately
   }
 };
-
-
 const updateOrders=async(req,res)=>{
   try {
     const allOrder = await orders.find()
@@ -906,7 +870,6 @@ const updateOrders=async(req,res)=>{
     console.log(error.message)
   }
 }
-
 const userStatusList=async(req,res)=>{
   try {
     const AllUsers = await UserModel.find({})
@@ -923,7 +886,6 @@ const userStatusList=async(req,res)=>{
     console.log(error.message)
   }
 }
-
 const adminLogout=async(req,res)=>{
   try {
     req.session.adminloggedIn=false

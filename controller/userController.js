@@ -22,9 +22,6 @@ const order = require("../model/order");
 const couponModel = require("../model/couponModel");
 const wallet = require("../model/wallet");
 // const { stringify } = require("qs")
-
-
-
 const sendVerifyMail = async (name, email, token) => {
     try {
         const transporter = nodemailer.createTransport({
@@ -55,7 +52,6 @@ const sendVerifyMail = async (name, email, token) => {
         console.log(error.message)
     }
 }
-
 const sendForgetPassword = async (name, email, OTP) => {
 
     try {
@@ -87,7 +83,6 @@ const sendForgetPassword = async (name, email, OTP) => {
         console.log(error.message)
     }
 }
-
 const securePassword = async (password) => {
     try {
         const passwordHashed = await bcrypt.hash(password, 10)
@@ -96,7 +91,6 @@ const securePassword = async (password) => {
         console.log(error.message)
     }
 }
-
 const loadlogin = async (req, res) => {
     try {
         res.render("users/login")
@@ -107,7 +101,6 @@ const loadlogin = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const verifyUser = async (req, res) => {
     try {
         const email = req.body.email;
@@ -145,7 +138,6 @@ const verifyUser = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const forgetPasswordEnterMail = async (req, res) => {
     try {
         res.render('users/forgetPasswordPage')
@@ -153,7 +145,6 @@ const forgetPasswordEnterMail = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const OTPsaveFunction = async (email, otp) => {
     try {
         const existingOTP = await OTPmodel.findOne({ email });
@@ -171,7 +162,6 @@ const OTPsaveFunction = async (email, otp) => {
         console.log(error.message);
     }
 };
-
 const forgetPasswordUserFind=async(req,res)=>{
     try {
         const {email}=req.body
@@ -182,7 +172,6 @@ const forgetPasswordUserFind=async(req,res)=>{
         if(!userfind){return res.json({exists:false})}
     } catch (error){console.log(error)}
 }
-
 const forgotPasswordVerifyEmail = async (req, res) => {
     try {
         const emailParsed = req.body.email;
@@ -214,7 +203,6 @@ const loadOtp = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const cheakValidOTP = async (req, res) => {
     try {
         const userEnterOTP =req.body.otp
@@ -284,7 +272,6 @@ const allProductLoad = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const categorySortProduct = async (req, res) => {
     try {
         const categoryId = req.query.categoryid;
@@ -311,7 +298,6 @@ const categorySortProduct = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const singleProduct = async (req, res) => {
     try {
         const id = req.query.id;
@@ -564,8 +550,6 @@ const addressPageGet = async (req, res) => {
         console.log('Error:', error);
     }
 };
-
-
 const cheakWalletAmount = async (req, res) => {
     try {
         let cartValue = req.body.totalAmount
@@ -589,7 +573,6 @@ const cheakWalletAmount = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const userProfile = async (req, res) => {
     try {
         const id = req.session.userId;
@@ -717,7 +700,6 @@ const manageAddressGetAddress = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const manageaddressEditPostMethod = async (req, res) => {
     try {
         const { name, id, address, city, landmark, pincode, phoneNo } = req.body
@@ -737,7 +719,6 @@ const manageaddressEditPostMethod = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const manageCoupon = async (req, res) => {
     try {
         const allcategory = await categoryModel.find()
@@ -757,7 +738,6 @@ const wishlistGet = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const wishlistPost = async (req, res) => {
     try {
         const userId = req.session.userId
@@ -791,7 +771,6 @@ const wishlistPost = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const deleteFromWishlist=async(req,res)=>{
     try {
         const {productId}=req.body;
@@ -895,7 +874,6 @@ const manageAddressAddAddress = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const profileChangeGetMethod = async (req, res) => {
     try {
         const userId=req.session.userId;
@@ -905,8 +883,6 @@ const profileChangeGetMethod = async (req, res) => {
         console.log(error.message)
     }
 }
-
-
 const newUserInsertAddress = async (req, res) => {
     try {
         const { address, name, city, payment, landmark, pincode, phone } = req.body;
@@ -928,7 +904,6 @@ const newUserInsertAddress = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const userAddMoreAddressGetMethod = async (req, res) => {
     try {
         res.render('users/userAddMoreAddress', { message: 'Please Give a proper Mobile number' })
@@ -947,7 +922,6 @@ const editaddress=async(req,res)=>{
         console.log(error.message)
     }
 }
-
 const editaddressPost=async(req,res)=>{
     try {
         const { name, id, address, city, landmark, pincode, phoneNo } = req.body
@@ -1155,8 +1129,6 @@ const conformOrder = async (req, res) => {
         console.error(error);
     }
 };
-
-
 // Function to generate the order number
 function generateOrderNumber() {
     // Generate a random alphanumeric string for the order number
@@ -1167,9 +1139,6 @@ function generateOrderNumber() {
     }
     return orderNumber;
 }
-
-
-
 const buynow = async (req, res) => {
     try {
         const Id = req.query.Id;
@@ -1177,7 +1146,6 @@ const buynow = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const logout = async (req, res) => {
     try {
         req.session.loggedIn = false
@@ -1187,7 +1155,6 @@ const logout = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const loadRegister = async (req, res) => {
     try {
         res.render('users/register')
@@ -1196,7 +1163,6 @@ const loadRegister = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const registerDuplicate=async(req,res)=>{
     try {
         const {email}=req.body;
@@ -1211,7 +1177,6 @@ const registerDuplicate=async(req,res)=>{
         console.error(error)
     }
 }
-
 const duplicateNumber=async(req,res)=>{
     try {
         const {usermobileNumber}=req.body;
@@ -1226,7 +1191,6 @@ const duplicateNumber=async(req,res)=>{
         console.error(error)
     }
 }
-
 const insertUser = async (req, res) => {
     try {
         const userEmail = req.body.email;
@@ -1315,7 +1279,6 @@ const insertUser = async (req, res) => {
         console.log(error.message)
     }
 }
-
 const managewalletGetmethod = async (req, res) => {
     try {
         const id = req.session.userId;
@@ -1340,7 +1303,6 @@ const loadHome = async (req, res) => {
         console.log(error.message)
     }
 };
-
 const resetOTP = async (req, res) => {
     try {
 
@@ -1348,13 +1310,6 @@ const resetOTP = async (req, res) => {
         console.log(error.message)
     }
 }
-
-
-
-
-
-
-
 module.exports = {
     loadlogin,
     verifyUser,
