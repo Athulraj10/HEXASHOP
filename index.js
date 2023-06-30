@@ -1,5 +1,14 @@
-const mongoose=require('mongoose')
-mongoose.connect('mongodb://127.0.0.1:27017/Ecommerce')
+const mongoose = require('mongoose');
+
+const URI = 'mongodb+srv://HEXASHOP:Hexa117700@cluster0.r6zdvci.mongodb.net/HEXASHOP?retryWrites=true&w=majority';
+
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Successfully connected to the database');
+  })
+  .catch((error) => {
+    console.log('Error connecting to the database:', error);
+  });
 
 require('dotenv').config()
 const express= require("express")
@@ -14,17 +23,16 @@ const flash = require('express-flash');
 
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-const store = new MongoDBStore({
-  uri: 'mongodb://127.0.0.1:27017/Ecommerce',
-  collection: 'sessions'
-});
+// const store = new MongoDBStore({
+//   uri: 'mongodb://127.0.0.1:27017/Ecommerce',
+//   collection: 'sessions'
+// });
 
 
 app.use(session({
     secret: config.sessionSecret,
     resave: false, // or true, depending on your use case
     saveUninitialized: false, // or true, depending on your use case
-    store,
   }));
 
 app.use(nocache())

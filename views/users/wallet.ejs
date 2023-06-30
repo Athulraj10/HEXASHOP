@@ -342,9 +342,9 @@ font-family: 'Montserrat', sans-serif;
 }
 .loader {
   display: block;
-  --height-of-loader: 4px;
+  --height-of-loader: 8px;
   --loader-color: #0071e2;
-  width: 210px;
+  width: 326px;
   height: var(--height-of-loader);
   border-radius: 30px;
   background-color: rgba(0,0,0,0.2);
@@ -375,6 +375,49 @@ font-family: 'Montserrat', sans-serif;
     left: unset;
   }
 }
+.loaders {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #53b5a8;
+  background-color: rgb(239, 239, 190);
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation_35 1s linear infinite;
+}
+
+.loaders::after,
+.loaders::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background:#53b5a8;
+  width: 6px;
+  height: 6px;
+  transform: translate(150%, 150%);
+  border-radius: 50%;
+}
+
+.loaders::before {
+  left: auto;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  transform: translate(-150%, -150%);
+}
+
+@keyframes rotation_35 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+} 
   </style>
 	
   <body>
@@ -389,12 +432,12 @@ font-family: 'Montserrat', sans-serif;
               <% if (wallet && totalRefundAmount) { %>
                 &#8377; <%= totalRefundAmount.toFixed(2) %>
               <% } else { %>
-                No wallet amount available
+                <h5>No wallet amount available</h5>
               <% } %>
             </div>
           </div>
           <div class="user-profile">
-            <img src="https://pbs.twimg.com/profile_images/1089189690773712897/bCJr7IzK_400x400.jpg" class="user-photo">
+            <span class="loaders"></span>
           </div>
         </div>
         <div class="content">
@@ -438,7 +481,7 @@ font-family: 'Montserrat', sans-serif;
             <% })%>
           <% }
            else {%>
-        <span>No wallet amount available</span>
+        <h4>No wallet amount available</h4>
         <div class="loader"></div>
       <% } %>
     </div>

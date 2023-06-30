@@ -256,8 +256,10 @@
                                 <div class="item m-0 ">
                                     <div class="thumb m-0 ">
                                         <% category.categoryImage.forEach(function(image) { %>
-                                            <img src="/upload/<%= image %>" alt="<%= category.categoryName %> "
+                                            <a href="/categorySort?categoryid=<%=category._id%>">
+                                                <img src="/upload/<%= image %>" alt="<%= category.categoryName %> "
                                                 style="height: 200px; border-radius: 10px;">
+                                            </a>
                                             <% }); %>
                                     </div>
                                     <div class="down-content m-0">

@@ -8,28 +8,31 @@ const userController=require("../controller/userController");
 // const config=require('../config/config')
 const auth=require('../middleware/userAuth')
 
-app.get('/', auth.isUserLogin, userController.loadlogin);
-app.post('/', userController.verifyUser);
+app.get('/',auth.isUserLogin,userController.loadlogin);
+app.post('/',userController.verifyUser);
 
-app.get('/allProducts', auth.isUserLogout, userController.allProductLoad);
-app.get('/singleProduct', auth.isUserLogout, userController.singleProduct);
-app.get('/categorySort',auth.isUserLogout, userController.categorySortProduct);
+app.get('/allProducts', auth.isUserLogout,userController.allProductLoad);
+app.get('/singleProduct', auth.isUserLogout,userController.singleProduct);
+app.get('/categorySort',auth.isUserLogout,userController.categorySortProduct);
 
-app.get('/cart',auth.isUserLogout, userController.cartGetMethod);
-app.post('/addtocart', userController.postAddToCart);
-app.post('/update-quantity', userController.quantityChanging);
-app.get('/deleteproduct',auth.isUserLogout, userController.deleteFromCart);
 
-app.get('/profile',auth.isUserLogout, userController.userProfile);
-app.get('/orderCancel',auth.isUserLogout, userController.cancelOrder);
-app.get('/orderReturn',auth.isUserLogout, userController.orderReturn);
-app.get('/orderReturnCancel',auth.isUserLogout, userController.cancelReturnOrder);
+app.get('/cart',auth.isUserLogout,userController.cartGetMethod);
+app.post('/addtocart',userController.postAddToCart);
+app.post('/update-quantity',userController.quantityChanging);
+app.get('/deleteproduct',auth.isUserLogout,userController.deleteFromCart);
+app.get('/search',userController.searchProduct);
+
+
+app.get('/profile',auth.isUserLogout,userController.userProfile);
+app.get('/orderCancel',auth.isUserLogout,userController.cancelOrder);
+app.get('/orderReturn',auth.isUserLogout,userController.orderReturn);
+app.get('/orderReturnCancel',auth.isUserLogout,userController.cancelReturnOrder);
 app.post('/handleButtonClick', userController.cheakReturndate);
-app.get('/profile/manageaddress',auth.isUserLogout, userController.manageAddress);
-app.get('/profile/manageaddressEdit',auth.isUserLogout, userController.manageaddressEdit);
-app.post('/profile/manageAddressEdit', userController.manageaddressEditPostMethod);
-app.get('/profile/coupons',auth.isUserLogout, userController.manageCoupon);
-app.post('/cheakCouponAvailable', userController.cheakCoupon);
+app.get('/profile/manageaddress',auth.isUserLogout,userController.manageAddress);
+app.get('/profile/manageaddressEdit',auth.isUserLogout,userController.manageaddressEdit);
+app.post('/profile/manageAddressEdit',userController.manageaddressEditPostMethod);
+app.get('/profile/coupons',auth.isUserLogout,userController.manageCoupon);
+app.post('/cheakCouponAvailable',userController.cheakCoupon);
 
 app.post('/checkWalletBalance',auth.isUserLogout,userController.cheakWalletAmount)
 

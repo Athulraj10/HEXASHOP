@@ -502,13 +502,19 @@ const add_category = async (req, res) => {
   try {
     const uploadedFiles = req.files ? req.files.map((file) => file.filename) : [];
     const parsedCategoryName = req.body.categoryName;
+    const trimmedCategoryName = parsedCategoryName.trim();
     const CategoryDescription = req.body.CategoryDescription;
     const categoryOfferAmount = req.body.categoryOfferAmount;
-    const cheakcategory = await categoryModel.findOne({ categoryName: { $regex: parsedCategoryName, $options: 'i' } })
-    if (cheakcategory) {
+    
+    const category = await categoryModel.findOne({
+      $or: [
+        { categoryName: { $regex: new RegExp(`^${trimmedCategoryName}$`, 'i') } }, // Match category name as a whole (case-insensitive)
+        { keywords: { $in: [new RegExp(`${trimmedCategoryName}`, 'i')] } }, // Match individual keywords (case-insensitive)
+      ],
+    });
+    if (category) {
       return res.redirect('/admin/category');
     }
-
     const categorys = new categoryModel({
       categoryName: parsedCategoryName,
       CategoryDescription: CategoryDescription,
@@ -539,7 +545,7 @@ const addCouponsPostMethod = async (req, res) => {
       couponExpireDate: expire_date,
       couponDescription: description,
       minimumAmount: minimumAmount,
-      category_id: category_id,
+      category_id: category_id||"No category",
       code: code
     })
     const couponAdded = await addcoupon.save();

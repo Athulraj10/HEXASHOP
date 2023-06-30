@@ -83,6 +83,7 @@ const sendForgetPassword = async (name, email, OTP) => {
         console.log(error.message)
     }
 }
+
 const securePassword = async (password) => {
     try {
         const passwordHashed = await bcrypt.hash(password, 10)
@@ -310,6 +311,54 @@ const singleProduct = async (req, res) => {
         console.log(error.message)
     }
 }
+const searchProduct = async (req, res) => {
+    try {
+      const ITEMS_PER_PAGE = 6;
+      const page = parseInt(req.query.page) || 1;
+      const skipItems = (page - 1) * ITEMS_PER_PAGE;
+      const searchTerm = req.query.term;
+  
+      const totalCount = await productModel.countDocuments({
+        $or: [
+          { productName: { $regex: searchTerm, $options: 'i' } },
+          { productColor: { $regex: searchTerm, $options: 'i' } },
+          { productSize: { $regex: searchTerm, $options: 'i' } },
+          { productDescription: { $regex: searchTerm, $options: 'i' } }
+        ]
+      });
+  
+      const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  
+      const allProducts = await productModel
+        .find({
+          $or: [
+            { productName: { $regex: searchTerm, $options: 'i' } },
+            { productColor: { $regex: searchTerm, $options: 'i' } },
+            { productSize: { $regex: searchTerm, $options: 'i' } },
+            { productDescription: { $regex: searchTerm, $options: 'i' } }
+          ]
+        })
+        .skip(skipItems)
+        .limit(ITEMS_PER_PAGE)
+        .populate('category_id')
+        .exec();
+  
+      const allcategory = await categoryModel.find({});
+  
+      res.render('users/search',{
+        allProducts,
+        allcategory: allcategory,
+        currentPage: page,
+        totalPages: totalPages
+      });
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
+  
+
 const cartGetMethod = async (req, res) => {
     try {
         const userId = req.session.userId;
@@ -514,12 +563,6 @@ const addressPageGet = async (req, res) => {
             }
           });
         });
-        
-        
-        
-          
-      
-
         const cartPrice = () => {
             let sum = 0;
             const cartproducts = cart[0].product
@@ -1361,5 +1404,6 @@ module.exports = {
     manageAddressGetAddress,
     profileChangeGetMethod,
     createPaymentOrder,
-    buynow
+    buynow,
+    searchProduct
 }
