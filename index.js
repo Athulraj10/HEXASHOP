@@ -21,7 +21,7 @@ const session = require('express-session');
 const nocache=require('nocache')
 const flash = require('express-flash');
 
-const MongoDBStore = require('connect-mongodb-session')(session);
+// const MongoDBStore = require('connect-mongodb-session')(session);
 
 // const store = new MongoDBStore({
 //   uri: 'mongodb://127.0.0.1:27017/Ecommerce',

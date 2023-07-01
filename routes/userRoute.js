@@ -1,12 +1,15 @@
 const express=require('express')
 const app=express();
-const flash=require('connect-flash')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 const userController=require("../controller/userController");
 // const config=require('../config/config')
 const auth=require('../middleware/userAuth')
+
+
+
+app.get('/home',userController.loadHome);
 
 app.get('/',auth.isUserLogin,userController.loadlogin);
 app.post('/',userController.verifyUser);
@@ -74,7 +77,6 @@ app.post('/duplicateNumber',userController.duplicateNumber)
 app.get('/register',auth.isUserLogin, userController.loadRegister);
 app.post('/register', userController.insertUser);
 
-app.get('/home',auth.isUserLogout,userController.loadHome);
 
 app.get('/logout', userController.logout);
 

@@ -34,6 +34,7 @@
     "nodemailer": "^6.9.2",
     "nodemon": "^1.14.9",
     "randomstring": "^1.2.3",
+    "razorpay": "^2.9.0",
     "sharp": "^0.32.1"
   }
 }
