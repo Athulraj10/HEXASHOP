@@ -55,8 +55,8 @@ app.post('/newUserInsertAddress', userController.newUserInsertAddress);
 app.get('/userAddMoreAddress',auth.isUserLogout, userController.userAddMoreAddressGetMethod);
 app.post('/userAddMoreAddressPostMethod', userController.userAddMoreAddressPostMethod);
 
-app.get('/orderDetailsPage',auth.isUserLogin,userController.orderDetailPage)
-app.post('/confirmOrder', userController.conformOrder);
+app.get('/orderDetailsPage',userController.orderDetailPage)
+app.post('/confirmOrder',userController.conformOrder);
 app.get('/buynow',auth.isUserLogout, userController.addressPageGet);
 
 app.post('/createOrder',userController.createPaymentOrder);

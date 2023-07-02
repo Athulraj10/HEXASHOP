@@ -1109,6 +1109,7 @@ const userAddMoreAddressPostMethod = async (req, res) => {
 }
 const conformOrder = async (req, res) => {
     try {
+        console.log(req.body)
         const userId = req.session.userId;
         const { addressForDelivery, payment } = req.body;
         const couponCode = req.body.couponCode || ''
@@ -1206,22 +1207,23 @@ const conformOrder = async (req, res) => {
         } else if (totalAmount) {
           totalDiscountLastPrice = totalAmount;
         }
+        // Create a newOrder object with the updated orderDate field
         let newOrder = new orderModel({
-            userId: userId,
-            products: productIdAndQuantity.map((item) => ({
-                product_id: item.productId,
-                Quantity: item.productQuantity,
-            })),
-            total: totalDiscountLastPrice,
-            totalQuantity: totalQuantity,
-            coupon: couponCoded, // Fill this with the coupon value if applicable
-            paymentMethod: payment,
-            status: "Pending",
-            address: matchingAddress._id,
-            orderDate: currentDate,
-            paymentStatus: payment == "Net Banking" ? "Paid" : "Unpaid",
-            orderNumber: generateOrderNumber(),
-            expectedDeliveryDate: expectedDeliveryDate,
+          userId: userId,
+          products: productIdAndQuantity.map((item) => ({
+            product_id: item.productId,
+            Quantity: item.productQuantity,
+          })),
+          total: totalDiscountLastPrice,
+          totalQuantity: totalQuantity,
+          coupon: couponCoded, // Fill this with the coupon value if applicable
+          paymentMethod: payment,
+          status: "Pending",
+          address: matchingAddress._id,
+          orderDate: currentDate.toISOString(), // Convert the date to ISO string format
+          paymentStatus: payment == "Net Banking" ? "Paid" : "Unpaid",
+          orderNumber: generateOrderNumber(),
+          expectedDeliveryDate: expectedDeliveryDate,
         });
         const savedOrder = await newOrder.save();
         if(payment=="Wallet"){
@@ -1276,7 +1278,6 @@ const conformOrder = async (req, res) => {
         }).catch((error)=>{console.log(error)})
        
         const data = {
-            cartCount,
             matchingAddress,
             order: savedOrder,
             totalAmount: totalAmount,
@@ -1284,7 +1285,7 @@ const conformOrder = async (req, res) => {
             allcategory: allcategory,
             products: productAllDetails,
         };
-        res.render("users/orderConformation", { data });
+        res.render("users/orderConformation", { cartCount,data });
     } catch (error) {
         console.error(error);
     }

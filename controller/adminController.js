@@ -29,7 +29,7 @@ const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const adminFinded = await UserModel.findOne({ email: email })
-    if (!adminFinded && adminFinded.is_admin == 0) {
+    if (!adminFinded || adminFinded.is_admin == 0) {
       res.render('adminLogin', { message: 'Admin not Found' });
       return;
     }
@@ -80,13 +80,39 @@ const adminHome = async (req, res) => {
   const cancelledOrders = allOrder.filter(order => order.cancelled.cancelled === true);
   const returnedOrder = allOrder.filter(order => order.return.admin === true)
   const pendingOrdersAprovel = allOrder.filter(order => order.status === "Pending");
-  const totalCod = allOrder.filter(order => order.paymentMethod === 'Cash on Delivery')
+  const totalCod = allOrder.filter(order => order.paymentMethod === 'cashOnDelivery')
   const paypalTotal = allOrder.filter(order => order.paymentMethod === 'Net Banking')
+  const walletTotal = allOrder.filter(order => order.paymentMethod == 'Wallet')
   const totalOrderAmount = allOrder.reduce((sum, pointer) => {
     return sum + pointer.total;
   }, 0)
+  console.log(paypalTotal)
+  return
 
 
+  // DATES
+  // paypal
+  // let paypalDesendingOrder = paypalTotal.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+  // const lastOrderPaypal = paypalDesendingOrder[0];
+  // const lastdatePaypalPayment = lastOrderPaypal ? new Date(lastOrderPaypal.orderDate) : null;
+  // const lastDatePaypalPayment = lastdatePaypalPayment ? lastdatePaypalPayment.toLocaleString([], { timeZone: 'UTC' }) : null;
+  
+  const lastOrderPaypal = paypalTotal[0];
+  const lastdatePaypalPayment = lastOrderPaypal ? new Date(lastOrderPaypal.orderDate) : null;
+  const lastDatePaypalPayment = lastdatePaypalPayment ? lastdatePaypalPayment.toLocaleString([], { timeZone: 'UTC' }) : null;
+  
+  // CashOnDelivery
+  let CashOnDeliveryOrders=totalCod.sort((a,b)=>new Date(b.orderDate)-new Date(a.orderDate))
+  const CashOnDeliveryDesendingOrder=CashOnDeliveryOrders[0]
+  const lastdateCodPayment=CashOnDeliveryDesendingOrder?new Date(CashOnDeliveryDesendingOrder.orderDate):null
+  const lastDateCodPayment=lastdateCodPayment?lastdateCodPayment.toLocaleString([],{timeZone:'UTC'}):null
+  // Wallet
+  const walletDesendingOrder=walletTotal.sort((a,b)=>new Date(b.orderDate)-new Date(a.orderDate))
+  const lastDesendingOrder=walletDesendingOrder[0]
+  const lastdateWalletPayment=lastDesendingOrder?new Date(lastDesendingOrder.orderDate):null
+  const lastDateWalletPayment=lastdateWalletPayment?lastdateWalletPayment.toLocaleString([],{timeZone:'UTC'}):null
+
+console.log()
   var currentDate = new Date();
   currentDate.setDate(currentDate.getDate() - 1);
   var previousDay = currentDate.getDate();
@@ -233,6 +259,10 @@ const adminHome = async (req, res) => {
     pendingOrdersAprovel,
     totalCod,
     paypalTotal,
+    walletTotal,
+    lastDatePaypalPayment,
+    lastDateCodPayment,
+    lastDateWalletPayment,  
     totalOrderAmount,
     totalRevenue: totalAmount.totalAmount,
     totalsaleTodaysDate,

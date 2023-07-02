@@ -121,9 +121,7 @@
 
 </body>
 <script>
-  window.onbeforeunload = function() {
-    return false;
-  };
+  window.onbeforeunload = null;
 
   history.pushState(null, null, location.href);
   window.addEventListener('popstate', function() {
@@ -133,6 +131,7 @@
   setTimeout(function() {
     window.location.href = '/profile';
   }, 5000);
+
 </script>
 
 

@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 
-const localURI='mongodb://127.0.0.1:27017/Ecommerce'
-const clusterURI =
-  'mongodb+srv://HEXASHOP:Hexa117700@cluster0.r6zdvci.mongodb.net/HEXASHOP?retryWrites=true&w=majority';
-
-let URI = localURI; // Set the default URI to localhost
-
-// Check if running on localhost or not
-if (process.env.NODE_ENV !== 'localhost') {
+// const localURI = 'mongodb://127.0.0.1:27017/Ecommerce';
+const localURI = '';
+const clusterURI = 'mongodb+srv://HEXASHOP:Hexa117700@cluster0.r6zdvci.mongodb.net/HEXASHOP?retryWrites=true&w=majority';
+// const clusterURI=""
+let URI = localURI;
+if (process.env.NODE_ENV !== 'localhost' && clusterURI) {
   URI = clusterURI;
 }
+
+console.log('MongoDB URI:',URI);
 
 mongoose
   .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -32,12 +32,12 @@ const session = require('express-session');
 const nocache=require('nocache')
 const flash = require('express-flash');
 
-// const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require('connect-mongodb-session')(session);
 
-// const store = new MongoDBStore({
-//   uri: 'mongodb://127.0.0.1:27017/Ecommerce',
-//   collection: 'sessions'
-// });
+const store = new MongoDBStore({
+  uri: 'mongodb://127.0.0.1:27017/Ecommerce',
+  collection: 'sessions'
+});
 
 
 app.use(session({
