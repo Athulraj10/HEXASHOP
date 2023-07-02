@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
     
@@ -27,7 +25,136 @@
             <style>
               
               body{background-color: #ecedee}.card{border: none;overflow: hidden}.thumbnail_images ul{list-style: none;justify-content: center;display: flex;align-items: center;margin-top:10px}.thumbnail_images ul li{margin: 5px;padding: 10px;border: 2px solid #eee;cursor: pointer;transition: all 0.5s}.thumbnail_images ul li:hover{border: 2px solid #000}.main_image{display: flex;justify-content: center;align-items: center;border-bottom: 1px solid #eee;height: 400px;width: 100%;overflow: hidden}.heart{height: 29px;width: 29px;background-color: #eaeaea;border-radius: 50%;display: flex;justify-content: center;align-items: center}.content p{font-size: 12px}.ratings span{font-size: 14px;margin-left: 12px}.colors{margin-top: 5px}.colors ul{list-style: none;display: flex;padding-left: 0px}.colors ul li{height: 20px;width: 20px;display: flex;border-radius: 50%;margin-right: 10px;cursor: pointer}.colors ul li:nth-child(1){background-color: #6c704d}.colors ul li:nth-child(2){background-color: #96918b}.colors ul li:nth-child(3){background-color: #68778e}.colors ul li:nth-child(4){background-color: #263f55}.colors ul li:nth-child(5){background-color: black}.right-side{position: relative}.search-option{position: absolute;background-color: #000;overflow: hidden;align-items: center;color: #fff;width: 200px;height: 200px;border-radius: 49% 51% 50% 50% / 68% 69% 31% 32%;left: 30%;bottom: -250px;transition: all 0.5s;cursor: pointer}.search-option .first-search{position: absolute;top: 20px;left: 90px;font-size: 20px;opacity: 1000}.search-option .inputs{opacity: 0;transition: all 0.5s ease;transition-delay: 0.5s;position: relative}.search-option .inputs input{position: absolute;top: 200px;left: 30px;padding-left: 20px;background-color: transparent;width: 300px;border: none;color: #fff;border-bottom: 1px solid #eee;transition: all 0.5s;z-index: 10}.search-option .inputs input:focus{box-shadow: none;outline: none;z-index: 10}.search-option:hover{border-radius: 0px;width: 100%;left: 0px}.search-option:hover .inputs{opacity: 1}.search-option:hover .first-search{left: 27px;top: 25px;font-size: 15px}.search-option:hover .inputs input{top: 20px}.search-option .share{position: absolute;right: 20px;top: 22px}.buttons .btn{height: 50px;width: 150px;border-radius: 0px !important}
-              
+              .searchbar {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  z-index: 3;
+  height: 50px;
+  background: white;
+  border: 1px solid #dfe1e5;
+  box-shadow: none;
+  border-radius: 24px;
+  margin: 0 auto;
+  width: auto;
+  max-width: 250px;
+}
+
+.searchbar:hover {
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+  border-color: rgba(223,225,229,0);
+}
+
+.searchbar-wrapper {
+  flex: 1;
+  display: flex;
+  padding: 5px 8px 0 14px;
+}
+
+.searchbar-left {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  align-items: center;
+  padding-right: 13px;
+  margin-top: -5px;
+}
+
+.search-icon-wrapper {
+  margin: auto;
+}
+
+.search-icon {
+  margin-top: 3px;
+  color: #9aa0a6;
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+}
+
+.searchbar-icon {
+  display: inline-block;
+  fill: currentColor;
+  height: 24px;
+  line-height: 24px;
+  position: relative;
+  width: 24px;
+}
+
+.searchbar-center {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.searchbar-input-spacer {
+  color: transparent;
+  flex: 100%;
+  white-space: pre;
+  height: 34px;
+  font-size: 16px;
+}
+
+.searchbar-input {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, .87);
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  flex: 100%;
+  margin-top: -37px;
+  height: 34px;
+  font-size: 16px;
+  max-width: 100%;
+  width: 100%;
+}
+
+
+.searchbar-clear-icon {
+  margin-right: 12px
+}
+
+
+.spinner {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  border: 4.5px solid #0000;
+  border-radius: 50%;
+  border-color: #dbdcef #0000;
+  animation: spinner-e04l1k 1s infinite linear;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2.2px;
+  border: inherit;
+  border-radius: 50%;
+}
+
+.spinner::before {
+  border-color: #474bff #0000;
+  animation: inherit;
+  animation-duration: 0.5s;
+  animation-direction: reverse;
+}
+
+.spinner::after {
+  margin: 8.9px;
+}
+
+@keyframes spinner-e04l1k {
+  100% {
+    transform: rotate(1turn);
+  }
+}
               </style>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         </head>
@@ -43,25 +170,43 @@
             </div>
         </div>
         <!-- ***** Preloader End ***** -->
-    
-    
-        <!-- ***** Header Area Start ***** -->
         <header class="header-area header-sticky">
             <div class="container">
-                <div class="row">
+                <div class="row ">
                     <div class="col-12">
                         <nav class="main-nav">
                             <!-- ***** Logo Start ***** -->
-                            <a href="index.html" class="logo">
-                                <img src="assets/images/logo.png">
+                            <a href="/home" class="logo">
+                                <img src="/assets/images/logo.png">
                             </a>
                             <!-- ***** Logo End ***** -->
                             <!-- ***** Menu Start ***** -->
-                            <ul class="nav">
+                            <ul class="nav ">
+                                
+                                <div class="searchbar">
+                                    <div class="searchbar-wrapper">
+                                      <div class="searchbar-left">
+                                        <div class="search-icon-wrapper">
+                                          <span class="search-icon searchbar-icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                                              </path>
+                                            </svg>
+                                          </span>
+                                        </div>
+                                      </div>
+    
+                                      <form action="/search" class="searchbar-center" id="search-form">
+                                        <div class="searchbar-input-spacer"></div>
+                                        <input type="text" class="searchbar-input" maxlength="2048" name="term" autocapitalize="off" autocomplete="off" title="Search" role="combobox" placeholder="Search" id="search-input">
+                                      </form>
+                                      <div class="spinner" id="spinner" style="display: none;"></div>
+                                    </div>
+                                  </div>
+                                  
+    
                                 <li class="scroll-to-section"><a href="/home" class="active">Home</a></li>
-                                <li class="scroll-to-section"><a href="#men">Men's</a></li>
-                                <li class="scroll-to-section"><a href="#women">Women's</a></li>
-                                <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                                
                                 <li class="scroll-to-section"><a href="/allProducts">All products</a></li>
     
                                 <li class="submenu">
@@ -78,14 +223,16 @@
                                             <span>No categories available</span>
                                             <% } %>
                                 </li>
-    
                                 <li style="margin-left:10px;"><a href="/wishlist"><i class="fa-sharp fa-solid fa-heart"style="font-size: larger;"></i></a> </li>      
                                 <li style="margin-left:10px;"><a href="/profile"><i class="fa-solid fa-user "style="font-size: larger;"></i></a> </li>        
-                                 <li style="margin-left:10px;"><a href="/cart"><i class="fa-solid fa-cart-shopping" style="font-size: larger;"><span id="cartCount" style="color: red;font-size: larger;" class="cart-count"> 1</span></i></a> </li>       
-                            </ul>
+                                <li style="margin-left:10px;"><a href="/cart"><i class="fa-solid fa-cart-shopping" style="font-size: larger;"><span id="cartCount" style="color: red;font-size: larger;" class="cart-count">&nbsp;<%=cartCount%></span></i></a> </li>       
+                                          
+                                </ul>
+    
                             <a class='menu-trigger'>
                                 <span>Menu</span>
                             </a>
+                            
                             <!-- ***** Menu End ***** -->
                         </nav>
                     </div>
@@ -93,6 +240,21 @@
             </div>
         </header>
 
-    <ul style="background-color: #063e88;display: flex;justify-content: flex-end;min-height: 60px;">
-        </ul>
+    <ul style="background-color: #063e88;display: flex;justify-content: flex-end;min-height: 60px;"></ul>
+    <script>
+        const searchInput = document.getElementById('search-input');
+const searchForm = document.getElementById('search-form');
+const spinner = document.getElementById('spinner');
+
+searchInput.addEventListener('keyup', function(event) {
+  event.preventDefault();
+  if (event.key === 'Enter') {
+    spinner.style.display="block"
     
+    setTimeout(() => {
+      searchForm.submit();
+    }, 5000);
+  }
+});
+
+    </script>

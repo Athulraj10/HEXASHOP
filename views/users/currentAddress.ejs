@@ -544,7 +544,7 @@
                         <h6 class="mb-3">Summary</h6>
                         <div class="d-flex justify-content-between">
                             <p class="mb-2">Total price:</p>
-                            <p class="mb-2">$ <%= totalCart %>
+                            <p class="mb-2"> <%= totalCart %>
                             </p>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -552,7 +552,7 @@
                             <p class="mb-2 text-danger">
                                 <span id="discountLabel">
                                     <% if (typeof discount !=='undefined' ) { %>
-                                        <strong>- $<%= discount %></strong>
+                                        <strong>- <%= discount %></strong>
                                         <% } else { %>
                                             <strong>Not Applied</strong>
                                             <% } %>
@@ -564,7 +564,7 @@
                             <p class="mb-2 text-danger">
                                 <span id="categoryDiscount">
                                     <% if (typeof categorydiscount !=='undefined' ) { %>
-                                        <strong>-$ <%= categorydiscount %></strong>
+                                        <strong>-<%= categorydiscount %></strong>
                                         <% } else { %>
                                             <strong>Not Applied</strong>
                                             <% } %>
@@ -578,7 +578,7 @@
                         <hr />
                       <div class="d-flex justify-content-between">
                         <p class="mb-2">Total price:</p>
-                        <p class="mb-2 text-danger fw-bold" id="totalValue">$<%= totaldiscountcategory || couponApplyDiscount %></p>
+                        <p class="mb-2 text-danger fw-bold" id="totalValue"><%= totaldiscountcategory || couponApplyDiscount %></p>
                         </div>
 
 
@@ -618,7 +618,7 @@
                                     <%= productData.productColor %><br/>
                                     <%= productData.productSize %>
                                   </h6>
-                                  <div class="price m-0 text-muted">Product Price: $<%= productData.price %></div>
+                                  <div class="price m-0 text-muted">Product Price: <%= productData.price %></div>
                                   <div class="category-offer price text-muted">
                                     <% if (categoryData && categoryData.CategoryOffer) { %>
                                       Category Offer: <%= categoryData.CategoryOffer %>
@@ -820,7 +820,7 @@
                         let discountAmount = data.couponAmounts;
                         discountLabel.textContent = discountAmount;
                         totalValue.textContent = data.couponApplyDiscount;
-                        messageElement.textContent = `Coupon code is available. You will get ${discountAmount} Off`;
+                        messageElement.textContent = `Coupon code is available. You will get {discountAmount} Off`;
                     }
                     else if (!data.coupon) {
                         messageElement.textContent = "Invalid Coupon";
@@ -963,7 +963,7 @@
   Swal.fire({
     icon: 'error',
     title: 'Sorry...',
-    text: `You don't have enough wallet balance (Balance: ${wallet})`,
+    text: `You don't have enough wallet balance (Balance: {wallet})`,
   });
 }
 

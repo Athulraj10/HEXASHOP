@@ -83,13 +83,29 @@ const sendForgetPassword = async (name, email, OTP) => {
         console.log(error.message)
     }
 }
-    const countCart = async (userid) => {
-        let cartCount = 0;
-        if (userid) {
-        cartCount = await cartModel.countDocuments({ userid });
-        }
-        return cartCount;
-    };
+
+
+const countCart = async (userid) => {
+            let cartCount = 0;
+            if (userid) {
+              try {
+                const cart = await cartModel.findOne({ userid });
+                if (cart && cart.product) {
+                  cartCount = cart.product.length;
+                }
+              } catch (error) {
+                console.log('Error retrieving product count:', error);
+              }
+            }
+            return cartCount;
+};
+const categoryAll = async () => {
+    try {
+        return allcategory=await categoryModel.find({})
+    } catch (error) {
+        console.error(error)
+    }
+};
     
 const securePassword = async (password) => {
     try {
@@ -266,12 +282,16 @@ const allProductLoad = async (req, res) => {
         
         const allProducts = await productModel.find({}).skip(skipItems)
         .limit(ITEMS_PER_PAGE).populate('category_id').exec();
-        const allcategory = await categoryModel.find({})
+        
+        const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+
         const userid=req.session.userId;
         let cartCount=await countCart(userid).then((count)=>{
             return count
         }).catch((error)=>{console.log(error)})
-       
         res.render("users/products",
             {
                 cartCount,
@@ -287,7 +307,10 @@ const allProductLoad = async (req, res) => {
 const categorySortProduct = async (req, res) => {
     try {
         const categoryId = req.query.categoryid;
-        const allcategory = await categoryModel.find();
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
         const ITEMS_PER_PAGE = 6;
         const page = parseInt(req.query.page) || 1;
         const skipItems = (page - 1) * ITEMS_PER_PAGE;
@@ -319,8 +342,16 @@ const singleProduct = async (req, res) => {
         const id = req.query.id;
         const productDetails = await productModel.findById(id).populate('category_id').exec()
         const allProducts = await productModel.find({})
-        const allcategory = await categoryModel.find({})
-        res.render('users/single-product', { productDetails, allProducts, allcategory })
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+
+        res.render('users/single-product', { cartCount,productDetails, allProducts, allcategory })
 
     } catch (error) {
         console.log(error.message)
@@ -358,10 +389,19 @@ const searchProduct = async (req, res) => {
         .populate('category_id')
         .exec();
   
-      const allcategory = await categoryModel.find({});
-  
+              const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        ;
+      const userid=req.session.userId
+      let cartCount=await countCart(userid).then((count)=>{
+          return count
+      }).catch((error)=>{console.log(error)})
+     
       res.render('users/search',{
         allProducts,
+        cartCount,
         allcategory: allcategory,
         currentPage: page,
         totalPages: totalPages
@@ -376,6 +416,10 @@ const cartGetMethod = async (req, res) => {
         const userId = req.session.userId;
         const allcategory=await categoryModel.find()
         const userCartData = await cartModel.findOne({ userid: userId }).populate("product.product_id").exec()
+        let cartCount=await countCart(userId).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         let totalPrice = 0;
         if (userCartData && userCartData.product && userCartData.product.length > 0) {
             for (const cartItem of userCartData.product) {
@@ -384,9 +428,9 @@ const cartGetMethod = async (req, res) => {
                 const productStock = product.productQuantity;
                 totalPrice += productPrice;
             }
-            res.render('users/cart.ejs', { userCartData, totalPrice ,allcategory});
+            res.render('users/cart.ejs', { cartCount,userCartData, totalPrice ,allcategory});
         }else{
-            return res.render('users/cart.ejs', { userCartData:false, totalPrice:0 ,allcategory});
+            return res.render('users/cart.ejs', { cartCount,userCartData:false, totalPrice:0 ,allcategory});
         }
 
     }
@@ -554,6 +598,10 @@ const addressPageGet = async (req, res) => {
         const userid = req.session.userId;
         const allcategory=await categoryModel.find()
         const userAddress = await addressModel.find({ userid: userid });
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         const cart = await cartModel
         .find({ userid })
         .populate({
@@ -594,7 +642,7 @@ const addressPageGet = async (req, res) => {
             let totalCart = cartPrice();
             let totaldiscountcategory=totalCart-categorydiscount
             var encodedBalance = encodeURIComponent(userWalletAmount);
-            res.render("users/currentAddress", { categorydiscount,cart,address: userAddress, balance: userWalletAmount, totalCart,totaldiscountcategory, userWalletAmount, allcategory });
+            res.render("users/currentAddress", { cartCount,categorydiscount,cart,address: userAddress, balance: userWalletAmount, totalCart,totaldiscountcategory, userWalletAmount, allcategory });
             return;          
         } else {
             res.render('users/NewUserAddAddress', { message: 'No address please add a Address' })
@@ -631,12 +679,20 @@ const cheakWalletAmount = async (req, res) => {
 const userProfile = async (req, res) => {
     try {
         const id = req.session.userId;
-        const allcategory = await categoryModel.find();
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        let cartCount=await countCart(id).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         const userDetails = await userModel.findOne({ _id: id })
         const cart = await cartModel.findOne({ userid: id })
         const orderedProducts = await orderModel.find({ userId: id }).populate('address').populate('products.product_id').lean().exec()
 
         data = {
+            cartCount,
             allcategory,
             userDetails,
             cart,
@@ -726,13 +782,20 @@ const orderDetailPage=async(req,res)=>{
 const manageAddress = async (req, res) => {
     try {
         const userId = req.session.userId;
+        let cartCount=await countCart(userId).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         const address = await addressModel.find({ userid: userId })
-        const allcategory = await categoryModel.find()
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
         let data = {
             allcategory,
             address
         }
-        res.render("users/manageAddress", { data, allcategory })
+        res.render("users/manageAddress", { cartCount,data, allcategory })
     } catch (error) {
         console.log(error.message)
     }
@@ -741,8 +804,15 @@ const manageaddressEdit = async (req, res) => {
     try {
         const id = req.query.id
         const address = await addressModel.findById(id)
-        const allcategory = await categoryModel.find()
-        return res.render('users/usermanageaddressEdit', { allcategory, address })
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+        return res.render('users/usermanageaddressEdit', {cartCount, allcategory, address })
     } catch (error) {
         console.log(error.message)
     }
@@ -776,19 +846,33 @@ const manageaddressEditPostMethod = async (req, res) => {
 }
 const manageCoupon = async (req, res) => {
     try {
-        const allcategory = await categoryModel.find()
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
         const coupon = await couponModel.find()
-        return res.render('users/userCoupon', { allcategory, coupon })
+        return res.render('users/userCoupon', { cartCount,allcategory, coupon })
     } catch (error) {
         console.log(error.message)
     }
 }
 const wishlistGet = async (req, res) => {
     try {
-        const allcategory = await categoryModel.find()
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
         const userId = req.session.userId;
         const userWishlist = await wishlistModel.findOne({ userId }).populate("product.product_id").exec()
-        return res.render("users/wishlist", { allcategory, userWishlist })
+        return res.render("users/wishlist", { cartCount,allcategory, userWishlist })
     } catch (error) {
         console.log(error.message)
     }
@@ -971,8 +1055,15 @@ const editaddress=async(req,res)=>{
     try {
         const id = req.query.id
         const address = await addressModel.findById(id)
-        const allcategory = await categoryModel.find()
-        return res.render('users/addressEditCart', { allcategory, address })
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+        return res.render('users/addressEditCart', {cartCount, allcategory, address })
     } catch (error) {
         console.log(error.message)
     }
@@ -1044,7 +1135,11 @@ const conformOrder = async (req, res) => {
                 }
             }
         }
-        const allcategory = await categoryModel.find({});
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        ;
         const currentAddress = await addressModel.find({ userid: userId });
         const matchingAddress = currentAddress.find(
             (address) => address._id.toString() === addressForDelivery
@@ -1176,7 +1271,12 @@ const conformOrder = async (req, res) => {
             { userid: userId },
             { $pull: { product: { product_id: { $in: productIdOnly } } } }
           );}
+        let cartCount=await countCart(userId).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         const data = {
+            cartCount,
             matchingAddress,
             order: savedOrder,
             totalAmount: totalAmount,
@@ -1342,13 +1442,20 @@ const insertUser = async (req, res) => {
 const managewalletGetmethod = async (req, res) => {
     try {
         const id = req.session.userId;
-        const allcategory = await categoryModel.find();
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+        let cartCount=await countCart(id).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         const userWallet = await wallet.findOne({ userId: id }).populate('refunds.orderId').exec();
         if (!userWallet) {
-            return res.render("users/wallet", { allcategory, wallet: null, totalRefundAmount: null });
+            return res.render("users/wallet", { cartCount,allcategory, wallet: null, totalRefundAmount: null });
         }
         const activeAmount=userWallet.totalAmount;
-        return res.render("users/wallet", { allcategory, wallet: userWallet,activeAmount, totalRefundAmount:activeAmount });
+        return res.render("users/wallet", { cartCount,allcategory, wallet: userWallet,activeAmount, totalRefundAmount:activeAmount });
     } catch (error) {
         console.log(error.message);
     }
@@ -1356,7 +1463,11 @@ const managewalletGetmethod = async (req, res) => {
 const loadHome = async (req, res) => {
     try {
         const userid=req.session.userId;
-        const allcategory = await categoryModel.find({})
+                const allcategory=await categoryAll().then((category)=>{
+            return category
+        }).catch((error)=>{console.log(error)})
+
+
         const coupon = await couponModel.find({})
         const cartCount=await countCart(userid).then((count)=>{
             return count

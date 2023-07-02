@@ -172,7 +172,7 @@
                     <div class="m-2 pr-3 content">
                         <p style="font-size: medium;"><%= productDetails.productDescription %></p>
                     </div>
-                    <h3 class="m-2" >$<%= productDetails.price %></h3>
+                    <h3 class="m-2" ><%= productDetails.price %></h3>
                     <div class=" m-2 ratings d-flex flex-row align-items-center">
                         <div class="d-flex flex-row">
                           <% for (let i = 0; i < 4; i++) { %>
@@ -198,7 +198,7 @@
                       
                     
                     
-                    <h5 class="m-2">You will GET <b class="text-success">$<%= productDetails.category_id ? productDetails.category_id.CategoryOffer : 'None' %></b>&nbsp;Off in this Category</h5>
+                    <h5 class="m-2">You will GET <b class="text-success"><%= productDetails.category_id ? productDetails.category_id.CategoryOffer : 'None' %></b>&nbsp;Off in this Category</h5>
                     <%if(productDetails.productQuantity<1){%>
                       <div class="buttons d-flex flex-row mt-3 gap-1">
                           <button type="submit" disabled class="btn btn-outline-dark">Buy Now</button>
@@ -264,7 +264,7 @@
             <h4 style="text-align: center;">
               <%= product.productName %>
             </h4>
-            <span style="padding-left: 20px;">$<%= product.price %></span>
+            <span style="padding-left: 20px;"><%= product.price %></span>
             <ul  class="stars">
               <% for (let i=0; i < 5; i++) { %>
                 <li><i class="fa fa-star"></i></li>

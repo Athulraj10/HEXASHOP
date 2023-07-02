@@ -27,8 +27,8 @@
             <h4 style="text-align: left;">
               <%= product.productName %>
             </h4>
-            <span>$<%= product.price %></span>
-            <span>You will GET <b class="text-success">$<%= product.category_id ? product.category_id.CategoryOffer : 'None' %></b>&nbsp;Off in this Category</span>
+            <span><%= product.price %></span>
+            <span>You will GET <b class="text-success"><%= product.category_id ? product.category_id.CategoryOffer : 'None' %></b>&nbsp;Off in this Category</span>
             <ul class="stars">
               <% for (let i=0; i < 5; i++) { %>
                 <li><i class="fa fa-star"></i></li>
