@@ -2,7 +2,7 @@ const UserModel = require("../model/userModel")
 const mongoose = require('mongoose');
 const Razorpay = require('razorpay')
 const razorpayInstance = new Razorpay({
-    key_id: 'rzp_test_x9w0KDyJ4nuAAj',
+    key_id: 'rzp_test_x9w0KDyJ4nuAAj', 
     key_secret: 'cVur1BB3fc8BSDpA9t6zqmU3'
 });
 const OTPmodel = require("../model/OTPmodel")

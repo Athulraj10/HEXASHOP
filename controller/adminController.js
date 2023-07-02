@@ -29,26 +29,13 @@ const verifyLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const adminFinded = await UserModel.findOne({ email: email })
-    // const allOrder=await orders.find().populate("userId").populate("address").populate("products.product_id").exec()
-    const allOrder = await orders.find()
-      .populate({ path: "userId", model: "User" })
-      .populate({ path: "address", model: "addres" })
-      .populate({ path: "products.product_id", model: "productModel" })
-      .exec();
-
-    const AllUsers = await UserModel.find({ is_admin: 0 })
-
-    if (!adminFinded) {
+    if (!adminFinded && adminFinded.is_admin == 0) {
       res.render('adminLogin', { message: 'Admin not Found' });
-      return;
-    }
-    if (adminFinded.is_admin == 0) {
-      res.render('adminLogin', { message: 'Invalid admin' });
       return;
     }
     const passwordMatched = await bcrypt.compare(password, adminFinded.password)
     if (!passwordMatched) {
-      res.render('adminLogin', { message: "Password is Incorrect" })
+      res.render('adminLogin', { message: "Invalid login" })
       return;
     }
     if (adminFinded.is_admin == 1) {
