@@ -783,7 +783,9 @@
     </footer>
 
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js">
+      
+    </script>
     <script>
         let applyButton = document.querySelector(".btn-apply");
         let messageElement = document.querySelector('.couponMessage');
@@ -958,7 +960,6 @@
 
         function walletAlert() {
   var wallet = JSON.parse(decodeURIComponent('<%- balance %>'));
-  
   Swal.fire({
     icon: 'error',
     title: 'Sorry...',

@@ -83,7 +83,14 @@ const sendForgetPassword = async (name, email, OTP) => {
         console.log(error.message)
     }
 }
-
+    const countCart = async (userid) => {
+        let cartCount = 0;
+        if (userid) {
+        cartCount = await cartModel.countDocuments({ userid });
+        }
+        return cartCount;
+    };
+    
 const securePassword = async (password) => {
     try {
         const passwordHashed = await bcrypt.hash(password, 10)
@@ -97,7 +104,6 @@ const loadlogin = async (req, res) => {
         res.render("users/login")
         return;
     }
-
     catch (error) {
         console.log(error.message)
     }
@@ -261,9 +267,14 @@ const allProductLoad = async (req, res) => {
         const allProducts = await productModel.find({}).skip(skipItems)
         .limit(ITEMS_PER_PAGE).populate('category_id').exec();
         const allcategory = await categoryModel.find({})
-
+        const userid=req.session.userId;
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         res.render("users/products",
             {
+                cartCount,
                 allProducts,
                 allcategory: allcategory,
                 currentPage: page,
@@ -282,11 +293,15 @@ const categorySortProduct = async (req, res) => {
         const skipItems = (page - 1) * ITEMS_PER_PAGE;
         const totalCount = await productModel.countDocuments();
         const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
+        const userid=req.session.userId
+        let cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
         const allProducts = await productModel.find({ category_id: categoryId }).skip(skipItems)
             .limit(ITEMS_PER_PAGE);
 
         res.render('users/products', {
+            cartCount,
             allProducts: allProducts,
             allcategory: allcategory,
             currentPage: page,
@@ -1340,10 +1355,15 @@ const managewalletGetmethod = async (req, res) => {
 }
 const loadHome = async (req, res) => {
     try {
+        const userid=req.session.userId;
         const allcategory = await categoryModel.find({})
         const coupon = await couponModel.find({})
+        const cartCount=await countCart(userid).then((count)=>{
+            return count
+        }).catch((error)=>{console.log(error)})
+       
         coupon[0]
-        res.render("users/index", { allcategory, coupon })
+        res.render("users/index", { allcategory, coupon,cartCount })
     } catch (error) {
         console.log(error.message)
     }

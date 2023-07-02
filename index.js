@@ -1,8 +1,19 @@
 const mongoose = require('mongoose');
 
-const URI = 'mongodb+srv://HEXASHOP:Hexa117700@cluster0.r6zdvci.mongodb.net/HEXASHOP?retryWrites=true&w=majority';
 
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
+const localURI='mongodb://127.0.0.1:27017/Ecommerce'
+const clusterURI =
+  'mongodb+srv://HEXASHOP:Hexa117700@cluster0.r6zdvci.mongodb.net/HEXASHOP?retryWrites=true&w=majority';
+
+let URI = localURI; // Set the default URI to localhost
+
+// Check if running on localhost or not
+if (process.env.NODE_ENV !== 'localhost') {
+  URI = clusterURI;
+}
+
+mongoose
+  .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Successfully connected to the database');
   })
@@ -53,6 +64,7 @@ app.use('/admin',AdminRoute);
 app.use('*',function(req,res){
   res.render('404.ejs')
 })
+
 
 const PORT=process.env.PORT||3000
 app.listen(PORT,()=>{
