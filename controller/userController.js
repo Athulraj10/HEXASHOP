@@ -1109,7 +1109,6 @@ const userAddMoreAddressPostMethod = async (req, res) => {
 }
 const conformOrder = async (req, res) => {
     try {
-        console.log(req.body)
         const userId = req.session.userId;
         const { addressForDelivery, payment } = req.body;
         const couponCode = req.body.couponCode || ''

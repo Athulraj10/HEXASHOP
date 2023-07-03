@@ -43,7 +43,8 @@ const store = new MongoDBStore({
 app.use(session({
     secret: config.sessionSecret,
     resave: false, // or true, depending on your use case
-    saveUninitialized: false, // or true, depending on your use case
+    saveUninitialized: false,
+    store // or true, depending on your use case
   }));
 
 app.use(nocache())

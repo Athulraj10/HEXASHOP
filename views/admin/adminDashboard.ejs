@@ -225,7 +225,7 @@
                   <div class="row">
                     <div class="col-9">
                       <div class="d-flex align-items-center align-self-start">
-                        <h4 class="mb-0"><%=data.totalOrderAmount%></h4>
+                        <h4 class="mb-0">Rs : <%=data.totalOrderAmount%></h4>
                       </div>
                     </div>
                     <div class="col-3">
@@ -244,9 +244,9 @@
                   <div class="row">
                     <div class="col-9">
                       <div class="d-flex align-items-center align-self-start">
-                        <h4 class="mb-0">
+                        <h4 class="mb-0 text-muted">
                           <% if (data.totalRevenue) { %>
-                            <%= data.totalRevenue %>
+                           Rs : <%= data.totalRevenue %>
                           <% } else { %>
                             No Sale
                           <% } %>
@@ -269,9 +269,9 @@
                   <div class="row">
                     <div class="col-9">
                       <div class="d-flex align-items-center align-self-start">
-                        <h4 class="mb-0">
+                        <h4 class="mb-0 text-muted">
                           <% if (data.totalSaleTotalAmount) { %>
-                            <%= data.totalSaleTotalAmount %>
+                            Rs : <%= data.totalSaleTotalAmount %>
                           <% } else { %>
                             No Sale
                           <% } %>
@@ -287,8 +287,6 @@
                   <h6 class="text-success mt-1 mb-0 p-0 font-weight-normal">
                     <% if (data.totalsaleTodaysDate) { %>
                       <%= data.totalsaleTodaysDate._id %>
-                    <% } else { %>
-                      No sale
                     <% } %>
                   </h6>
                    <h6 class="text-muted font-weight-normal">Daily Income</h6>
@@ -301,11 +299,11 @@
                   <div class="row">
                     <div class="col-9">
                       <div class="d-flex align-items-center align-self-start">
-                    <h4>
-                      <%= data.totalSaleAmountsMonthly %>
+                    <h4 class="text-muted">
                       <% if (data.totalSaleAmountsMonthly) { %>
+                        Rs : <%= data.totalSaleAmountsMonthly %>
                       <% } else { %>
-                        No sale
+                        No Sale
                       <% } %>
                     </h4>
                     </div>
@@ -327,12 +325,13 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Transaction History</h4>
-                  <canvas id="transaction-history" class="transaction-chart"></canvas>
+                  <!-- <canvas id="transaction-history" class="transaction-chart"></canvas> -->
                   <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
                     <div class="text-md-center text-xl-left">
                       <h6 class="mb-1">Transfer to Paypal</h6>
                       <p class="mb-1">Last Payment Date</p>
                       <p class="text-muted mb-0"><%=data.lastDatePaypalPayment%></p>
+                      <p class="text-muted mb-0"><%=data.lastdatePaypalPaymentDateAgo%></p>
                     </div>
                     <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                       <h6 class="font-weight-bold mb-0"><%=data.paypalTotal.length%></h6>
@@ -343,6 +342,7 @@
                       <h6 class="mb-1">Transfer to Wallet</h6>
                       <p class="mb-1">Last Payment Date</p>
                       <p class="text-muted mb-0"><%=data.lastDateWalletPayment %></p>
+                      <p class="text-muted mb-0"><%=data.lastDateWalletPaymentDateAgo %></p>
                     </div>
                     <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                       <h6 class="font-weight-bold mb-0"><%=data.walletTotal.length%></h6>
@@ -353,6 +353,7 @@
                       <h6 class="mb-1">Tranfer to COD</h6>
                       <p class="mb-1">Last Payment Date</p>
                       <p class="text-muted mb-0"><%=data.lastDateCodPayment%></p>
+                      <p class="text-muted mb-0"><%=data.lastDateCodPaymentDateAgo%></p>
                     </div>
                     <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
                       <h6 class="font-weight-bold mb-0"><%=data.totalCod.length%></h6>
@@ -385,8 +386,8 @@
                               </p>
                             </div>
                             <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                              <p class="text-muted">15 minutes ago</p>
-                              <p class="text-muted mb-0">30 tasks, 5 issues </p>
+                              <p class="text-muted"><%=data.pendingOrderlastorderDate%></p>
+                              <p class="text-muted mb-0"><%=data.pendingOrderlastorderTimeAgo%></p>
                             </div>
                           </div>
                         </div>
@@ -404,8 +405,8 @@
                               </p>
                             </div>
                             <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                              <p class="text-muted">1 hour ago</p>
-                              <p class="text-muted mb-0">23 tasks, 5 issues </p>
+                              <p class="text-muted"><%=data.deliveredrecentOrderDate%></p>
+                              <p class="text-muted mb-0"><%=data.deliveredrecentOrderTimeAgo%></p>
                             </div>
                           </div>
                         </div>
@@ -423,8 +424,8 @@
                               </p>
                             </div>
                             <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                              <p class="text-muted">35 minutes ago</p>
-                              <p class="text-muted mb-0">15 tasks, 2 issues</p>
+                              <p class="text-muted"><%=data.cancelledOrderLastDate%></p>
+                              <p class="text-muted mb-0"><%=data.cancelledOrderLastTimeAgo%></p>
                             </div>
                           </div>
                         </div>
@@ -442,8 +443,8 @@
                               </p>
                             </div>
                             <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                              <p class="text-muted">55 minutes ago</p>
-                              <p class="text-muted mb-0">35 tasks, 7 issues </p>
+                              <p class="text-muted"><%=data.returnOrderlastorderDate%></p>
+                              <p class="text-muted mb-0"><%=data.returnOrderlastorderTimeAgo%> </p>
                             </div>
                           </div>
                         </div>
@@ -461,8 +462,9 @@
                               </p>
                             </div>
                             <div class="mr-auto text-sm-right pt-2 pt-sm-0">
-                              <p class="text-muted">50 minutes ago</p>
-                              <p class="text-muted mb-0">27 tasks, 4 issues </p>
+                              <p class="text-muted">Last checkin</p>
+                              <p class="text-muted mb-0"><%=data.OrderlastorderDate%></p>
+                              <p class="text-muted"><%=data.OrderlastorderTimeAgo%></p>
                             </div>
                           </div>
                         </div>
@@ -474,15 +476,6 @@
             </div>
           </div>
         </div>
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com
-              2020</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a
-                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
-                templates</a> from Bootstrapdash.com</span>
-          </div>
-        </footer>
       </div>
     </div>
   </div>

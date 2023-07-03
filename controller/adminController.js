@@ -76,6 +76,7 @@ const adminHome = async (req, res) => {
   const AllUsers = await UserModel.find({ is_admin: 0 })
   const totalOrders = allOrder.reduce((total, order) => total + order.totalQuantity, 0);
   const pendingOrders = allOrder.filter(order => order.status === "Pending");
+  const allOrderDetails=[...allOrder]
   const deliveredOrders = allOrder.filter(order => order.status === "Delivered");
   const cancelledOrders = allOrder.filter(order => order.cancelled.cancelled === true);
   const returnedOrder = allOrder.filter(order => order.return.admin === true)
@@ -86,33 +87,82 @@ const adminHome = async (req, res) => {
   const totalOrderAmount = allOrder.reduce((sum, pointer) => {
     return sum + pointer.total;
   }, 0)
-  console.log(paypalTotal)
-  return
 
-
-  // DATES
-  // paypal
-  // let paypalDesendingOrder = paypalTotal.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-  // const lastOrderPaypal = paypalDesendingOrder[0];
-  // const lastdatePaypalPayment = lastOrderPaypal ? new Date(lastOrderPaypal.orderDate) : null;
-  // const lastDatePaypalPayment = lastdatePaypalPayment ? lastdatePaypalPayment.toLocaleString([], { timeZone: 'UTC' }) : null;
+  function getTimeElapsed(date) {
+    const now = new Date();
+    const diff = Math.abs(now - date);
   
-  const lastOrderPaypal = paypalTotal[0];
-  const lastdatePaypalPayment = lastOrderPaypal ? new Date(lastOrderPaypal.orderDate) : null;
-  const lastDatePaypalPayment = lastdatePaypalPayment ? lastdatePaypalPayment.toLocaleString([], { timeZone: 'UTC' }) : null;
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+  
+    if (years > 0) {
+      return years === 1 ? "1 year ago" : `${years} years ago`;
+    } else if (months > 0) {
+      return months === 1 ? "1 month ago" : `${months} months ago`;
+    } else if (days > 0) {
+      return days === 1 ? "1 day ago" : `${days} days ago`;
+    } else if (hours > 0) {
+      return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+    } else {
+      return minutes <= 1 ? "just now" : `${minutes} minutes ago`;
+    }
+  }
+  // // DATES
+  function getLastOrderDetails(orders) {
+    const sortedOrders = orders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+    const lastOrder = sortedOrders[0];
+    const lastOrderDate = lastOrder ? lastOrder.orderDate : null;
+    const lastOrderDateAgo = lastOrder ? getTimeElapsed(new Date(lastOrder.orderDate)) : null;
+    return { lastOrderDate, lastOrderDateAgo };
+  }
+  
+  function formatDate(date) {
+    return date ? date.toLocaleString([], { timeZone: "UTC" }) : null;
+  }
+  
+  let pendingOrderDetails = getLastOrderDetails(pendingOrders);
+  let deliveredOrderDetails = getLastOrderDetails(deliveredOrders);
+  let cancelledOrderDetails = getLastOrderDetails(cancelledOrders);
+  let totalReturnOrderDetails = getLastOrderDetails(returnedOrder);
+  let lastPaypalPaymentDetails = getLastOrderDetails(paypalTotal);
+  let lastReturnOrderDetails = getLastOrderDetails(returnedOrder)
+  let lastCodPaymentDetails = getLastOrderDetails(totalCod);
+  let lastWalletPaymentDetails = getLastOrderDetails(walletTotal);
+  let lastOrderDetails = getLastOrderDetails(allOrderDetails);
+  
+  // DATES
+  let OrderlastorderDate = formatDate(lastOrderDetails.lastOrderDate);
+  let OrderlastorderTimeAgo =  lastOrderDetails.lastOrderDateAgo;
+  let returnOrderlastorderDate = formatDate(lastReturnOrderDetails.lastOrderDate);
+  let returnOrderlastorderTimeAgo = lastReturnOrderDetails.lastOrderDateAgo;
+  let pendingOrderlastorderDate = formatDate(pendingOrderDetails.lastOrderDate);
+  let pendingOrderlastorderTimeAgo = pendingOrderDetails.lastOrderDateAgo;
+  let deliveredrecentOrderDate = formatDate(deliveredOrderDetails.lastOrderDate);
+  let deliveredrecentOrderTimeAgo = deliveredOrderDetails.lastOrderDateAgo;
+  let cancelledOrderLastDate = formatDate(cancelledOrderDetails.lastOrderDate);
+  let cancelledOrderLastTimeAgo = cancelledOrderDetails.lastOrderDateAgo;
+  let totalReturnOrderLastSortDate = formatDate(totalReturnOrderDetails.lastOrderDate);
+  let totalReturnOrderLastSortDateAgo = totalReturnOrderDetails.lastOrderDateAgo;
+  
+  // Paypal
+  let lastdatePaypalPayment = lastPaypalPaymentDetails.lastOrderDate;
+  let lastDatePaypalPayment = formatDate(lastdatePaypalPayment);
+  let lastdatePaypalPaymentDateAgo = lastPaypalPaymentDetails.lastOrderDateAgo;
   
   // CashOnDelivery
-  let CashOnDeliveryOrders=totalCod.sort((a,b)=>new Date(b.orderDate)-new Date(a.orderDate))
-  const CashOnDeliveryDesendingOrder=CashOnDeliveryOrders[0]
-  const lastdateCodPayment=CashOnDeliveryDesendingOrder?new Date(CashOnDeliveryDesendingOrder.orderDate):null
-  const lastDateCodPayment=lastdateCodPayment?lastdateCodPayment.toLocaleString([],{timeZone:'UTC'}):null
+  let lastdateCodPayment = lastCodPaymentDetails.lastOrderDate;
+  let lastDateCodPayment = formatDate(lastdateCodPayment);
+  let lastDateCodPaymentDateAgo = lastCodPaymentDetails.lastOrderDateAgo;
+  
   // Wallet
-  const walletDesendingOrder=walletTotal.sort((a,b)=>new Date(b.orderDate)-new Date(a.orderDate))
-  const lastDesendingOrder=walletDesendingOrder[0]
-  const lastdateWalletPayment=lastDesendingOrder?new Date(lastDesendingOrder.orderDate):null
-  const lastDateWalletPayment=lastdateWalletPayment?lastdateWalletPayment.toLocaleString([],{timeZone:'UTC'}):null
+  let lastdateWalletPayment = lastWalletPaymentDetails.lastOrderDate;
+  let lastDateWalletPayment = formatDate(lastdateWalletPayment);
+  let lastDateWalletPaymentDateAgo = lastWalletPaymentDetails.lastOrderDateAgo;
+  
 
-console.log()
   var currentDate = new Date();
   currentDate.setDate(currentDate.getDate() - 1);
   var previousDay = currentDate.getDate();
@@ -149,18 +199,11 @@ console.log()
       $sort: { totalSaleAmount: -1 }
     }
   ]);
-  
-  
   let dateStartingFrom = ""; // Default value
-
   if (totalSaleMonth.length > 0) {
     dateStartingFrom = totalSaleMonth[totalSaleMonth.length - 1]._id;
   }
-  
   const totalSaleAmountsMonthly = totalSaleMonth.reduce((sum, pointer) => sum + pointer.totalSaleAmount, 0)
-
-
-
   const yesterday = currentDate;
   yesterday.setDate(yesterday.getDate());
   yesterday.setHours(0, 0, 0, 0);
@@ -191,18 +234,12 @@ console.log()
   const totalSaleTotalAmount = totalSaleToday.reduce((sum, sale) => sum + sale.totalSaleAmount, 0);
   const [totalsaleTodaysDate] = totalSaleToday
 
-
-
-
   const todays = new Date();
   const yesterdays = new Date(todays.setDate(todays.getDate()));
   yesterdays.setHours(0, 0, 0, 0);
 
   const daybefore = new Date(todays.setDate(todays.getDate() - 3));
   daybefore.setHours(0, 0, 0, 0);
-
-
-
 
   const totalSaleDayBeforeYesterday = await order.aggregate([
     {
@@ -240,9 +277,8 @@ console.log()
       }
     }
   ]);
-  
+
   let totalAmount = 0; 
-  
   if (totalRevenue.length > 0) {
     const [result] = totalRevenue;
     totalAmount = result.totalAmount;
@@ -252,6 +288,27 @@ console.log()
     users: AllUsers,
     totalOrders,
     allOrder,
+    
+    pendingOrderlastorderTimeAgo,
+    deliveredrecentOrderTimeAgo,
+    cancelledOrderLastTimeAgo,
+    OrderlastorderDate,
+
+
+    OrderlastorderTimeAgo,
+    totalReturnOrderLastSortDate,
+
+
+      
+    totalReturnOrderLastSortDateAgo,
+    lastdatePaypalPaymentDateAgo,
+    lastDateCodPaymentDateAgo,
+    lastDateWalletPaymentDateAgo,
+    returnOrderlastorderDate,
+    returnOrderlastorderTimeAgo,
+    pendingOrderlastorderDate,
+    deliveredrecentOrderDate,
+    cancelledOrderLastDate,
     pendingOrders,
     deliveredOrders,
     cancelledOrders,
@@ -264,7 +321,7 @@ console.log()
     lastDateCodPayment,
     lastDateWalletPayment,  
     totalOrderAmount,
-    totalRevenue: totalAmount.totalAmount,
+    totalRevenue:totalAmount,
     totalsaleTodaysDate,
     totalSaleTotalAmount,
     totalSaleAmountsMonthly,
