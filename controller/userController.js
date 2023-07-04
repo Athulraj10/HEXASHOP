@@ -678,8 +678,8 @@ const cheakWalletAmount = async (req, res) => {
 const userProfile = async (req, res) => {
     try {
         const id = req.session.userId;
-                const allcategory=await categoryAll().then((category)=>{
-            return category
+        const allcategory=await categoryAll().then((category)=>{
+        return category
         }).catch((error)=>{console.log(error)})
 
         let cartCount=await countCart(id).then((count)=>{
