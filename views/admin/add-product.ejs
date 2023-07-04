@@ -1,79 +1,202 @@
-<!DOCTYPE html>
-<html lang="en">
+<%-include('../layouts/adminheader.ejs')%>
+<style>
+.btn {
+  font-size: 17px;
+  background: transparent;
+  border: none;
+  padding: 1em 1.5em;
+  color: #ffedd3;
+  text-transform: uppercase;
+  position: relative;
+  border: #BF0426;
+  transition: .5s ease;
+}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Add Product - Dashboard HTML Template</title>
-  <link rel="stylesheet" href="/https://fonts.googleapis.com/css?family=Roboto:400,700" />
-  <link rel="stylesheet" href="/css/fontawesome.min.css" />
-  <link rel="stylesheet" href="/jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
-  <link rel="stylesheet" href="/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/css/templatemo-style.css">
+.btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #ffc506;
+  transition: .5s ease;
+}
 
-</head>
+.btn:hover {
+  color: #ffffff;
+  transition-delay: .5s;
+}
 
-<body>
-  <div class="container tm-mt-big tm-mb-big">
-    <div class="row">
-      <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
-        <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-          <div class="col">
-            <div class="col-8 d-inline-block">
-              <h1 class="tm-block-title d-inline-block">Add Product</h1>
+.btn:hover::before {
+  width: 100%;
+}
 
-            </div>
+.btn::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 0;
+  width: 100%;
+  background-color: #ffc506;
+  transition: .4s ease;
+  z-index: -1;
+}
+
+.btn:hover::after {
+  height: 100%;
+  transition-delay: 0.4s;
+  color: aliceblue;
+}
+
+/* new */
+button {
+  position: relative;
+  padding: 0.7em 1.4em;
+  background-color: #494e5e;
+  text-decoration: none;
+  border: none;
+  width: 200px;
+  border-radius: 0.5em;
+  color: #DEDEDE;
+  box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+}
+
+button::before {
+  position: absolute;
+  content: '';
+  height: 0;
+  width: 0;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, rgba(33,33,33,1) 0%, rgba(33,33,33,1) 50%, rgba(150,4,31,1) 50%, rgba(191,4,38,1) 60%);
+  border-radius: 0 0 0.5em 0;
+  box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.3);
+  transition: 0.3s;
+}
+
+button:hover::before {
+  width: 1.6em;
+  height: 1.6em;
+}
+
+button:active {
+  box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+  transform: translate(0.1em, 0.1em);
+}
+
+/* new */
+.cta {
+ position: relative;
+ margin: auto;
+ padding: 12px 18px;
+ transition: all 0.2s ease;
+ border: none;
+ background: none;
+}
+
+.cta:before {
+ content: "";
+ position: absolute;
+ top: 0;
+ left: 0;
+ display: block;
+ border-radius: 50px;
+ background: #b1dae7;
+ width: 45px;
+ height: 45px;
+ transition: all 0.3s ease;
+}
+
+.cta span {
+ position: relative;
+ font-family: "Ubuntu", sans-serif;
+ font-size: 18px;
+ font-weight: 700;
+ letter-spacing: 0.05em;
+ color: #234567;
+}
+
+.cta svg {
+ position: relative;
+ top: 0;
+ margin-left: 10px;
+ fill: none;
+ stroke-linecap: round;
+ stroke-linejoin: round;
+ stroke: #234567;
+ stroke-width: 2;
+ transform: translateX(-5px);
+ transition: all 0.3s ease;
+}
+
+.cta:hover:before {
+ width: 100%;
+ background: #b1dae7;
+}
+
+.cta:hover svg {
+ transform: translateX(0);
+}
+
+.cta:active {
+ transform: scale(0.95);
+}
+</style>
+<div style="display: flex;flex-direction: column; width: 80%">
+  <table class="table table-dark">
+  <tbody>
+    <div style="height: 50px;margin-top: 50px;">
+      <h1 style="margin: 30px;">Add product</h1>
+  </div>
+      <div style=" margin: 50px 0 0 10px;" class="col-xl-6 col-lg-6 col-md-12">
+        <form action="/admin/addproduct" method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+          <div class="form-group mb-3">
+            <label for="name">Product title
+            </label>
+            <input id="productName" name="productName" type="text" class="form-control validate" required />
           </div>
-          <div class="row tm-edit-product-row">
-            <div class="col-xl-6 col-lg-6 col-md-12">
-              <form action="/admin/addproduct" method="post" enctype="multipart/form-data" class="tm-edit-product-form">
-                <div class="form-group mb-3">
-                  <label for="name">Product title
-                  </label>
-                  <input id="productName" name="productName" type="text" class="form-control validate" required />
-                </div>
-                <div class="form-group mb-3">
-                  <label for="description">Description</label>
-                  <textarea class="form-control validate" rows="3" name="productDes" required></textarea>
-                </div>
+          <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea class="form-control validate" rows="3" name="productDes" required></textarea>
+          </div>
 
-                <div class="form-group mb-3">
-                  <label for="size">Product Size</label>
-                  <input type="text" name="productSize" class="form-control" id="size" placeholder="Enter Size" value="Free Size">
-                </div>
-                
+          <div class="form-group mb-3">
+            <label for="size">Product Size</label>
+            <input type="text" name="productSize" class="form-control" id="size" placeholder="Enter Size" value="Free Size">
+          </div>
+          
+          <div class="form-group mb-3">
+            <label for="productColor">Product Color
+            </label>
+            <input id="productName" name="productColor" type="text" class="form-control validate" required />
+          </div>
 
-                <div class="form-group mb-3">
-                  <label for="productColor">Product Color
-                  </label>
-                  <input id="productName" name="productColor" type="text" class="form-control validate" required />
-                </div>
+          <div class="form-group mb-3">
+            <label for="name">Product Price
+            </label>
+            <input id="productName" name="price" type="text" class="form-control validate" required />
+          </div>
 
-                <div class="form-group mb-3">
-                  <label for="name">Product Price
-                  </label>
-                  <input id="productName" name="price" type="text" class="form-control validate" required />
-                </div>
 
-                <div class="form-group mb-3 col-xs-12 col-sm-6">
-                  <label for="stock">Units In Stock
-                  </label>
-                  <input id="stock" name="productQuantity" type="text" class="form-control validate" required />
-                </div>
+          <div class="form-group mb-3 col-xs-12 col-sm-6">
+            <label for="stock">Units In Stock
+            </label>
+            <input id="stock" name="productQuantity" type="text" class="form-control validate" required />
+          </div>
 
-                <div class="form-group mb-3">
-                  <label for="productImage">Product Image(s)</label>
-                
-                  <img id="img" src="choose.jpg" height="200px" alt="" >
-                  
-                  <div class="custom-file mt-3 mb-3">
-                    <label class="custom-file-label" for="productImage">Choose Product Images(s)</label>
-                    <input id="input" name="productImage" multiple  src="choose.jpg" type="file" class="custom-file-input"
-                    onchange="document.getElementById('productImageText').value = this.files.length + ' file(s) selected'" required />
-                  </div>
-                  </div>
-  
+
+          <div class="form-group mb-3">
+            <label for="productImage">Product Image(s)</label>
+            <img id="img" src="choose.jpg" height="200px" alt="" style="display: none;">
+            <div class="custom-file mt-3 mb-3">
+              <label class="custom-file-label" for="productImage">Choose Product Images(s)</label>
+              <input id="input" name="productImage" multiple  src="choose.jpg" type="file" class="custom-file-input"
+              onchange="document.getElementById('productImageText').value = this.files.length + ' file(s) selected'" required />
+            </div>
+            </div>
+
 
                 <div class="form-group mb-3">
                   <label for="category">Category</label>
@@ -86,43 +209,34 @@
                       <% }) %>
                   </select>
 
-
+                  <div class="col-9 btns" style="display: flex;margin: 10px 0 0 100px;">
+                    <button type="submit" class="m-3">Submit Now</button>
+                  </div>
                   
-                  <script>
-                   let img=document.getElementById('img');
-                   let input=document.getElementById('input');
-                    input.onchange=(e)=>{
-                      if(input.files[0])
-                      img.src = URL.createObjectURL(input.files[0])
-                    } 
-                   </script>
-                    
+        </form>
+        </tbody>
+  </table>
+  <div class="inline-block col-9 m-3">
+<a href="/admin/category" style="text-decoration: none;" class="cta">
+  <span>Add category</span>
+  <svg viewBox="0 0 13 10" height="10px" width="15px">
+    <path d="M1,5 L11,5"></path>
+    <polyline points="8 1 12 5 8 9"></polyline>
+  </svg>
+</a>
+  </div>
+</div>
 
-                </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary btn-block text-uppercase">Submit Product Now</button>
-                  <button class="btn btn-dark btn-block text-uppercase"><a href="/admin/category">Add New
-                      Category</a></button>
-                </div>
-            </div>
-            </form>
-            <div class="col-3">
-              <button class="btn btn-dark btn-block text-uppercase"><a href="/admin/adminHome">Home</a></button>
-            </div>
-        </div>
-        
-
-
-            <script src="js/jquery-3.3.1.min.js"></script>
-            <script src="jquery-ui-datepicker/jquery-ui.min.js"></script>
-
-            <script src="js/bootstrap.min.js"></script>
-
-<script>
-              $(function () {
-                $("#expire_date").datepicker();
-              });
-            </script>
 </body>
+<script>
+  let img=document.getElementById('img');
+  let input=document.getElementById('input');
+   input.onchange=(e)=>{
+     if(input.files[0])
+     img.style.display='block'
+     img.src = URL.createObjectURL(input.files[0])
 
+   } 
+  </script>
 </html>
+

@@ -1,37 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit Product - Dashboard HTML Template</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-    />
-    <link rel="stylesheet" href="/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/templatemo-style.css">
-    
-  </head>
+<%-include('../layouts/adminheader.ejs')%>
 
-  <body>
-    <div class="container tm-mt-big tm-mb-big">
-      <div class="row">
-        
-        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
-          
+    <div class="container">
+      <div class="row" >
+        <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
             <div class="col">
-              <div class="col-8 d-inline-block">
-                
-            
-                <h1 class="tm-block-title d-inline-block">Edit Product</h1>
-                
+              <div class="col-12 d-inline-block">
+                <h1 class="tm-block-title d-inline-block" style="margin-top: 100px;width:400px;">Edit Product</h1>
               </div>
             </div>
-            <div class="row tm-edit-product-row">
+            <div class="row tm-edit-product-row m-2">
               <div class="col-xl-6 col-lg-6 col-md-12">
                 <form action="/admin/editProduct" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
                   <div class="form-group mb-3">
@@ -59,17 +37,21 @@
                       name="productDes"
                       required><%= model.productDescription || 'Default Value' %></textarea>
                   </div>
-
-                  <div class="form-group mb-3">
-                    <label for="category">Product Size</label>
-                    <select name="productSize" class="custom-select tm-select-accounts" id="category">
-                      <option value="small" <%= model.productSize === 'small' ? 'selected' : '' %>>Small</option>
-                      <option value="medium" <%= model.productSize === 'medium' ? 'selected' : '' %>>Medium</option>
-                      <option value="large" <%= model.productSize === 'large' ? 'selected' : '' %>>Large</option>
-                      <option value="x-large" <%= model.productSize === 'x-large' ? 'selected' : '' %>>X-Large</option>
-                    </select>
-                  </div>
                   
+                  <div class="form-group mb-3">
+                    <label
+                      for="name"
+                      >Current Product Size
+                    </label>
+                    <input
+                      id="productSize"
+                      name="productSize"
+                      value="<%= model.productSize %>"
+                      type="text"
+                      class="form-control validate"
+                      required
+                    />
+                  </div>
                   
                   <div class="form-group mb-3">
                     <label
@@ -104,7 +86,7 @@
                   <div class="form-group mb-3 col-xs-12 col-sm-6">
                     <label
                       for="stock"
-                      >Current Units In Stock
+                      >Current Stock
                     </label>
                     <input
                       id="stock"
@@ -112,26 +94,20 @@
                       type="text"
                       value="<%= model.productQuantity%>"
                       class="form-control validate"
-                      required
-                    />
+                      required/>
                   </div>
                     
-                  <div class="form-group mb-3">
-                    <label
-                      for="category"
-                      >Current Category</label
-                    >
-                    <select
-                      class="custom-select tm-select-accounts"
-                      id="category"
-                      name="category_id"
-                    >
-                      <option selected >Select category</option>
-                      <% category.forEach(function(category) { %>
-                        <option value="<%= category._id %>" <%= category._id === category._id ? 'selected' : '' %>><%= category.categoryName %></option>
-                        <% }) %>
-                    </select>
 
+                  <div class="form-group mb-3">
+                    <label for="category">Current Category</label>
+                    <select class="custom-select tm-select-accounts" id="category" name="category_id">
+                      <option value="">Select category</option>
+                      <% category.forEach(function(category) { %>
+                        <option value="<%= category._id.toString() %>" <%= category._id.toString() === model.category_id.toString() ? 'selected' : '' %>><%= category.categoryName %></option>
+                      <% }) %>
+                    </select>
+                  </div>
+                  
                    <div style="margin: 20px;">
                     <td >
                       <h5 style="color: rgba(199, 209, 219, 0.903);text-align: left;">Current Image</h5>
@@ -142,20 +118,19 @@
                    
                   </div>
                   
-                  <div class="form-group mb-3">
-                    <label for="productImage">Add New Product Image(s)</label>
-  
-                    <div class="custom-file mt-3 mb-3">
-                      <label class="custom-file-label" for="productImage">Choose Product Imagadae(s)</label>
+                  <div class="form-group mb-3 col-9">
+                    <label for="productImage" class="m-0 p-0">Add New Product Image(s)</label>
+                    <div class="custom-file mt-3 mb-3" style="width: 400px;">
+                      <label class="custom-file-label" for="productImage">Choose Product Image(s)</label>
                       <input id="productImage" name="productImage" multiple type="file" class="custom-file-input"
-                      onchange="document.getElementById('productImageText').value = this.files.length + ' file(s) selected'" />
+                      onchange="document.getElementById('productImageText').value = this.files.length+'file(s) selected'" />
                     </div>
                     </div>
       <div>
         <input type="hidden" name="id" value="<%= model._id%>">
       </div>
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary btn-block text-uppercase">Submit Product Now</button>
+      <div class="col-6" style="height: 100px;" >
+        <button type="submit" class="btn btn-primary btn-block text-uppercase" style="height: 50px;">Submit Product Now</button>
        </div>
     </div>
   </form>
