@@ -272,37 +272,65 @@ const OTPVerification = async (req, res) => {
 }
 const allProductLoad = async (req, res) => {
     try {
-
-        const ITEMS_PER_PAGE = 6;
-        const page = parseInt(req.query.page) || 1;
-        const skipItems = (page - 1) * ITEMS_PER_PAGE;
-        const totalCount = await productModel.countDocuments();
-        const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-        
-        const allProducts = await productModel.find({delete:{$ne:true}}).skip(skipItems).lean()
-        .limit(ITEMS_PER_PAGE).populate('category_id').exec();
-        
-        const allcategory=await categoryAll().then((category)=>{
-            return category
-        }).catch((error)=>{console.log(error)})
-
-
-        const userid=req.session.userId;
-        let cartCount=await countCart(userid).then((count)=>{
-            return count
-        }).catch((error)=>{console.log(error)})
-        res.render("users/products",
-            {
-                cartCount,
-                allProducts,
-                allcategory: allcategory,
-                currentPage: page,
-                totalPages: totalPages
-            })
+      const ITEMS_PER_PAGE = 6;
+      const page = parseInt(req.query.page) || 1;
+      const skipItems = (page - 1) * ITEMS_PER_PAGE;
+      const totalCount = await productModel.countDocuments();
+      const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+  
+      const allProducts = await productModel.find({ delete: { $ne: true } })
+        .skip(skipItems)
+        .limit(ITEMS_PER_PAGE)
+        .populate('category_id')
+        .lean();
+  
+      // Shuffle the allProducts array
+      const shuffledProducts = shuffleArray(allProducts);
+  
+      const allcategory = await categoryAll().then((category) => {
+        return category;
+      }).catch((error) => {
+        console.log(error);
+      });
+  
+      const userid = req.session.userId;
+      const cartCount = await countCart(userid).then((count) => {
+        return count;
+      }).catch((error) => {
+        console.log(error);
+      });
+  
+      res.render("users/products", {
+        cartCount,
+        allProducts: shuffledProducts,
+        allcategory,
+        currentPage: page,
+        totalPages
+      });
     } catch (error) {
-        console.log(error.message)
+      console.log(error.message);
     }
-}
+  };
+  
+  // Function to shuffle an array using Fisher-Yates algorithm
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
+  
+  // Function to shuffle an array using Fisher-Yates algorithm
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+  
 const categorySortProduct = async (req, res) => {
     try {
         const categoryId = req.query.categoryid;
