@@ -37,6 +37,11 @@ const productSchema=mongoose.Schema({
         type:Array,
         required:true,
         validate:[arraylimit,'maximum 4 product images']
+    },
+    delete:{
+      type:Boolean,
+      default:false,
+      required:false
     }})
 
     function arraylimit(val){

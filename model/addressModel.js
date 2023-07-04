@@ -35,6 +35,11 @@ const addressSchema = mongoose.Schema({
   type:{
     type:String,
     required:true
+  },
+  delete:{
+    type:Boolean,
+    default:false,
+    required:false
   }
 });
 

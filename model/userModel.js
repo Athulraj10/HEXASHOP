@@ -45,6 +45,11 @@ const userSchema = new mongoose.Schema({
     block:{
         type:Boolean,
         default:false
+    },
+    delete:{
+      type:Boolean,
+      default:false,
+      required:false
     }
 });
 

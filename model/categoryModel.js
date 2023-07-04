@@ -20,6 +20,12 @@ const categoryModelSchema=mongoose.Schema({
     categoryImage:{
         type:Array,
         validate:[arraylimit,'maxinum 4 photos']
-    }
+    },
+
+  delete:{
+    type:Boolean,
+    default:false,
+    required:false
+  }
 })
 module.exports=mongoose.model("categoryModel",categoryModelSchema)

@@ -342,7 +342,7 @@ const loadAddProduct = async (req, res) => {
 }
 const productlist = async (req, res) => {
   try {
-    const productsc = await product.find({})
+    const productsc  = await product.find({ delete: { $ne: true } });
     res.render('product', { products: productsc });
   } catch (error) {
     console.log(error.message);
@@ -351,7 +351,7 @@ const productlist = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const id = req.query.id;
-    const deleteProduct = await product.findByIdAndDelete(id)
+    const deleteProduct = await product.findByIdAndUpdate(id, { delete: true });
     res.redirect('/admin/productList')
   } catch (error) {
     console.log(error.message)
@@ -631,7 +631,7 @@ const addCouponsPostMethod = async (req, res) => {
 }
 const listCoupons = async (req, res) => {
   try {
-    const coupons = await couponModel.find()
+    const coupons = await couponModel.find({delete:{$ne:true}})
     res.render('listCoupon', { coupons })
   } catch (error) {
     console.log(error.message)
@@ -668,7 +668,7 @@ const editCouponsPostMethod = async (req, res) => {
 const deleteCoupon = async (req, res) => {
   try {
     const id = req.query.id
-    const deleteCoupon = await couponModel.findByIdAndDelete(id)
+    const deleteCoupon = await couponModel.findByIdAndUpdate(id,{delete:true})
     if (deleteCoupon) {
       res.status(200).json({ message: 'coupon is deleted' })
     } else {

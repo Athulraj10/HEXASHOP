@@ -6,6 +6,11 @@ const orderSchema = mongoose.Schema({
     ref: "User",
     required: true
   },
+  delete:{
+    type:Boolean,
+    default:false,
+    required:false
+  },
   products: [{
     product_id: {
       type: mongoose.Schema.Types.ObjectId,

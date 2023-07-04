@@ -40,6 +40,12 @@ userId: {
     ref: "User",
     required: false
   },
+
+  delete:{
+    type:Boolean,
+    default:false,
+    required:false
+  }
   
 })
 
