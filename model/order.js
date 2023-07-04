@@ -1,6 +1,4 @@
-
-
- const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
   userId: {
@@ -154,52 +152,3 @@ orderSchema.plugin(require('mongoose-autopopulate'));
 
 
 module.exports = mongoose.model('order', orderSchema);
-
-// const mongoose = require('mongoose');
-
-// const orderSchema = mongoose.Schema({
-//     userId: {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "User",
-//       required: true
-//     },
-//     orders: [{
-//       product_id: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "productModel",
-//         required: true
-//       },
-//       total: {
-//         type: Number,
-//         required: true
-//       },
-//       coupon: {
-//         type: String,
-//         default: "no Coupons applied"
-//       },
-//       paymentMethod: {
-//         type: String,
-//         required: true
-//       },
-//       status: {
-//         type: String,
-//         default: "Pending"
-//       },
-//       address: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "Address",
-//         required: true
-//       },
-//       orderDate: {
-//         type: Date,
-//         default: Date.now
-//       },
-//       itemquantity: {
-//         type: Number,
-//         required: true
-//       }
-//     }]
-//   });
-  
-//   module.exports = mongoose.model('Order', orderSchema);
-  

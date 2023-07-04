@@ -302,7 +302,7 @@ var myChart = new Chart(chartElement, {
     labels: ['Total sale', 'current Revenue', 'Daily Income', 'monthly Income'],
     datasets: [{
       label: "<%=data.totalOrderAmount%> of Votes",
-      data: [parseFloat('<%= data.totalOrderAmount %>'),parseFloat('<%= data.totalRevenue %>'),parseFloat('<%= data.totalSaleTotalAmount %>'),parseFloat('<%= data.totalSaleAmountsMonthly %>')],
+      data: [],
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -335,7 +335,7 @@ var myChart = new Chart(chartElement, {
 // Update the chart data dynamically
 function updateChartData() {
   // Example of updating chart data
-  var newData = [5, 10, 15, 20, 25, 30];
+  var newData = [parseFloat('<%= data.totalRevenue %>'),parseFloat('<%= data.totalOrderAmount %>'),parseFloat('<%= data.totalSaleTotalAmount %>'),parseFloat('<%= data.totalSaleAmountsMonthly %>')];
   myChart.data.datasets[0].data = newData;
   myChart.update();
 }
