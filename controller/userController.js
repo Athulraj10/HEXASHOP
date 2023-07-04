@@ -279,7 +279,7 @@ const allProductLoad = async (req, res) => {
         const totalCount = await productModel.countDocuments();
         const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
         
-        const allProducts = await productModel.find({delete:{$ne:true}}).skip(skipItems)
+        const allProducts = await productModel.find({delete:{$ne:true}}).skip(skipItems).lean()
         .limit(ITEMS_PER_PAGE).populate('category_id').exec();
         
         const allcategory=await categoryAll().then((category)=>{
@@ -1462,7 +1462,7 @@ const managewalletGetmethod = async (req, res) => {
 const loadHome = async (req, res) => {
     try {
         const userid=req.session.userId;
-                const allcategory=await categoryAll().then((category)=>{
+            const allcategory=await categoryAll().then((category)=>{
             return category
         }).catch((error)=>{console.log(error)})
 
@@ -1471,7 +1471,6 @@ const loadHome = async (req, res) => {
         const cartCount=await countCart(userid).then((count)=>{
             return count
         }).catch((error)=>{console.log(error)})
-       
         coupon[0]
         res.render("users/index", { allcategory, coupon,cartCount })
     } catch (error) {
