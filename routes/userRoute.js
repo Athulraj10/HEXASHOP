@@ -8,21 +8,21 @@ const userController=require("../controller/userController");
 const auth=require('../middleware/userAuth')
 
 
-
+app.get('/',userController.loadHome);
 app.get('/home',userController.loadHome);
 
-app.get('/',auth.isUserLogin,userController.loadlogin);
-app.post('/',userController.verifyUser);
+app.get('/login',userController.loadlogin);
+app.post('/login',userController.verifyUser);
 
-app.get('/allProducts', auth.isUserLogout,userController.allProductLoad);
-app.get('/singleProduct', auth.isUserLogout,userController.singleProduct);
-app.get('/categorySort',auth.isUserLogout,userController.categorySortProduct);
+app.get('/allProducts',userController.allProductLoad);
+app.get('/singleProduct',userController.singleProduct);
+app.get('/categorySort',userController.categorySortProduct);
 
 
-app.get('/cart',auth.isUserLogout,userController.cartGetMethod);
+app.get('/cart',auth.isUserLogin,userController.cartGetMethod);
 app.post('/addtocart',userController.postAddToCart);
 app.post('/update-quantity',userController.quantityChanging);
-app.get('/deleteproduct',auth.isUserLogout,userController.deleteFromCart);
+app.get('/deleteproduct',auth.isUserLogin,userController.deleteFromCart);
 app.get('/search',userController.searchProduct);
 
 

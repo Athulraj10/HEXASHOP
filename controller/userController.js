@@ -101,7 +101,7 @@ const countCart = async (userid) => {
 };
 const categoryAll = async () => {
     try {
-        return allcategory=await categoryModel.find({})
+        return allcategory=await categoryModel.find({delete:{$ne:true}})
     } catch (error) {
         console.error(error)
     }
@@ -146,7 +146,6 @@ const verifyUser = async (req, res) => {
             return;
         }
         if (Userfinded.is_verified === "0") {
-            k
             res.render('users/login', { message: "Please verify your Email" })
             return;
         }
@@ -280,7 +279,7 @@ const allProductLoad = async (req, res) => {
         const totalCount = await productModel.countDocuments();
         const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
         
-        const allProducts = await productModel.find({}).skip(skipItems)
+        const allProducts = await productModel.find({delete:{$ne:true}}).skip(skipItems)
         .limit(ITEMS_PER_PAGE).populate('category_id').exec();
         
         const allcategory=await categoryAll().then((category)=>{
@@ -341,7 +340,7 @@ const singleProduct = async (req, res) => {
     try {
         const id = req.query.id;
         const productDetails = await productModel.findById(id).populate('category_id').exec()
-        const allProducts = await productModel.find({})
+        const allProducts = await productModel.find({delete:{$ne:true}})
         const userid=req.session.userId
         let cartCount=await countCart(userid).then((count)=>{
             return count
