@@ -1,7 +1,46 @@
 <%-include('../layouts/adminheader.ejs')%>
     <!-- partial:partials/_navbar.html -->
+<style>
+.button {
+  position: relative;
+  overflow: hidden;
+  height: 2rem;
+  width: auto;
+  padding: 0 2rem;
+  border-radius: 1.5rem;
+  background: #33323b;
+  background-size: 400%;
+  color: #fff;
+  border: none;
+}
 
-    <!-- partial -->
+.button:hover::before {
+  transform: scaleX(1);
+}
+
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgb(69, 58, 86) 10.8%,
+    rgb(28, 26, 64) 94.3%
+  );
+  transition: all 0.475s;
+}
+</style>
     <div class="main-panel">
         <div class="content-wrapper">
             <div class="row">
@@ -13,10 +52,6 @@
                 </div>
             </div>
 
-
-
-
-
             <div class="row ">
                 <div class="col-12 grid-margin">
                     <div class="card">
@@ -26,11 +61,12 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Address</th>
+                                            <th>User</th>
+                                            <th>Delivery Address</th>
+                                            <th>Price</th>
                                             <th>Status</th>
                                             <th>Action</th>
+                                            <th>More Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -40,11 +76,11 @@
                                                 <a href="#user"><%= i.userId.name %></a>
                                               </td>
                                               <td>
-                                                <%= i.userId.email %>
-                                              </td>
-                                              <td>
                                                 <%= i.address.address %>
                                               </td>
+                                              <td>
+                                                <span><%=i. total%></span>
+                                              </td>                                              
                                               <td>
                                                 <% if (i.status === 'Pending') { %>
                                                   <span id="status" class="badge badge-outline-primary">
@@ -64,7 +100,7 @@
                                                   </span>
                                                 <% } %>
                                               </td>
-                                          
+
                                               <td>
                                                 <% if (i.status === 'Pending') { %>
                                                   <a href="#" data-order-id="<%= i._id %>" class="update-delivery-link">
@@ -88,11 +124,16 @@
                                                   <span class="badge badge-outline-success">Order Cancelled</span>
                                                 <% } %>
                                               </td>
+                                              <td>
+                                                <a href="/admin/orderDetails?id=<%=i._id%>">
+                                                  <button class="button">
+                                                    <span class="button-content">More Details</span>
+                                                </button>
+                                                </a>
+                                              </td>
                                             </tr>
                                           <% }) %>
-                                          
                                     </tbody>
-
                                     </tbody>
                                 </table>
                             </div>

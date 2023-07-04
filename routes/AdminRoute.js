@@ -65,6 +65,7 @@ adminRoute.get('/deleteProduct',authentication.isAdminLogout,adminController.del
 adminRoute.get('/userStatus',authentication.isAdminLogout,adminController.userStatus)
 adminRoute.get('/userStatusList',authentication.isAdminLogout,adminController.userStatusList)
 adminRoute.get('/updateOrders',authentication.isAdminLogout,adminController.updateOrders)
+adminRoute.get('/orderDetails',authentication.isAdminLogout,adminController.orderDetailPage)
 
 adminRoute.get('/category',authentication.isAdminLogout,adminController.category_list)
 adminRoute.post('/addcatogory',upload.array("categoryImage", 5),adminController.add_category)

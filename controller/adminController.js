@@ -946,9 +946,27 @@ const updateOrders=async(req,res)=>{
     .populate({ path: "products.product_id", model: "productModel" })
     .exec();
     return res.render('updateOrders.ejs',{allOrder})
+
   } catch (error) {
     console.log(error.message)
   }
+}
+
+const orderDetailPage=async(req,res)=>{
+  try {
+    const id=req.query.id
+    const product = await orders.findById({_id:id})
+    .populate({ path: "userId", model: "User" })
+    .populate({ path: "address", model: "addres" })
+    .populate({ path: "products.product_id", model: "productModel" })
+    .exec();
+    if(!product){return res.redirect("/admin/updateOrders")}
+    console.log(product)
+    if(product){return res.render("../detailpage.ejs",{product})}
+  } catch (error) {
+    console.log(error);
+  }
+  
 }
 const userStatusList=async(req,res)=>{
   try {
@@ -984,6 +1002,7 @@ module.exports = {
   addProduct,
   deleteProduct,
   productlist,
+  orderDetailPage,
   category_list,
   add_category,
   loadEditCategory,
