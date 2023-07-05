@@ -965,6 +965,7 @@ const productListExcel=async(req,res)=>{
 
 const customPDF = async (req, res) => {
   try {
+    
     const allOrder = await order.find({ status: "Delivered" })
       .populate({ path: "userId", model: "User" })
       .populate({ path: "address", model: "addres" })

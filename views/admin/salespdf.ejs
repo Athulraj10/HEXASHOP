@@ -1,1 +1,77 @@
-<h6><%=orders%></h6>
+
+<h2 style="text-align-last: center;">Sales Report</h2>
+<% if (orders && orders.length > 0) { %>
+  <table class="table" id="productsTable">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Order Number</th>
+        <th scope="col">Date</th>
+        <th scope="col">User</th>
+        <th scope="col">Bill Address</th>
+        <th scope="col">Payment</th>
+        <th scope="col">Status</th>
+        <th scope="col">TotalQuantity</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (orders.length > 0) { %>
+        <% let totalAmount = orders.reduce((total, order) => total + order.total, 0) %>
+        <% orders.forEach(function(i, index) { %>
+            <tr>
+            <td><%= index + 1 %></td>
+            <td><%= i.orderNumber %></td>
+            <td><%= i.orderDate %></td>
+            <td><%= i.userId.name%></td>
+            <td><%= i.address.address%><br><%= i.address.phoneNo%></td>
+            <td><%= i.paymentMethod %></td>
+            <td><%= i.status %></td>
+            <td><%= i.totalQuantity %></td>
+            <td><%= i.total%></td>
+          </tr>
+        <% }); %>
+        <tr>
+          <td colspan="2">
+            Total Amount:
+          </td>
+          <td colspan="3">
+            <%= totalAmount %>
+          </td>
+        </tr>
+      <% } else { %>
+        <tr>
+          <td colspan="6">
+            No orders found.
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No orders found.</p>
+<% } %>
+    
+  <style>
+    .table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+  
+    .table th,
+    .table td {
+      padding: 8px;
+      border: 1px solid black;
+    }
+  
+    .table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      text-align: center;
+    }
+  
+    .table td {
+      text-align: center;
+    }
+  </style> 
+  
