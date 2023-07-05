@@ -436,7 +436,7 @@ button {
   color: white;
   border-radius: 18px;
   width: 95.02px;
-  height: 42.66px;
+  height: 55px;
   background-color: #727bad;
   display: flex;
   justify-content: center;
@@ -687,18 +687,10 @@ button .span-mother2 span:nth-child(6) {
                         <!-- Other product details -->
                         <hr>
                       <% }); %>
-                      <div class="rating d-flex align-items-center p-2">
-                        <img src="https://www.freepnglogos.com/uploads/like-png/like-png-hand-thumb-sign-vector-graphic-pixabay-39.png" alt="">
-                        <span class="px-2">Rating:</span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="fas fa-star"></span>
-                        <span class="far fa-star"></span>
-                      </div>
+                  
                       <% if (order.status == "Pending") { %>
                         <a href="/orderCancel?id=<%=order._id%>">
-                          <button type="button" class="btn mt-2 btn-warning text-capital">Cancel Order</button>
+                          <button type="button" class="btn mt-2 p-0 btn-warning text-capital">Cancel Order</button>
                         </a>
                       <% } else if (order.status == "Delivered") { %>
                         <% var currentDate = new Date(); %>
@@ -773,7 +765,7 @@ button .span-mother2 span:nth-child(6) {
                       <div class="fs-8 text-muted p-1">
                         <%= order.orderDate.toDateString() %> | <%= order.orderDate.toLocaleTimeString() %>
                       </div>
-                      <div class="btn btn-primary text-uppercase">order info</div>
+                      <div class="btn btn-primary text-uppercase"><a href="orderDetails?id=<%=order._id%>" target="_blank">order info</a></div>
                     </div>
                     <div class="progressbar-track">
                       <ul class="progressbar">

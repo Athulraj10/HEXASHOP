@@ -45,6 +45,8 @@ app.get('/wishlist',auth.isUserLogout, userController.wishlistGet);
 app.post('/wishlistpost', userController.wishlistPost);
 app.delete('/deleteProductWishlist',userController.deleteFromWishlist)
 
+app.get('/orderDetails',auth.isUserLogout,userController.orderDetailPage)
+
 app.get('/profile/manageaddressAddAddress',auth.isUserLogout, userController.manageAddressGetAddress);
 app.post('/profile/manageaddressPostAddAddress', userController.manageAddressAddAddress);
 

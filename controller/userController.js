@@ -101,7 +101,7 @@ const countCart = async (userid) => {
 };
 const categoryAll = async () => {
     try {
-        return allcategory=await categoryModel.find({delete:{$ne:true}})
+        return allcategory=await categoryModel.find({ delete: { $ne: true } })
     } catch (error) {
         console.error(error)
     }
@@ -187,9 +187,9 @@ const OTPsaveFunction = async (email, otp) => {
 const forgetPasswordUserFind=async(req,res)=>{
     try {
         const {email}=req.body
-        console.log(req.body)
+
         const userfind=await userModel.findOne({email:email})
-        console.log(userfind)
+
         if(userfind){return res.json({exists:true})}
         if(!userfind){return res.json({exists:false})}
     } catch (error){console.log(error)}
@@ -799,13 +799,6 @@ const cancelReturnOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message)
-    }
-}
-const orderDetailPage=async(req,res)=>{
-    try {
-        
-    } catch (error) {
-        console.error(error)
     }
 }
 const manageAddress = async (req, res) => {
@@ -1514,6 +1507,28 @@ const resetOTP = async (req, res) => {
         console.log(error.message)
     }
 }
+
+const orderDetailPage=async(req,res)=>{
+    try {
+        const userid=req.session.userId;
+      const id=req.query.id
+      const product = await orderModel.findById({_id:id})
+      .populate({ path: "userId", model: "User" })
+      .populate({ path: "address", model: "addres" })
+      .populate({ path: "products.product_id", model: "productModel" })
+      .exec();
+      let cartCount=await countCart(userid).then((count)=>{
+        return count
+    }).catch((error)=>{console.log(error)})
+            const allcategory=await categoryAll().then((category)=>{
+        return category
+    }).catch((error)=>{console.log(error)})
+      if(!product){return res.redirect("/profile")}
+      if(product){return res.render("users/detailpage.ejs",{product,allcategory,cartCount})}
+    } catch (error) {
+      console.log(error);
+    }
+}  
 module.exports = {
     loadlogin,
     verifyUser,
@@ -1566,5 +1581,5 @@ module.exports = {
     profileChangeGetMethod,
     createPaymentOrder,
     buynow,
-    searchProduct
+    searchProduct,
 }
