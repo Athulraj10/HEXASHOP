@@ -32,19 +32,19 @@ const session = require('express-session');
 const nocache=require('nocache')
 const flash = require('express-flash');
 
-const MongoDBStore = require('connect-mongodb-session')(session);
+// const MongoDBStore = require('connect-mongodb-session')(session);
 
-const store = new MongoDBStore({
-  uri: 'mongodb://127.0.0.1:27017/Ecommerce',
-  collection: 'sessions'
-});
+// const store = new MongoDBStore({
+//   uri: 'mongodb://127.0.0.1:27017/Ecommerce',
+//   collection: 'sessions'
+// });
 
 
 app.use(session({
     secret: config.sessionSecret,
     resave: false, // or true, depending on your use case
     saveUninitialized: false,
-    store // or true, depending on your use case
+    // store // or true, depending on your use case
   }));
 
 app.use(nocache())
