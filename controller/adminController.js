@@ -966,10 +966,10 @@ const productListExcel=async(req,res)=>{
 const customPDF = async (req, res) => {
   try {
     const allOrder = await order.find({ status: "Delivered" })
-      // .populate({ path: "userId", model: "User" })
-      // .populate({ path: "address", model: "addres" })
-      // .populate({ path: "products.product_id", model: "productModel" })
-      // .exec();
+      .populate({ path: "userId", model: "User" })
+      .populate({ path: "address", model: "addres" })
+      .populate({ path: "products.product_id", model: "productModel" })
+      .exec();
 
     let startY = 150;
     const writeStream = fs.createWriteStream("order.pdf");
@@ -987,7 +987,7 @@ const customPDF = async (req, res) => {
     // Create document definition
     const docDefinition = {
       content: [
-        { text: "Fine Bonito", style: "header" },
+        { text: "Hexa Shop", style: "header" },
         { text: "\n" },
         { text: "Order Information", style: "header1" },
         { text: "\n" },
@@ -1011,13 +1011,12 @@ const customPDF = async (req, res) => {
 
     // Create the table data
     const tableBody = [
-      ["Index", "Date", "User", "Status", "Method", "Amount"], // Table header
+      ["Index", "Date", "User", "address" ,"Order Number","Status", "PayMode", "Quantity", "Amount"], // Table header
     ];
-
+    let totalAmount=0
     for (let i = 0; i < allOrder.length; i++) {
       const data = allOrder[i];
-      console.log('////////////////')
-      console.log(data)
+      totalAmount=totalAmount+data.total
       const formattedDate = new Intl.DateTimeFormat(
         "en-US",
         dateOptions
@@ -1025,18 +1024,19 @@ const customPDF = async (req, res) => {
       tableBody.push([
         (i + 1).toString(), // Index value
         formattedDate,
-        data.coupon,
+        data.address.name,
+        data.address.address,
+        data.orderNumber,
         data.status,
         data.paymentMethod,
+        data.totalQuantity,
         data.total,
       ]);
     }
-    console.log("hhhhhhhhhh")
-    console.log(tableBody)
-    let total=114
+    console.log(totalAmount)
     const table = {
       table: {
-        widths: ["auto", "auto", "auto", "auto", "auto", "auto"],
+        widths: ["auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto", "auto"],
         headerRows: 1,
         body: tableBody,
       },
@@ -1046,7 +1046,7 @@ const customPDF = async (req, res) => {
     docDefinition.content.push(table);
     docDefinition.content.push([
       { text: "\n" },
-      { text: `Total: ${total[0]?.total || 0}`, style: "total" },
+      { text: `Total:${totalAmount}`, style: "total" },
     ]);
     // Generate PDF from the document definition
     const pdfDoc = printer.createPdfKitDocument(docDefinition);
