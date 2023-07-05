@@ -1,312 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <section class="banner-area organic-breadcrumb">
-        <div class="container">
-            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
-                <div class="col-first">
-                    <h1>Checkout</h1>
-                    <nav class="d-flex align-items-center">
-                        <a href="/home">Home<span class="fa fa-arrow-right"></span></a>
-                        <a href="/showcart">Cart</a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Banner Area -->
 
-    <!--================Checkout Area =================-->
-    <section class="checkout_area section_gap">
-        <div class="container">
-            <div class="cupon_area">
-                <div class="check_title col-md-12 form-group">
-                    <form onsubmit="addOffer(event)">
-                        <!-- form fields -->
-                        <input type="text" placeholder="Enter coupon code if you have" id="code">
-                        <input type="text" id="coderror" readonly style="border: none; color: red;">
-                        <button class="btn btn-info ml-5" type="submit">Apply Coupon</button>
-                    </form>
-                </div>
-
-            </div>
-            <div class="billing_details">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <h3>Billing Details</h3>
-                        <div class="col-md-12 form-group p_star">
-                            <select class="country_select" id="address-type" name="type"
-                                onchange="this.dispatchEvent(new CustomEvent('change'))">
-                                <option value="nil">Select any address</option>
-                                <option value="home">Home Adress</option>
-                                <option value="work">Work Adress</option>
-                                <option value="personal">Personal Adress</option>
-                            </select>
-                        </div>
-                        <form class="row contact_form" action="/payment" name="form" method="post" id="form2">
-                            <div class="col-md-12 form-group">
-                                <label for="">Name(required)</label>
-                                <input type="text" class="form-control" id="uname" name="uname" required>
-                                <span class="placeholder" id="name-placeholder"></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <label for="">Mobile(required)</label>
-                                <input type="text" class="form-control" id="mobile" name="mobile" required>
-                                <span class="placeholder" data-placeholder="Mobile" id="mob-placeholder"></span>
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                <label for="">Housename(required)</label>
-                                <input type="text" class="form-control" id="address" name="address" required>
-                                <span class="placeholder" data-placeholder="Address" id="ad-placeholder"></span>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="">State(required)</label>
-                                <input type="text" class="form-control" id="state" name="state" required>
-                                <span class="placeholder" data-placeholder="State" id="state-placeholder"></span>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="">Street(required)</label>
-                                <input type="text" class="form-control" id="street" name="street" required>
-                                <span class="placeholder" data-placeholder="Street" id="street-placeholder"></span>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="">Housename(optional)</label>
-                                <input type="text" class="form-control" id="landmark" name="landmark" placeholder="">
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="">District/City(required)</label>
-                                <input type="text" class="form-control" id="city" name="city" required>
-                                <span class="placeholder" data-placeholder="District/City" id="city-placeholder"></span>
-                            </div>
-                            <div class="col-md-12 form-group">
-                                <label for="">Zipcode(required)</label>
-                                <input type="text" class="form-control" id="zipcode" name="zipcode" required>
-                                <span class="placeholder" data-placeholder="Zipcode" id="zip-placeholder"></span>
-                            </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="order_box">
-                            <h2>Your Order</h2>
-                            <ul class="list">
-                                <li><a href="#">Product <span>Total</span></a></li>
-                                <% if (cartData.length> 0) {
-                                    for(let i=0; i<cartData.length; i++) { %>
-                                        <li><a href="#">
-                                                <%= cartData[i].name %><span class="middle">
-                                                        <%= cartData[i].quantity %> Nos
-                                                    </span> <span class="last">₹ <%= total[i]%>.00</span>
-                                            </a></li>
-                                        <% } } %>
-                            </ul>
-                            <ul class="list list_2">
-                                <li><a href="#">Subtotal <span> ₹ <%= totalamount %>.00</span></a></li>
-                                <li><a href="#">Delivery <span>Flat rate: ₹ 50.00</span></a></li>
-                                <% let Gtotal=totalamount + 50; %>
-                                    <li><a href="#">Total (In Rupees)
-                                            <span> <input class="justify-content-end" name="total" value="<%= Gtotal %>"
-                                                    id="total" style="border:none;text-align: end; background: none;"
-                                                    readonly>
-                                            </span></a>
-                                    </li>
-                            </ul>
-                            <input type="text" name="paypaltotal" id="paypaltotal" hidden>
-                            <div class="payment_item active mb-2" style="font-size: larger;font-weight: bolder;">
-                                <label for="" style="color: rgb(255, 0, 0);">Payment Options</label>
-                                <div class="form-check mb-2 ">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType1"
-                                        value="cash">
-                                    <label class="form-check-label" for="paymentType1">
-                                        Cash on delivery
-                                    </label>
-                                </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType2"
-                                        value="internet">
-                                    <label class="form-check-label" for="paymentType2">
-                                        Internet Banking
-                                    </label>
-                                </div>
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType3"
-                                        value="wallet">
-                                    <label class="form-check-label" for="paymentType3">
-                                        Wallet
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="primary-btn" style="border: none;">Proceed to Pay</button>
-                            </div>
-                        </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================End Checkout Area =================-->
-    <%- include('../user/footer')%>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-            crossorigin="anonymous"></script>
-        <!-- <script src="/public/js/vendor/bootstrap.min.js"></script> -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-        <script src="/public/js/jquery.ajaxchimp.min.js"></script>
-        <script src="/public/js/jquery.nice-select.min.js"></script>
-        <script src="/public/js/jquery.sticky.js"></script>
-        <script src="/public/js/nouislider.min.js"></script>
-        <script src="/public/js/jquery.magnific-popup.min.js"></script>
-        <script src="/public/js/owl.carousel.min.js"></script>
-        <!--gmaps Js-->
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script> -->
-        <!-- <script src="/public/js/gmaps.min.js"></script> -->
-        <script src="/public/js/main.js"></script>
-        <script src="/public/js/passwordhide.js"></script>
-        <script>
-            const home = JSON.parse(decodeURIComponent('<%= home %>'));
-            const work = JSON.parse(decodeURIComponent('<%= work %>'));
-            const personal = JSON.parse(decodeURIComponent('<%= personal %>'));
-
-            const addressTypeSelect = document.getElementById('address-type');
-            const name = document.getElementById('uname');
-            const mobile = document.getElementById('mobile');
-            const street = document.getElementById('street');
-            const landamrk = document.getElementById('landamrk');
-            const address = document.getElementById('address');
-            const city = document.getElementById('city');
-            const zipcode = document.getElementById('zipcode');
-            const state = document.getElementById('state');
-
-            addressTypeSelect.addEventListener('change', () => {
-                const selectedAddresstype = addressTypeSelect.value;
-                if (selectedAddresstype === 'home') {
-                    street.value = home[0].street;
-                    landmark.value = home[0].landmark;
-                    city.value = home[0].city;
-                    address.value = home[0].address;
-                    zipcode.value = home[0].zipcode;
-                    state.value = home[0].state;
-                    name.value = home[0].name;
-                    mobile.value = home[0].mobile;
-                }
-                else if (selectedAddresstype === 'work') {
-                    street.value = work[0].street;
-                    landmark.value = work[0].landmark;
-                    city.value = work[0].city;
-                    address.value = work[0].address;
-                    zipcode.value = work[0].zipcode;
-                    state.value = work[0].state;
-                    name.value = work[0].name;
-                    mobile.value = work[0].mobile;
-                }
-                else if (selectedAddresstype === 'personal') {
-                    street.value = personal[0].street;
-                    landmark.value = personal[0].landmark;
-                    city.value = personal[0].city;
-                    address.value = personal[0].address;
-                    zipcode.value = personal[0].zipcode;
-                    state.value = personal[0].state;
-                    name.value = personal[0].name;
-                    mobile.value = personal[0].mobile;
-                }
-                else {
-                    street.value = '';
-                    landmark.value = '';
-                    city.value = '';
-                    address.value = '';
-                    zipcode.value = '';
-                    state.value = '';
-                }
-            });
-
-        </script>
-        <script>
-            var newTotal
-            function addOffer(event) {
-                event.preventDefault(); // Prevent the default form submission or button click behavior
-
-                var amount = document.getElementById('total').value;
-                var code = document.getElementById('code').value;
-
-                // Make an AJAX request to the /applycoupon endpoint
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/applycoupon?code=' + code + '&amount=' + amount, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // Parse the response as JSON
-                        var response = JSON.parse(xhr.responseText);
-                        if (response != 'Not applicable' && response != 'expired') {
-                            newTotal = response.newTotal;
-                            const input = document.getElementById('total');
-                            const paypalvalue = document.getElementById('paypaltotal');
-                            input.value = newTotal
-                            paypalvalue.value = newTotal;
-                            input.dispatchEvent(new Event('input'));
-                        } else if (response == 'Not applicable') {
-                            document.getElementById('coderror').value = 'Not applicable'
-                        } else {
-                            document.getElementById('coderror').value = 'Coupon Expired!!!!'
-                        }
-                    }
-
-                };
-                document.getElementById('code').value = ''
-
-                xhr.send();
-            }
-        </script>
-        <script>
-
-            var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
-            var amount = parseFloat(document.getElementById('total').value)
-
-            document.getElementById('form2').addEventListener('submit', function (event) {
-                event.preventDefault();
-                var paymentType = document.querySelector('input[name="payment"]:checked').value;
-                if (paymentType === 'cash') {
-                    this.submit();
-                } else if (paymentType === 'internet') {
-                    var formData = new FormData(this);
-                    sessionStorage.setItem('formData', JSON.stringify(Object.fromEntries(formData)));
-                    if (newTotal) {
-                        window.location.href = `/paypal?price=${newTotal}`;
-                    } else {
-                        window.location.href = `/paypal?price=${amount}`;
-
-                    }
-                } else if (paymentType === 'wallet') {
-                    console.log(wallet);
-                    if (wallet >= newTotal) {
-                        this.submit()
-                    } else {
-                        walletAlert()
-                    }
-                }
-            });
-        </script>
-        <script>
-            function walletAlert() {
-                var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Sorry...',
-                    text: `You don't have enough wallet balance (Balance : ${wallet}) `,
-                })
-            }
-
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>
-
-        </body>
-
-        </html>
+<h2 style="text-align-last: center;">Sales Report</h2>
+<% if (orders && orders.length > 0) { %>
+  <table class="table" id="productsTable">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+        <th scope="col">Date</th>
+        <th scope="col">Order:No</th>
+        <th scope="col">User</th>
+        <th scope="col">Bill Address</th>
+        <th scope="col">Payment</th>
+        <th scope="col">Status</th>
+        <th scope="col">TotalQuantity</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (orders.length > 0) { %>
+        <% let totalAmount = orders.reduce((total, order) => total + order.total, 0) %>
+        <% orders.forEach(function(i, index) { %>
+            <tr>
+            <td><%= index + 1 %></td>
+           
+            <td><%= i.orderNumber %></td>
+            <td><%= i.userId.name%></td>
+            <td><%= i.address.address%><br><%= i.address.phoneNo%></td>
+            <td><%= i.paymentMethod %></td>
+            <td><%= i.status %></td>
+            <td><%= i.totalQuantity %></td>
+            <td><%= i.total %></td>
+          </tr>
+        <% }); %>
+        <tr>
+          <td colspan="2">
+            Total Amount:
+          </td>
+          <td colspan="3">
+            <%= totalAmount %>
+          </td>
+        </tr>
+      <% } else { %>
+        <tr>
+          <td colspan="6">
+            No orders found.
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No orders found.</p>
+<% } %>
+    
+  <style>
+    .table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+  
+    .table th,
+    .table td {
+      padding: 8px;
+      border: 1px solid black;
+    }
+  
+    .table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      text-align: center;
+    }
+  
+    .table td {
+      text-align: center;
+    }
+  </style> 
+  

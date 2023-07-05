@@ -28,6 +28,7 @@ app.get('/search',userController.searchProduct);
 
 
 app.get('/profile',auth.isUserLogout,userController.userProfile);
+app.get('/userProfile',auth.isUserLogout,userController.userProfile);
 app.get('/orderCancel',auth.isUserLogout,userController.cancelOrder);
 app.get('/orderReturn',auth.isUserLogout,userController.orderReturn);
 app.get('/orderReturnCancel',auth.isUserLogout,userController.cancelReturnOrder);

@@ -11,9 +11,14 @@ const couponModel = require('../model/couponModel');
 const wallet = require('../model/wallet');
 const order = require('../model/order');
 const sharp=require('sharp')
-const ejs=require('ejs')
+const PdfPrinter=require('pdfmake')
+const { PDFDocument } = require('pdf-lib');
+
+
+
 const exceljs=require('exceljs')
-const pdf=require('html-pdf')
+const ejs=require('ejs')
+const pdfs=require('html-pdf')
 const fs=require('fs')
 const path=require('path');
 
@@ -342,11 +347,22 @@ const loadAddProduct = async (req, res) => {
 }
 const productlist = async (req, res) => {
   try {
-    const productsc  = await product.find({ delete: { $ne: true } });
-    res.render('product', { products: productsc });
+    const products = await product.find({ delete: { $ne: true } });
+    // Shuffle the products array randomly
+    const shuffledProducts = shuffleArray(products);
+    res.render('product', { products: shuffledProducts });
   } catch (error) {
     console.log(error.message);
   }
+};
+// Function to shuffle an array randomly
+function shuffleArray(array) {
+  const shuffledArray = array.slice(); // Create a shallow copy of the original array
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
 }
 const deleteProduct = async (req, res) => {
   try {
@@ -898,6 +914,171 @@ const productListExcel=async(req,res)=>{
     console.log(error.message)
   }
 }
+
+
+
+// const customPDF = async (req, res) => {
+//   try {
+//     console.log("/////////")
+//     const allOrder = await order.find({status:"Delivered"})
+//     .populate({ path: "userId", model: "User" })
+//     .populate({ path: "address", model: "addres" })
+//     .populate({ path: "products.product_id", model: "productModel" })
+//     .exec();
+   
+//     const data = {
+//       orders: allOrder[0]
+//     };
+//       const filePathName = path.resolve(__dirname,'../views/admin/salespdf.ejs');
+//       const htmlString = fs.readFileSync(filePathName).toString();
+//       const option = {
+//         format: 'A3',
+//         orientation:"portrait",
+//         border:"10mm"
+//       };
+  
+//       const ejsData = ejs.render(htmlString, data);
+//       pdfs.create(ejsData, option).toFile('sales.pdf', (err, response) => {
+//         if (err) {
+//           console.log("errerrrrrrrrrrrr",err.message  )
+//             return res.status(500).send(err)
+//         } 
+//         else {
+//             const filePath =path.resolve(__dirname,'../sales.pdf');
+//             fs.readFile(filePath,(err,file)=>{
+//                 if(err){
+//                   console.log(err)
+//                    return res.status(500).send(err)
+//                 }
+//                 res.setHeader('Content-Type','application/pdf');
+//                 res.setHeader('Content-Disposition','attachment;filename="sales.pdf"');
+
+//                 res.send(file);
+//             })
+//         }
+//       });
+//     } catch (error) {
+//       res.render('error', { error: error.message });
+//     }
+// };
+
+
+const customPDF = async (req, res) => {
+  try {
+    const allOrder = await order.find({ status: "Delivered" })
+      // .populate({ path: "userId", model: "User" })
+      // .populate({ path: "address", model: "addres" })
+      // .populate({ path: "products.product_id", model: "productModel" })
+      // .exec();
+
+    let startY = 150;
+    const writeStream = fs.createWriteStream("order.pdf");
+    const printer = new PdfPrinter({
+      Roboto: {
+        normal: "Helvetica",
+        bold: "Helvetica-Bold",
+        italics: "Helvetica-Oblique",
+        bolditalics: "Helvetica-BoldOblique",
+      },
+    });
+
+    const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+
+    // Create document definition
+    const docDefinition = {
+      content: [
+        { text: "Fine Bonito", style: "header" },
+        { text: "\n" },
+        { text: "Order Information", style: "header1" },
+        { text: "\n" },
+        { text: "\n" },
+      ],
+      styles: {
+        header: {
+          fontSize: 25,
+          alignment: "center",
+        },
+        header1: {
+          fontSize: 12,
+          alignment: "center",
+        },
+        total: {
+          fontSize: 18,
+          alignment: "center",
+        },
+      },
+    };
+
+    // Create the table data
+    const tableBody = [
+      ["Index", "Date", "User", "Status", "Method", "Amount"], // Table header
+    ];
+
+    for (let i = 0; i < allOrder.length; i++) {
+      const data = allOrder[i];
+      console.log('////////////////')
+      console.log(data)
+      const formattedDate = new Intl.DateTimeFormat(
+        "en-US",
+        dateOptions
+      ).format(new Date(data.orderDate));
+      tableBody.push([
+        (i + 1).toString(), // Index value
+        formattedDate,
+        data.coupon,
+        data.status,
+        data.paymentMethod,
+        data.total,
+      ]);
+    }
+    console.log("hhhhhhhhhh")
+    console.log(tableBody)
+    let total=114
+    const table = {
+      table: {
+        widths: ["auto", "auto", "auto", "auto", "auto", "auto"],
+        headerRows: 1,
+        body: tableBody,
+      },
+    };
+
+    // Add the table to the document definition
+    docDefinition.content.push(table);
+    docDefinition.content.push([
+      { text: "\n" },
+      { text: `Total: ${total[0]?.total || 0}`, style: "total" },
+    ]);
+    // Generate PDF from the document definition
+    const pdfDoc = printer.createPdfKitDocument(docDefinition);
+
+    // Pipe the PDF document to a write stream
+    pdfDoc.pipe(writeStream);
+
+    // Finalize the PDF and end the stream
+    pdfDoc.end();
+
+    writeStream.on("finish", () => {
+      res.download("order.pdf", "order.pdf");
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.send(error.message);
+  }
+};
+
+const orderDetailPDF=async(req,res)=>{
+  try {
+    const allOrder = await order.find({status:"Delivered"})
+    .populate({ path: "userId", model: "User" })
+    .populate({ path: "address", model: "addres" })
+    .populate({ path: "products.product_id", model: "productModel" })
+    .exec();
+    res.render('salespdf.ejs',{orders:allOrder})
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
 const allOrderStatus = async (req, res) => {
   try {
     const allOrder = await order.find();
@@ -945,7 +1126,8 @@ const updateOrders=async(req,res)=>{
     .populate({ path: "address", model: "addres" })
     .populate({ path: "products.product_id", model: "productModel" })
     .exec();
-    return res.render('updateOrders.ejs',{allOrder})
+    let allorders=allOrder.reverse();
+    return res.render('updateOrders.ejs',{allOrder:allorders})
 
   } catch (error) {
     console.log(error.message)
@@ -1027,5 +1209,7 @@ module.exports = {
   totalSaleExcel,
   totalRevenueExcel,
   productListExcel,
+  orderDetailPDF,
+  customPDF,
   allOrderStatus
 }

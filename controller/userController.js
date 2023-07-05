@@ -285,21 +285,20 @@ const allProductLoad = async (req, res) => {
         .lean();
   
       // Shuffle the allProducts array
-      const shuffledProducts = shuffleArray(allProducts);
-  
       const allcategory = await categoryAll().then((category) => {
-        return category;
-      }).catch((error) => {
-        console.log(error);
-      });
-  
-      const userid = req.session.userId;
-      const cartCount = await countCart(userid).then((count) => {
-        return count;
-      }).catch((error) => {
-        console.log(error);
-      });
-  
+          return category;
+        }).catch((error) => {
+            console.log(error);
+        });
+        
+        const userid = req.session.userId;
+        const cartCount = await countCart(userid).then((count) => {
+            return count;
+        }).catch((error) => {
+            console.log(error);
+        });
+        
+        const shuffledProducts = shuffleArray(allProducts);
       res.render("users/products", {
         cartCount,
         allProducts: shuffledProducts,
@@ -312,24 +311,16 @@ const allProductLoad = async (req, res) => {
     }
   };
   
-  // Function to shuffle an array using Fisher-Yates algorithm
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+// Function to shuffle an array randomly
+function shuffleArray(array) {
+    const shuffledArray = array.slice(); // Create a shallow copy of the original array
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
-    return array;
+    return shuffledArray;
   }
-  
-  
-  // Function to shuffle an array using Fisher-Yates algorithm
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
+
   
 const categorySortProduct = async (req, res) => {
     try {
@@ -705,6 +696,7 @@ const cheakWalletAmount = async (req, res) => {
 }
 const userProfile = async (req, res) => {
     try {
+        const sortPreferance=req.query.sort||"newest"
         const id = req.session.userId;
         const allcategory=await categoryAll().then((category)=>{
         return category
@@ -716,17 +708,27 @@ const userProfile = async (req, res) => {
        
         const userDetails = await userModel.findOne({ _id: id })
         const cart = await cartModel.findOne({ userid: id })
-        const orderedProducts = await orderModel.find({ userId: id }).populate('address').populate('products.product_id').lean().exec()
+        
+        const orderedProducts = await orderModel.find({ userId: id })
+        .populate('address')
+        .populate('products.product_id')
+        .sort({ createdAt: -1 }) 
+        .lean()
+        .exec();
 
+        let reversedOrderedProducts;
+        if(sortPreferance==='newest'){reversedOrderedProducts = orderedProducts.reverse()}
+        else{reversedOrderedProducts = orderedProducts}
+      
         data = {
             cartCount,
             allcategory,
             userDetails,
+            sortPreference:sortPreferance,
             cart,
-            orderedProducts,
+            orderedProducts: reversedOrderedProducts,
         }
         res.render("users/userProfile", data)
-
     }
     catch (error) {
         console.log(error.message)

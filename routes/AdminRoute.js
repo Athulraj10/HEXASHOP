@@ -89,7 +89,8 @@ adminRoute.get('/totalSaleExcel',authentication.isAdminLogout,adminController.to
 adminRoute.get('/todayRevenueExcel',authentication.isAdminLogout,adminController.totalRevenueExcel)
 adminRoute.get('/allProductExcel',authentication.isAdminLogout,adminController.productListExcel)
 adminRoute.get('/allOrderStatusExcel',authentication.isAdminLogout,adminController.allOrderStatus)
-// adminRoute.get('/todayRevenue',authentication.isAdminLogout,adminController.totalSaleExcel)
+adminRoute.get('/customDate',authentication.isAdminLogout,adminController.customPDF)
+adminRoute.get('/orderDetailPDF',authentication.isAdminLogout,adminController.orderDetailPDF)
 // Excel convertion ended
 
 
