@@ -1088,7 +1088,7 @@ const orderDetailPage=async(req,res)=>{
     .populate({ path: "products.product_id", model: "productModel" })
     .exec();
     if(!product){return res.redirect("/admin/updateOrders")}
-    if(product){return res.render("../detailpage.ejs",{product})}
+    if(product){return res.render("detailpage.ejs",{product})}
   } catch (error) {
     console.log(error);
   }
