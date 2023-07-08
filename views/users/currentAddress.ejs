@@ -820,7 +820,7 @@
                         let discountAmount = data.couponAmounts;
                         discountLabel.textContent = discountAmount;
                         totalValue.textContent = data.couponApplyDiscount;
-                        messageElement.textContent = `Coupon code is available. You will get {discountAmount} Off`;
+                        messageElement.textContent = `Coupon code is available. You will get ${discountAmount} Off`;
                     }
                     else if (!data.coupon) {
                         messageElement.textContent = "Invalid Coupon";
