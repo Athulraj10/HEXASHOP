@@ -830,8 +830,10 @@
                     }
                     messageElement.classList.add("show");
                     setTimeout(() => {
-                        messageElement.classList.add('hide')
-                    }, 5000);
+                    messageElement.classList.remove('show'); // Remove the "show" class
+                    messageElement.classList.add('hide'); // Add the "hide" class
+                }, 5000);
+
                 }).catch(error => {
                     console.error(error);
                 });
