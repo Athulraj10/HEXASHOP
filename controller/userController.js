@@ -297,11 +297,10 @@ const allProductLoad = async (req, res) => {
         }).catch((error) => {
             console.log(error);
         });
-        
-        const shuffledProducts = shuffleArray(allProducts);
+    
       res.render("users/products", {
         cartCount,
-        allProducts: shuffledProducts,
+        allProducts,
         allcategory,
         currentPage: page,
         totalPages
@@ -310,17 +309,6 @@ const allProductLoad = async (req, res) => {
       console.log(error.message);
     }
   };
-  
-// Function to shuffle an array randomly
-function shuffleArray(array) {
-    const shuffledArray = array.slice(); // Create a shallow copy of the original array
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
-  }
-
   
 const categorySortProduct = async (req, res) => {
     try {
