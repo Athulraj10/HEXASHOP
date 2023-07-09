@@ -297,17 +297,10 @@ const allProductLoad = async (req, res) => {
         }).catch((error) => {
             console.log(error);
         });
-<<<<<<< HEAD
-    
-      res.render("users/products", {
-        cartCount,
-        allProducts,
-=======
         
       res.render("users/products", {
         cartCount,
         allProducts: allProducts,
->>>>>>> c7faeef (shuffleing product removed)
         allcategory,
         currentPage: page,
         totalPages
@@ -317,10 +310,7 @@ const allProductLoad = async (req, res) => {
     }
   };
   
-<<<<<<< HEAD
-=======
   
->>>>>>> c7faeef (shuffleing product removed)
 const categorySortProduct = async (req, res) => {
     try {
         const categoryId = req.query.categoryid;

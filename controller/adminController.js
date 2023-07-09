@@ -917,6 +917,8 @@ const customPDF = async (req, res) => {
       .populate({ path: "products.product_id", model: "productModel" })
       .exec();
 
+    console.log(allOrder.length)
+
     let startY = 150;
     const writeStream = fs.createWriteStream("order.pdf");
     const printer = new PdfPrinter({
